@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>LIVE</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Header con i canali -->
+  <ion-segment value="news" scrollable>
+    <ion-segment-button value="news">
+      <app-canale-news></app-canale-news>
+    </ion-segment-button>
+    <ion-segment-button value="show">
+      <app-canale-show></app-canale-show>
+    </ion-segment-button>
+    <ion-segment-button value="arts">
+      <app-canale-arts></app-canale-arts>
+    </ion-segment-button>
+    <ion-segment-button value="earth">
+      <app-canale-earth></app-canale-earth>
+    </ion-segment-button>
+    <ion-segment-button value="economy">
+      <app-canale-economy></app-canale-economy>
+    </ion-segment-button>
+    <ion-segment-button value="tech">
+      <app-canale-tech></app-canale-tech>
+    </ion-segment-button>
+    <ion-segment-button value="life">
+      <app-canale-life></app-canale-life>
+    </ion-segment-button>
+    <ion-segment-button value="health">
+      <app-canale-health></app-canale-health>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <!-- Riquadro LIVE -->
+  <div class="live-container">
+    <video controls autoplay muted playsinline>
+      <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="application/x-mpegURL" />
+      Il tuo browser non supporta la riproduzione video.
+    </video>
+  </div>
+</ion-content>

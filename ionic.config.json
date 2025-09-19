@@ -1,0 +1,7 @@
+{
+  "name": "sharing-app-fe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
