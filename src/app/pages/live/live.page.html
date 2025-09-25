@@ -5,32 +5,51 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Segment dei canali (placeholder, già pronti per altri canali) -->
+
+  <!-- Segment dei canali -->
   <ion-segment value="news" scrollable>
-    <ion-segment-button value="news"><app-canale-news></app-canale-news></ion-segment-button>
-    <ion-segment-button value="show"><app-canale-show></app-canale-show></ion-segment-button>
-    <ion-segment-button value="arts"><app-canale-arts></app-canale-arts></ion-segment-button>
-    <ion-segment-button value="earth"><app-canale-earth></app-canale-earth></ion-segment-button>
-    <ion-segment-button value="economy"><app-canale-economy></app-canale-economy></ion-segment-button>
-    <ion-segment-button value="tech"><app-canale-tech></app-canale-tech></ion-segment-button>
-    <ion-segment-button value="life"><app-canale-life></app-canale-life></ion-segment-button>
-    <ion-segment-button value="health"><app-canale-health></app-canale-health></ion-segment-button>
+    <ion-segment-button value="news">
+      <app-canale-news></app-canale-news>
+    </ion-segment-button>
+    <ion-segment-button value="show">
+      <app-canale-show></app-canale-show>
+    </ion-segment-button>
+    <ion-segment-button value="arts">
+      <app-canale-arts></app-canale-arts>
+    </ion-segment-button>
+    <ion-segment-button value="earth">
+      <app-canale-earth></app-canale-earth>
+    </ion-segment-button>
+    <ion-segment-button value="economy">
+      <app-canale-economy></app-canale-economy>
+    </ion-segment-button>
+    <ion-segment-button value="tech">
+      <app-canale-tech></app-canale-tech>
+    </ion-segment-button>
+    <ion-segment-button value="life">
+      <app-canale-life></app-canale-life>
+    </ion-segment-button>
+    <ion-segment-button value="health">
+      <app-canale-health></app-canale-health>
+    </ion-segment-button>
   </ion-segment>
 
   <!-- Riquadro LIVE -->
   <div class="live-container" *ngIf="streamUrl">
     <video
       id="liveVideo"
+      class="live-video"
       controls
       autoplay
       muted
       playsinline
-      width="100%"
     ></video>
 
+    <!-- Stato offline -->
     <div *ngIf="!online" class="offline-msg">
       🔴 Offline - Nessuna diretta disponibile
     </div>
   </div>
+
 </ion-content>
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import Hls from 'hls.js';
-import { HttpClient } from '@angular/common/http';
+import { LiveService, LiveStatus } from 'src/app/services/live.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,27 +13,21 @@ export class LivePage implements OnInit, OnDestroy {
   public streamUrl: string = '';
   public online: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private liveService: LiveService) {}
 
   ngOnInit() {
-    // Recupera lo stream dal backend
-    this.http
-      .get<{ streamUrl: string; online: boolean }>(
-        `${environment.apiBaseUrl}/live`
-      )
-      .subscribe({
-        next: (data) => {
-          this.streamUrl = data.streamUrl || environment.liveHlsUrl;
-          this.online = data.online;
-          this.initPlayer();
-        },
-        error: (err) => console.error('Errore caricamento live:', err),
-      });
+    this.liveService.getLiveStatus().subscribe({
+      next: (data: LiveStatus) => {
+        this.streamUrl = data.streamUrl || environment.liveHlsUrl;
+        this.online = data.online;
+        this.initPlayer();
+      },
+      error: (err) => console.error('Errore caricamento live:', err),
+    });
   }
 
   initPlayer() {
     const video = document.getElementById('liveVideo') as HTMLVideoElement;
-
     if (!video || !this.streamUrl) return;
 
     if (Hls.isSupported()) {
@@ -45,9 +39,7 @@ export class LivePage implements OnInit, OnDestroy {
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = this.streamUrl;
-      video
-        .play()
-        .catch((err) => console.error('Autoplay blocked:', err));
+      video.play().catch((err) => console.error('Autoplay blocked:', err));
     }
   }
 
