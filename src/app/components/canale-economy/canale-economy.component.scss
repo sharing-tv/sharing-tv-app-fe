@@ -1,4 +1,16 @@
-.canale-text {
-  color: #1E88E5; /* blu */
-  font-weight: bold;
+@import "../../../theme/variables.scss";
+
+.canale-hero {
+  background: $color-economy;
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+
+  h1 { font-size: 2rem; margin-bottom: 1rem; }
+  p { font-size: 1rem; }
+
+  @include respond-above(sm) { h1 { font-size: 2.2rem; } }
+  @include respond-above(md) { h1 { font-size: 2.4rem; } }
+  @include respond-above(lg) { h1 { font-size: 2.6rem; } }
+  @include respond-above(xl) { h1 { font-size: 2.8rem; } }
 }

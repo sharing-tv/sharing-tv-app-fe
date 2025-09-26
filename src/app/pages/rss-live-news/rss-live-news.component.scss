@@ -1,0 +1,44 @@
+.ticker-container {
+  overflow: hidden;
+  white-space: nowrap;
+  background: #111;
+  color: #fff;
+  padding: 8px 0;
+}
+
+.ticker {
+  display: inline-block;
+  animation: scroll-left 40s linear infinite;
+}
+
+.ticker-item {
+  display: inline-block;
+  margin-right: 50px;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.loading-msg {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #666;
+}
+

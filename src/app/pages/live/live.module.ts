@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { LivePageRoutingModule } from './live-routing.module';
 
 import { LivePage } from './live.page';
-import { SharedModule } from 'src/app/components/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -20,3 +20,4 @@ import { SharedModule } from 'src/app/components/shared/shared.module';
   declarations: [LivePage]
 })
 export class LivePageModule {}
+

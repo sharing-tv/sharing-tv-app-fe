@@ -1,3 +1,4 @@
+// src/app/pages/live/live.page.ts
 import {
   Component,
   OnInit,
@@ -17,11 +18,11 @@ export class LivePage implements OnInit, OnDestroy, AfterViewInit {
   private hls?: Hls;
   public streamUrl: string = '';
   public online: boolean = false;
+  public muted: boolean = true; // 🔇 parte sempre mutato per compatibilità mobile
 
   constructor(private liveService: LiveService) {}
 
   ngOnInit() {
-    // Recupera lo stato del live dal backend
     this.liveService.getLiveStatus().subscribe({
       next: (data: LiveStatus) => {
         this.streamUrl = data.streamUrl || environment.liveHlsUrl;
@@ -34,7 +35,7 @@ export class LivePage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Aspetta che Angular monti il DOM prima di inizializzare il player
+    // inizializza il player una volta che il DOM è pronto
     setTimeout(() => this.initPlayer(), 500);
   }
 
@@ -45,8 +46,10 @@ export class LivePage implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
+    video.muted = this.muted; // applica lo stato iniziale
+
     if (Hls.isSupported()) {
-      this.hls = new Hls({ debug: true }); // debug per log estesi
+      this.hls = new Hls({ debug: false });
       this.hls.loadSource(this.streamUrl);
       this.hls.attachMedia(video);
 
@@ -70,6 +73,15 @@ export class LivePage implements OnInit, OnDestroy, AfterViewInit {
         .catch((err) => console.error('❌ Autoplay bloccato:', err));
     } else {
       console.error('❌ HLS non supportato in questo browser');
+    }
+  }
+
+  public unmuteVideo() {
+    const video = document.getElementById('liveVideo') as HTMLVideoElement;
+    if (video) {
+      video.muted = false;
+      this.muted = false;
+      console.log('🔊 Audio attivato manualmente');
     }
   }
 

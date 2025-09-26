@@ -1,0 +1,16 @@
+<ion-content>
+  <div class="ticker-container" *ngIf="news.length > 0">
+    <div class="ticker">
+      <div class="ticker-item" *ngFor="let item of news">
+        <a [href]="item.link" target="_blank" rel="noopener noreferrer">
+          {{ item.title }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="news.length === 0" class="loading-msg">
+    ⏳ Caricamento ultime notizie...
+  </div>
+</ion-content>
+
