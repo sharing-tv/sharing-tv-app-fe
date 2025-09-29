@@ -1,11 +1,11 @@
 <div class="channels-grid">
-  <div class="channel-item" routerLink="/canale/news"><app-canale-news></app-canale-news></div>
-  <div class="channel-item" routerLink="/canale/show"><app-canale-show></app-canale-show></div>
-  <div class="channel-item" routerLink="/canale/arts"><app-canale-arts></app-canale-arts></div>
-  <div class="channel-item" routerLink="/canale/earth"><app-canale-earth></app-canale-earth></div>
-  <div class="channel-item" routerLink="/canale/economy"><app-canale-economy></app-canale-economy></div>
-  <div class="channel-item" routerLink="/canale/tech"><app-canale-tech></app-canale-tech></div>
-  <div class="channel-item" routerLink="/canale/life"><app-canale-life></app-canale-life></div>
-  <div class="channel-item" routerLink="/canale/health"><app-canale-health></app-canale-health></div>
+  <div
+    class="channel-item"
+    *ngFor="let channel of channels"
+    [ngClass]="channel.cssClass"
+    [routerLink]="channel.route"
+  >
+    <img [src]="channel.logo" [alt]="channel.name" />
+  </div>
 </div>
 

@@ -1,0 +1,28 @@
+/* src/app/pages/home/home.component.scss */
+@import "src/theme/variables";
+
+.app-background {
+  background: url("../../../assets/sfondo/sfondo2.png") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh; // copre tutto lo schermo
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.channels-wrapper {
+  margin: 20px auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.live-wrapper {
+  margin: 30px auto;
+  width: 100%;
+  max-width: 1000px;
+  aspect-ratio: 16 / 9; // sempre proporzionato
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+

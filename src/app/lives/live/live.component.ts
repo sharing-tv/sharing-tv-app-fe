@@ -1,4 +1,4 @@
-// src/app/pages/live/live.page.ts
+// src/app/lives/live/live.component.ts
 import {
   Component,
   OnInit,
@@ -11,14 +11,14 @@ import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-live',
-  templateUrl: './live.page.html',
-  styleUrls: ['./live.page.scss'],
+  templateUrl: './live.component.html',
+  styleUrls: ['./live.component.scss'],
 })
-export class LivePage implements OnInit, OnDestroy, AfterViewInit {
+export class LiveComponent implements OnInit, OnDestroy, AfterViewInit {
   private hls?: Hls;
   public streamUrl: string = '';
   public online: boolean = false;
-  public muted: boolean = true; // 🔇 parte sempre mutato per compatibilità mobile
+  public muted: boolean = true; // 🔇 parte mutato per compatibilità mobile
 
   constructor(private liveService: LiveService) {}
 
@@ -35,7 +35,6 @@ export class LivePage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // inizializza il player una volta che il DOM è pronto
     setTimeout(() => this.initPlayer(), 500);
   }
 
@@ -46,7 +45,7 @@ export class LivePage implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    video.muted = this.muted; // applica lo stato iniziale
+    video.muted = this.muted;
 
     if (Hls.isSupported()) {
       this.hls = new Hls({ debug: false });
@@ -66,11 +65,8 @@ export class LivePage implements OnInit, OnDestroy, AfterViewInit {
         console.error('❌ Errore HLS:', data);
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      console.log('ℹ️ Uso supporto nativo HLS del browser');
       video.src = this.streamUrl;
-      video
-        .play()
-        .catch((err) => console.error('❌ Autoplay bloccato:', err));
+      video.play().catch((err) => console.error('❌ Autoplay bloccato:', err));
     } else {
       console.error('❌ HLS non supportato in questo browser');
     }

@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'live',
     loadChildren: () =>
-      import('./pages/live/live.module').then((m) => m.LivePageModule),
+      import('./lives/live.module').then(m => m.LiveModule)
   },
   {
   path: 'rss-live-news',

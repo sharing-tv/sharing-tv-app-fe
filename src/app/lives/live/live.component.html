@@ -1,0 +1,24 @@
+<!-- src/app/lives/live/live.component.html -->
+<div class="live-container" *ngIf="streamUrl">
+  <div class="live-badge">🔴 LIVE</div>
+  <div class="video-wrapper">
+    <video
+      id="liveVideo"
+      class="live-video"
+      autoplay
+      muted
+      playsinline
+      controls
+    ></video>
+  </div>
+
+  <div *ngIf="!online" class="offline-msg">
+    🔴 Offline - Nessuna diretta disponibile
+  </div>
+
+  <div *ngIf="online && muted" class="unmute-btn">
+    <ion-button expand="block" color="primary" (click)="unmuteVideo()">
+      🔊 Attiva Audio
+    </ion-button>
+  </div>
+</div>

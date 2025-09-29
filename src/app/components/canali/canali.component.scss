@@ -1,0 +1,58 @@
+/* src/app/components/canali/canali.component.scss */
+@import "src/theme/variables";
+
+.channels-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // 📱 Mobile: 2 colonne
+  gap: 14px;
+  margin: 20px 0;
+  justify-items: center;
+
+  @include respond-above(md) {
+    grid-template-columns: repeat(4, 1fr); // 🖥️ Tablet/Desktop: 4 colonne
+    gap: 18px;
+  }
+
+  .channel-item {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    aspect-ratio: 1 / 1; // 🔲 quadrato fisso
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+
+    // animazioni morbide
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+    &:hover {
+      transform: scale(1.07);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    img {
+      max-width: 50%;
+      max-height: 65%;
+      object-fit: contain;
+      transition: transform 0.25s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.1);
+    }
+
+    // 🎨 Accenti colore uniformi sui bordi
+    &.news { border: 2px solid $color-news; }
+    &.show { border: 2px solid $color-show; }
+    &.arts { border: 2px solid $color-arts; }
+    &.earth { border: 2px solid $color-earth; }
+    &.economy { border: 2px solid $color-economy; }
+    &.tech { border: 2px solid $color-tech; }
+    &.life { border: 2px solid $color-life; }
+    &.health { border: 2px solid $color-health; }
+  }
+}
+

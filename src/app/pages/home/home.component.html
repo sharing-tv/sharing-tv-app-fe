@@ -1,24 +1,20 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="app-background">
 
-<ion-content [fullscreen]="true">
+  <!-- 🔝 Canali: 2 righe × 4 colonne -->
+  <div class="channels-wrapper">
+    <app-canali [channels]="allChannels"></app-canali>
+  </div>
 
-  <!-- 🔝 Navbar (quando la crei) -->
-  <!-- <app-navbar></app-navbar> -->
+  <!-- 🎥 Live centrale -->
+  <div class="live-wrapper">
+    <app-live></app-live>
+  </div>
 
-  <!-- 🔝 Canali -->
-  <app-canali></app-canali>
-
-  <!-- 🎥 Live -->
-  <app-live></app-live>
-
+  
   <!-- 📰 RSS Ticker -->
   <app-rss-live-news></app-rss-live-news>
 
   <!-- 🔻 Footer -->
   <app-footer></app-footer>
-
 </ion-content>
+

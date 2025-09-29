@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+export interface Channel {
+  name: string;
+  route: string;
+  logo: string;
+  cssClass?: string;
+}
 
 @Component({
   selector: 'app-canali',
   templateUrl: './canali.component.html',
-  styleUrls: ['./canali.component.scss'],
+  styleUrls: ['./canali.component.scss']
 })
-export class CanaliComponent  implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {}
-
+export class CanaliComponent {
+  @Input() channels: Channel[] = [];
 }
 

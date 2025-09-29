@@ -14,6 +14,8 @@ import { CanaleLifeComponent } from '../components/canale-life/canale-life.compo
 import { CanaleHealthComponent } from '../components/canale-health/canale-health.component';
 import { FooterComponent } from '../pages/footer/footer.component';
 import { CanaliComponent } from '../components/canali/canali.component';
+import { LiveComponent } from '../lives/live/live.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -27,11 +29,13 @@ import { CanaliComponent } from '../components/canali/canali.component';
     CanaleLifeComponent,
     CanaleHealthComponent,
     FooterComponent,
-    CanaliComponent
+    CanaliComponent,
+    // LiveComponent
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    RouterModule
   ],
   exports: [
     RssLiveNewsComponent,
@@ -44,7 +48,8 @@ import { CanaliComponent } from '../components/canali/canali.component';
     CanaleLifeComponent,
     CanaleHealthComponent,
     FooterComponent,
-    CanaliComponent
+    CanaliComponent,
+    // LiveComponent
   ]
 })
 export class SharedModule {}

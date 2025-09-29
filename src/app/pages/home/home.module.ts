@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { LiveModule } from 'src/app/lives/live.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -13,6 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     IonicModule,
     SharedModule,   // 👈 ora Home conosce tutti i componenti condivisi
+    LiveModule,
     RouterModule.forChild([{ path: '', component: HomeComponent }])
   ]
 })
