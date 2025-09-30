@@ -1,10 +1,22 @@
 <ion-content>
   <div class="ticker-container" *ngIf="news.length > 0">
     <div class="ticker">
-      <div class="ticker-item" *ngFor="let item of news">
-        <a [href]="item.link" target="_blank" rel="noopener noreferrer">
-          {{ item.title }}
-        </a>
+      <!-- Primo blocco -->
+      <div class="ticker-content">
+        <div class="ticker-item" *ngFor="let item of news">
+          <a [href]="item.link" target="_blank" rel="noopener noreferrer">
+            {{ item.title }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Duplicato per evitare il vuoto -->
+      <div class="ticker-content">
+        <div class="ticker-item" *ngFor="let item of news">
+          <a [href]="item.link" target="_blank" rel="noopener noreferrer">
+            {{ item.title }}
+          </a>
+        </div>
       </div>
     </div>
   </div>

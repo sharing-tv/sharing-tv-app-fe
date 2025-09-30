@@ -1,0 +1,247 @@
+.app-background {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #0a2a6c, #000);
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ✨ Stelle tech irregolari (più numerose) */
+.stars {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  background-image:
+    radial-gradient(white 1px, transparent 1px),
+    radial-gradient(rgba(0,255,255,0.9) 1px, transparent 1px),
+    radial-gradient(rgba(0,200,255,0.7) 1.5px, transparent 1.5px),
+    radial-gradient(white 2px, transparent 2px),
+    radial-gradient(cyan 1px, transparent 1px),
+    radial-gradient(rgba(0,255,200,0.8) 1px, transparent 1px),
+    radial-gradient(white 0.5px, transparent 0.5px),
+    radial-gradient(rgba(0,255,255,0.6) 1.5px, transparent 1.5px);
+  background-size:
+    120px 180px,
+    200px 250px,
+    300px 300px,
+    400px 500px,
+    500px 600px,
+    600px 700px,
+    700px 800px,
+    900px 1000px;
+  background-position:
+    20px 40px,
+    80px 120px,
+    160px 200px,
+    240px 320px,
+    320px 100px,
+    400px 250px,
+    500px 400px,
+    600px 300px;
+  animation: twinkle 12s ease-in-out infinite alternate;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 2px cyan); }
+  50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(0,255,255,1)); }
+}
+
+/* ☀️ Sole */
+.sun {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #ffcc00, #ff6600);
+  border-radius: 50%;
+  box-shadow: 0 0 60px 20px rgba(255, 200, 0, 0.8);
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Orbite + pianeti */
+.orbit {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  animation: rotate linear infinite;
+
+  .planet {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+  }
+}
+
+.mercury { width: 6px; height: 6px; background: #9e9e9e; }
+.venus   { width: 10px; height: 10px; background: #d4a373; }
+.mars    { width: 8px; height: 8px; background: #c1440e; }
+.jupiter { width: 22px; height: 22px; background: #d9b38c; }
+.saturn  { width: 18px; height: 18px; background: #e3c16f; box-shadow: 0 0 0 3px rgba(227,193,111,0.4); }
+.uranus  { width: 14px; height: 14px; background: #66ccff; }
+.neptune { width: 14px; height: 14px; background: #3366ff; }
+
+.orbit1 { width: 120px; height: 120px; animation-duration: 6s; }
+.orbit2 { width: 180px; height: 180px; animation-duration: 10s; }
+.orbit4 { width: 300px; height: 300px; animation-duration: 18s; }
+.orbit5 { width: 400px; height: 400px; animation-duration: 24s; }
+.orbit6 { width: 480px; height: 480px; animation-duration: 30s; }
+.orbit7 { width: 560px; height: 560px; animation-duration: 36s; }
+.orbit8 { width: 640px; height: 640px; animation-duration: 42s; }
+
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 🌐 Mezzo globo wireframe */
+.globe.half {
+  position: absolute;
+  bottom: -40%;
+  left: 50%;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,150,255,0.6);
+  transform: translateX(-50%);
+  background-image:
+    repeating-radial-gradient(circle, transparent 0, transparent 20px, rgba(0,150,255,0.2) 21px),
+    repeating-linear-gradient(to right, rgba(0,150,255,0.2) 0, transparent 2px, transparent 40px);
+  mask-image: linear-gradient(to top, black 60%, transparent 100%);
+}
+
+/* 📺 TV tech semplificata */
+.tech-tv {
+  position: absolute;
+  top: 40px;
+  left: 40px; 
+  width: 190px;
+  height: 105px;
+  border: 2px solid rgba(0, 200, 255, 0.8);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow:
+    0 0 20px rgba(0,200,255,0.7),
+    inset 0 0 12px rgba(0,200,255,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  color: rgba(0, 255, 200, 0.95);
+  text-transform: uppercase;
+  font-size: 16px; /* più grande */
+  font-weight: bold;
+  letter-spacing: 1.8px;
+  text-shadow: 0 0 6px rgba(0, 255, 200, 1);
+  animation: breathe 8s ease-in-out infinite;
+}
+
+/* ✨ Linee base sotto la TV */
+.tech-tv::after,
+.tech-tv::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  height: 3px;
+  background: rgba(0, 200, 255, 0.8);
+  box-shadow: 0 0 6px rgba(0,200,255,0.9);
+}
+
+.tech-tv::before {
+  left: -20px;
+  width: 45px;
+}
+
+.tech-tv::after {
+  right: -20px;
+  width: 45px;
+}
+
+/* Animazione respiro */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 20px rgba(0,200,255,0.7),
+      inset 0 0 12px rgba(0,200,255,0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 30px rgba(0,200,255,1),
+      inset 0 0 18px rgba(0,200,255,0.5);
+  }
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 22%, 24%, 55% {
+    opacity: 0.85;
+  }
+}
+
+/* 🔠 S speciale con glitch */
+.special-s {
+  position: relative;
+  display: inline-block;
+  color: rgba(0, 255, 200, 1);
+  font-size: 48px; /* più grande della scritta */
+  font-weight: 900;
+  line-height: 1;
+  margin-right: 4px;
+  text-shadow:
+    0 0 4px rgba(0, 255, 200, 0.8),
+    0 0 10px rgba(0, 200, 255, 0.9),
+    0 0 20px rgba(0, 200, 255, 1);
+
+  &::before,
+  &::after {
+    content: "S";
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+  }
+
+  &::before {
+    color: rgba(0, 255, 150, 0.6);
+    transform: translate(-2px, 0);
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    animation: glitch-top 2s infinite linear alternate-reverse;
+  }
+
+  &::after {
+    color: rgba(0, 200, 255, 0.6);
+    transform: translate(2px, 0);
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+    animation: glitch-bottom 2s infinite linear alternate-reverse;
+  }
+}
+
+@keyframes glitch-top {
+  0%   { transform: translate(-1px, 0); }
+  20%  { transform: translate(-3px, -1px); }
+  40%  { transform: translate(-2px, 1px); }
+  60%  { transform: translate(-4px, 0); }
+  80%  { transform: translate(-1px, -1px); }
+  100% { transform: translate(-2px, 0); }
+}
+
+@keyframes glitch-bottom {
+  0%   { transform: translate(1px, 0); }
+  20%  { transform: translate(3px, 1px); }
+  40%  { transform: translate(2px, -1px); }
+  60%  { transform: translate(4px, 0); }
+  80%  { transform: translate(1px, 1px); }
+  100% { transform: translate(2px, 0); }
+}

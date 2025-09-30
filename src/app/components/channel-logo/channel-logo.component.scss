@@ -1,0 +1,45 @@
+@import "src/theme/variables";
+
+.channel-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+  border: 2px solid currentColor;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  .special-s {
+    font-size: 40px;
+    font-weight: 900;
+    text-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
+    line-height: 1;
+  }
+
+  .label {
+    font-size: 12px;
+    margin-top: 4px;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  /* 🎨 Varianti per canali */
+  &.news    { color: $color-news; }
+  &.show    { color: $color-show; }
+  &.arts    { color: $color-arts; }
+  &.earth   { color: $color-earth; }
+  &.economy { color: $color-economy; }
+  &.tech    { color: $color-tech; }
+  &.life    { color: $color-life; }
+  &.health  { color: $color-health; }
+}

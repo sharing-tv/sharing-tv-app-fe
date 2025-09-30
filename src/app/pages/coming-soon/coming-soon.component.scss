@@ -1,0 +1,28 @@
+.coming-soon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(135deg, #111, #222);
+  color: #fff;
+  text-align: center;
+}
+
+.coming-soon-box {
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+}
+

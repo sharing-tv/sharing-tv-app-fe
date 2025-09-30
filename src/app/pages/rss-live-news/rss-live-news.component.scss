@@ -1,18 +1,23 @@
 .ticker-container {
   overflow: hidden;
   white-space: nowrap;
-  background: #111;
+  background: #E53935;
   color: #fff;
   padding: 8px 0;
+  width: 100%;
 }
 
 .ticker {
-  display: inline-block;
-  animation: scroll-left 40s linear infinite;
+  display: flex;
+  width: max-content;
+  animation: scroll-left 60s linear infinite; // 🔁 più lento o veloce
+}
+
+.ticker-content {
+  display: flex;
 }
 
 .ticker-item {
-  display: inline-block;
   margin-right: 50px;
 
   a {
@@ -28,10 +33,10 @@
 
 @keyframes scroll-left {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%); // 👈 metà perché c’è il duplicato
   }
 }
 

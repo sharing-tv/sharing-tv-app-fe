@@ -1,14 +1,14 @@
 /* src/app/pages/home/home.component.scss */
 @import "src/theme/variables";
 
-.app-background {
-  background: url("../../../assets/sfondo/sfondo2.png") no-repeat center center fixed;
-  background-size: cover;
-  min-height: 100vh; // copre tutto lo schermo
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
+// .app-background {
+//   background: url("../../../assets/sfondo/sfondo2.png") no-repeat center center fixed;
+//   background-size: cover;
+//   min-height: 100vh; // copre tutto lo schermo
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start;
+// }
 
 .channels-wrapper {
   margin: 20px auto;

@@ -16,6 +16,8 @@ import { FooterComponent } from '../pages/footer/footer.component';
 import { CanaliComponent } from '../components/canali/canali.component';
 import { LiveComponent } from '../lives/live/live.component';
 import { RouterModule } from '@angular/router';
+import { ComingSoonComponent } from '../pages/coming-soon/coming-soon.component';
+import { BackgroundComponent } from '../components/background/background.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { RouterModule } from '@angular/router';
     CanaleHealthComponent,
     FooterComponent,
     CanaliComponent,
+    ComingSoonComponent,
+    BackgroundComponent
     // LiveComponent
   ],
   imports: [
@@ -49,6 +53,8 @@ import { RouterModule } from '@angular/router';
     CanaleHealthComponent,
     FooterComponent,
     CanaliComponent,
+    ComingSoonComponent,
+    BackgroundComponent
     // LiveComponent
   ]
 })
