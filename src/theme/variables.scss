@@ -14,7 +14,7 @@ $color-health:  #26C6DA; // Verde acqua (benessere)
 //
 // 📱 Breakpoints - Mobile First
 //
-$breakpoint-xs: 0;       // Mobile very small
+$breakpoint-xs: 200px;   // Extra small (device molto piccoli, < iPhone 5)
 $breakpoint-sm: 576px;   // Smartphone
 $breakpoint-md: 768px;   // Tablet portrait
 $breakpoint-lg: 992px;   // Tablet landscape / small laptop

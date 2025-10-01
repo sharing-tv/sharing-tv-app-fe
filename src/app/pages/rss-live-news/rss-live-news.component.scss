@@ -1,3 +1,4 @@
+// src/app/pages/rss-live-news/rss-live-news.component.scss
 .ticker-container {
   overflow: hidden;
   white-space: nowrap;
@@ -45,5 +46,10 @@
   padding: 20px;
   font-size: 14px;
   color: #666;
+}
+
+
+:host ::ng-deep ion-content {
+  --background: transparent !important;
 }
 

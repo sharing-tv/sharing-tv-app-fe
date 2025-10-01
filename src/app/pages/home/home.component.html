@@ -1,10 +1,15 @@
+<!-- src/app/pages/home/home.component.html -->
 <ion-content [fullscreen]="true">
 
-    <app-background></app-background>
+  <!-- 🌌 Sfondo -->
+  <app-background></app-background>
 
-  <!-- 🔝 Canali: 2 righe × 4 colonne -->
+  <app-tv-logo></app-tv-logo>
+  <app-slogan></app-slogan>
+
+  <!-- 🔝 Canali -->
   <div class="channels-wrapper">
-    <app-canali [channels]="allChannels"></app-canali>
+    <app-canali></app-canali>
   </div>
 
   <!-- 🎥 Live centrale -->
@@ -12,7 +17,6 @@
     <app-live></app-live>
   </div>
 
-  
   <!-- 📰 RSS Ticker -->
   <app-rss-live-news></app-rss-live-news>
 

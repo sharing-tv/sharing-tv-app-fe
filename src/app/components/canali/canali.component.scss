@@ -3,19 +3,51 @@
 
 .channels-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); // 📱 Mobile: 2 colonne
-  gap: 14px;
-  margin: 20px 0;
+  grid-template-columns: repeat(4, 1fr);   // 4 colonne fisse
+  grid-template-rows: repeat(2, auto);     // 2 righe fisse
+  gap: 12px;
+  margin: 40px auto 20px;
   justify-items: center;
+  width: 100%;
+  max-width: 1000px;
 
+  // 📱 Mobile piccolo
+  @include respond-above(sm) {
+    gap: 14px;
+    margin: 18px auto;
+  }
+
+  // 📲 Tablet portrait
   @include respond-above(md) {
-    grid-template-columns: repeat(4, 1fr); // 🖥️ Tablet/Desktop: 4 colonne
+    grid-template-columns: repeat(4, 1fr); // 🖥️ 4 colonne
     gap: 18px;
+    margin: 20px auto;
+  }
+
+  // 💻 Tablet landscape
+  @include respond-above(lg) {
+    gap: 22px;
+    margin: 24px auto;
+    max-width: 1100px;
+  }
+
+  // 🖥️ Desktop standard
+  @include respond-above(xl) {
+    gap: 26px;
+    margin: 28px auto;
+    max-width: 1200px;
+  }
+
+  // 🖥️ Desktop grande
+  @include respond-above(xxl) {
+    gap: 30px;
+    margin: 32px auto;
+    max-width: 1400px;
   }
 
   .channel-item {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
     aspect-ratio: 1 / 1; // 🔲 quadrato fisso
     display: flex;
     align-items: center;
@@ -24,35 +56,36 @@
     width: 100%;
     position: relative;
     overflow: hidden;
+    border: 2px solid transparent;
 
-    // animazioni morbide
+    // ✨ Animazioni morbide
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 
     &:hover {
       transform: scale(1.07);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     }
 
     img {
-      max-width: 50%;
-      max-height: 65%;
+      max-width: 60%;
+      max-height: 70%;
       object-fit: contain;
       transition: transform 0.25s ease;
     }
 
     &:hover img {
-      transform: scale(1.1);
+      transform: scale(1.12);
     }
 
     // 🎨 Accenti colore uniformi sui bordi
-    &.news { border: 2px solid $color-news; }
-    &.show { border: 2px solid $color-show; }
-    &.arts { border: 2px solid $color-arts; }
-    &.earth { border: 2px solid $color-earth; }
-    &.economy { border: 2px solid $color-economy; }
-    &.tech { border: 2px solid $color-tech; }
-    &.life { border: 2px solid $color-life; }
-    &.health { border: 2px solid $color-health; }
+    &.news    { border-color: $color-news; }
+    &.show    { border-color: $color-show; }
+    &.arts    { border-color: $color-arts; }
+    &.earth   { border-color: $color-earth; }
+    &.economy { border-color: $color-economy; }
+    &.tech    { border-color: $color-tech; }
+    &.life    { border-color: $color-life; }
+    &.health  { border-color: $color-health; }
   }
 }
 

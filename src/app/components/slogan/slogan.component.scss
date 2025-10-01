@@ -1,0 +1,94 @@
+/* src/app/components/slogan/slogan.component.scss */
+@import "src/theme/variables";
+
+/* 🏷️ Slogan */
+.slogan {
+  margin-top: 20px;          // base mobile più compatta
+  margin-right: 10px;        // spaziatura dal bordo destro
+  text-align: center;        // 👉 allineato di base
+  font-family: Calibri, sans-serif;
+  color: rgba(0, 255, 200, 0.95);
+  text-shadow: 0 0 4px rgba(0,255,255,0.8);
+  font-weight: bold;
+  line-height: 1.3;
+  animation: fadeIn 2s ease-in-out;
+
+  .line1 { font-size: 12px; } // molto piccolo su smartphone
+  .line2 {
+    font-size: 14px;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}
+
+/* 📱 Extra Small (200px – 420px) */
+@include respond-between($breakpoint-xs, 420px) {
+  .slogan {
+    margin-top: 35px;    // 👈 più stacco dal tv-logo
+    margin-right: 0;     // 👉 non schiacciare troppo
+    // text-align: right;   // 👉 a destra nei display piccoli
+  }
+}
+
+/* 📱 Smartphone > sm */
+@include respond-above(sm) {
+  .slogan {
+    margin-top: 30px;
+    margin-right: 120px;
+
+    .line1 { font-size: 16px; }
+    .line2 { font-size: 18px; }
+  }
+}
+
+/* 📲 Tablet portrait > md */
+@include respond-above(md) {
+  .slogan {
+    margin-top: 40px;
+    margin-right: 120px;
+
+    .line1 { font-size: 20px; }
+    .line2 { font-size: 24px; }
+  }
+}
+
+/* 💻 Tablet landscape > lg */
+@include respond-above(lg) {
+  .slogan {
+    margin-top: 60px;
+    margin-right: 40px;
+
+    .line1 { font-size: 26px; }
+    .line2 { font-size: 32px; }
+  }
+}
+
+/* 🖥️ Desktop > xl */
+@include respond-above(xl) {
+  .slogan {
+    margin-top: 90px;
+    margin-right: 50px;
+
+    .line1 { font-size: 30px; }
+    .line2 { font-size: 40px; }
+  }
+}
+
+/* 🖥️ 2K > xxl */
+@include respond-above(xxl) {
+  .slogan {
+    margin-top: 100px;
+    margin-right: 60px;
+
+    .line1 { font-size: 36px; }
+    .line2 { font-size: 50px; }
+  }
+}
+
+/* Animazione fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+

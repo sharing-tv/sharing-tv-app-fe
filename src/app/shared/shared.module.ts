@@ -18,6 +18,9 @@ import { LiveComponent } from '../lives/live/live.component';
 import { RouterModule } from '@angular/router';
 import { ComingSoonComponent } from '../pages/coming-soon/coming-soon.component';
 import { BackgroundComponent } from '../components/background/background.component';
+import { ChannelLogoComponent } from '../components/channel-logo/channel-logo.component';
+import { TvLogoComponent } from '../components/tv-logo/tv-logo.component';
+import { SloganComponent } from '../components/slogan/slogan.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { BackgroundComponent } from '../components/background/background.compone
     FooterComponent,
     CanaliComponent,
     ComingSoonComponent,
-    BackgroundComponent
+    BackgroundComponent,
+    ChannelLogoComponent,
+    TvLogoComponent,
+    SloganComponent
     // LiveComponent
   ],
   imports: [
@@ -54,7 +60,10 @@ import { BackgroundComponent } from '../components/background/background.compone
     FooterComponent,
     CanaliComponent,
     ComingSoonComponent,
-    BackgroundComponent
+    BackgroundComponent,
+    ChannelLogoComponent,
+    TvLogoComponent,
+    SloganComponent
     // LiveComponent
   ]
 })

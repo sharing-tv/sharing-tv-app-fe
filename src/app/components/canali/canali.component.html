@@ -1,11 +1,15 @@
+<!-- src/app/components/canali/canali.component.html -->
+
 <div class="channels-grid">
-  <div
-    class="channel-item"
+  <a
     *ngFor="let channel of channels"
-    [ngClass]="channel.cssClass"
     [routerLink]="channel.route"
+    class="channel-link"
   >
-    <img [src]="channel.logo" [alt]="channel.name" />
-  </div>
+    <app-channel-logo
+      [name]="channel.name"
+      [label]="channel.label"
+    ></app-channel-logo>
+  </a>
 </div>
 

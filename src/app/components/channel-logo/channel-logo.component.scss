@@ -1,14 +1,25 @@
 @import "src/theme/variables";
 
+/* 🔝 Griglia canali: sempre 2 righe × 4 colonne */
+.channels-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);   // 4 colonne fisse
+  grid-template-rows: repeat(2, auto);     // 2 righe fisse
+  gap: 14px;
+  margin: 20px 0;
+  justify-items: center;
+}
+
+/* 🎨 Logo canale */
 .channel-logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 12px;
+  width: 70px;   // 📱 Mobile base
+  height: 70px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Courier New', monospace;
+  font-family: Calibri, sans-serif; // aggiornato da Courier
   font-weight: bold;
   text-align: center;
   cursor: pointer;
@@ -20,15 +31,15 @@
   }
 
   .special-s {
-    font-size: 40px;
+    font-size: 28px;
     font-weight: 900;
     text-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
     line-height: 1;
   }
 
   .label {
-    font-size: 12px;
-    margin-top: 4px;
+    font-size: 10px;
+    margin-top: 3px;
     text-transform: uppercase;
     opacity: 0.9;
   }
@@ -43,3 +54,59 @@
   &.life    { color: $color-life; }
   &.health  { color: $color-health; }
 }
+
+/* 📱 Smartphone > sm */
+@include respond-above(sm) {
+  .channel-logo {
+    width: 85px;
+    height: 85px;
+
+    .special-s { font-size: 32px; }
+    .label { font-size: 11px; }
+  }
+}
+
+/* 📲 Tablet portrait > md */
+@include respond-above(md) {
+  .channel-logo {
+    width: 100px;
+    height: 100px;
+
+    .special-s { font-size: 40px; }
+    .label { font-size: 12px; }
+  }
+}
+
+/* 💻 Tablet landscape > lg */
+@include respond-above(lg) {
+  .channel-logo {
+    width: 115px;
+    height: 115px;
+
+    .special-s { font-size: 46px; }
+    .label { font-size: 13px; }
+  }
+}
+
+/* 🖥️ Desktop > xl */
+@include respond-above(xl) {
+  .channel-logo {
+    width: 130px;
+    height: 130px;
+
+    .special-s { font-size: 52px; }
+    .label { font-size: 14px; }
+  }
+}
+
+/* 🖥️ 2K / monitor grandi > xxl */
+@include respond-above(xxl) {
+  .channel-logo {
+    width: 150px;
+    height: 150px;
+
+    .special-s { font-size: 60px; }
+    .label { font-size: 16px; }
+  }
+}
+

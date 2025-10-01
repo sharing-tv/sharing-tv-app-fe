@@ -1,28 +1,42 @@
 /* src/app/pages/home/home.component.scss */
 @import "src/theme/variables";
 
-// .app-background {
-//   background: url("../../../assets/sfondo/sfondo2.png") no-repeat center center fixed;
-//   background-size: cover;
-//   min-height: 100vh; // copre tutto lo schermo
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-// }
-
+/* 🔝 Wrapper griglia canali */
 .channels-wrapper {
-  margin: 20px auto;
+  margin: 16px auto;
   width: 100%;
   max-width: 1200px;
+
+  @include respond-above(md) {
+    margin: 24px auto;
+  }
+
+  @include respond-above(lg) {
+    margin: 30px auto;
+  }
 }
 
+/* 🎥 Wrapper live centrale */
 .live-wrapper {
-  margin: 30px auto;
+  margin: 20px auto;
   width: 100%;
   max-width: 1000px;
-  aspect-ratio: 16 / 9; // sempre proporzionato
+  aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+  @include respond-above(md) {
+    margin: 28px auto;
+  }
+
+  @include respond-above(lg) {
+    margin: 36px auto;
+  }
+
+  @include respond-above(xl) {
+    margin: 40px auto;
+    border-radius: 16px;
+  }
 }
 
