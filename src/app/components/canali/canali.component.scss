@@ -3,42 +3,51 @@
 
 .channels-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);   // 4 colonne fisse
-  grid-template-rows: repeat(2, auto);     // 2 righe fisse
+  grid-template-columns: repeat(4, 1fr);   // default 4 colonne
+  grid-template-rows: repeat(2, auto);     // 2 righe
   gap: 12px;
   margin: 40px auto 20px;
   justify-items: center;
   width: 100%;
   max-width: 1000px;
 
-  // 📱 Mobile piccolo
+  /* 📱 Extra small (200–419px) → passa a 2 colonne */
+  @include respond-between($breakpoint-xs, ($breakpoint-xsm - 1)) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+    margin: 20px auto;
+  }
+
+  // 📱 Smartphone >= sm
   @include respond-above(sm) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
     gap: 14px;
     margin: 18px auto;
   }
 
-  // 📲 Tablet portrait
+  // 📲 Tablet portrait >= md
   @include respond-above(md) {
-    grid-template-columns: repeat(4, 1fr); // 🖥️ 4 colonne
     gap: 18px;
     margin: 20px auto;
   }
 
-  // 💻 Tablet landscape
+  // 💻 Tablet landscape >= lg
   @include respond-above(lg) {
     gap: 22px;
     margin: 24px auto;
     max-width: 1100px;
   }
 
-  // 🖥️ Desktop standard
+  // 🖥️ Desktop standard >= xl
   @include respond-above(xl) {
     gap: 26px;
     margin: 28px auto;
     max-width: 1200px;
   }
 
-  // 🖥️ Desktop grande
+  // 🖥️ Desktop grande >= xxl
   @include respond-above(xxl) {
     gap: 30px;
     margin: 32px auto;
@@ -48,7 +57,7 @@
   .channel-item {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    aspect-ratio: 1 / 1; // 🔲 quadrato fisso
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,7 +67,6 @@
     overflow: hidden;
     border: 2px solid transparent;
 
-    // ✨ Animazioni morbide
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 
     &:hover {

@@ -14,12 +14,13 @@ $color-health:  #26C6DA; // Verde acqua (benessere)
 //
 // 📱 Breakpoints - Mobile First
 //
-$breakpoint-xs: 200px;   // Extra small (device molto piccoli, < iPhone 5)
-$breakpoint-sm: 576px;   // Smartphone
-$breakpoint-md: 768px;   // Tablet portrait
-$breakpoint-lg: 992px;   // Tablet landscape / small laptop
-$breakpoint-xl: 1200px;  // Desktop standard
-$breakpoint-xxl: 1400px; // Desktop large
+$breakpoint-xs:   200px;  // Extra small (device molto piccoli, < iPhone 5)
+$breakpoint-xsm:  420px;  // Extra small-medium (smartphone compatti)
+$breakpoint-sm:   576px;  // Smartphone
+$breakpoint-md:   768px;  // Tablet portrait
+$breakpoint-lg:   992px;  // Tablet landscape / small laptop
+$breakpoint-xl:   1200px; // Desktop standard
+$breakpoint-xxl:  1400px; // Desktop large
 
 //
 // ⚙️ Mixin per media queries
@@ -29,6 +30,8 @@ $breakpoint-xxl: 1400px; // Desktop large
 @mixin respond-above($breakpoint) {
   @if $breakpoint == xs {
     @media (min-width: $breakpoint-xs) { @content; }
+  } @else if $breakpoint == xsm {
+    @media (min-width: $breakpoint-xsm) { @content; }
   } @else if $breakpoint == sm {
     @media (min-width: $breakpoint-sm) { @content; }
   } @else if $breakpoint == md {
@@ -44,7 +47,9 @@ $breakpoint-xxl: 1400px; // Desktop large
 
 // Max-width (<= breakpoint)
 @mixin respond-below($breakpoint) {
-  @if $breakpoint == sm {
+  @if $breakpoint == xsm {
+    @media (max-width: ($breakpoint-xsm - 1)) { @content; }
+  } @else if $breakpoint == sm {
     @media (max-width: ($breakpoint-sm - 1)) { @content; }
   } @else if $breakpoint == md {
     @media (max-width: ($breakpoint-md - 1)) { @content; }

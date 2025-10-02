@@ -5,7 +5,7 @@
   position: absolute;
   top: 15px;
   left: 15px;
-  width: 110px;   // 📱 base ancora più piccola
+  width: 110px;   // 📱 base extra small
   height: 60px;
   border: 2px solid rgba(0, 200, 255, 0.8);
   border-radius: 6px;
@@ -17,7 +17,7 @@
   font-family: Calibri, sans-serif;
   color: rgba(0, 255, 200, 0.95);
   text-transform: uppercase;
-  font-size: 10px; // più piccolo
+  font-size: 10px; // base più piccolo
   font-weight: bold;
   letter-spacing: 1px;
   animation: breathe 6s ease-in-out infinite;
@@ -40,7 +40,7 @@
 /* 🔠 S speciale */
 .special-s {
   font-family: Calibri, sans-serif;
-  font-size: 50px; // base più piccola
+  font-size: 30px; 
   font-weight: 900;
   margin-right: 3px;
   line-height: 1;
@@ -63,51 +63,71 @@
   }
 }
 
-/* 📱 Smartphone > sm */
+/* 📱 Extra Small (200–419px) */
+@include respond-between($breakpoint-xs, ($breakpoint-xsm - 1)) {
+  .tech-tv {
+    width: 80px;
+    height: 45px;
+    font-size: 9px;
+  }
+  .special-s { font-size: 18px; }
+}
+
+/* 📱 Small (420–575px) */
+@include respond-between($breakpoint-xsm, ($breakpoint-sm - 1)) {
+  .tech-tv {
+    width: 100px;
+    height: 55px;
+    font-size: 11px;
+  }
+  .special-s { font-size: 22px; }
+}
+
+/* 📱 Smartphone >= sm */
 @include respond-above(sm) {
   .tech-tv {
-    width: 130px;
-    height: 70px;
-    font-size: 11px;
+    width: 120px;
+    height: 60px;
+    font-size: 12px;
   }
   .special-s { font-size: 26px; }
 }
 
-/* 📲 Tablet portrait > md */
+/* 📲 Tablet portrait >= md */
 @include respond-above(md) {
   .tech-tv {
-    width: 150px;
-    height: 80px;
+    width: 140px;
+    height: 75px;
     font-size: 13px;
   }
   .special-s { font-size: 30px; }
 }
 
-/* 💻 Tablet landscape > lg */
+/* 💻 Tablet landscape >= lg */
 @include respond-above(lg) {
   .tech-tv {
-    width: 170px;
-    height: 95px;
+    width: 160px;
+    height: 85px;
     font-size: 14px;
   }
   .special-s { font-size: 34px; }
 }
 
-/* 🖥️ Desktop > xl */
+/* 🖥️ Desktop >= xl */
 @include respond-above(xl) {
   .tech-tv {
-    width: 190px;
-    height: 105px;
+    width: 170px;
+    height: 95px;
     font-size: 16px;
   }
   .special-s { font-size: 40px; }
 }
 
-/* 🖥️ 2K > xxl */
+/* 🖥️ 2K >= xxl */
 @include respond-above(xxl) {
   .tech-tv {
-    width: 220px;
-    height: 120px;
+    width: 200px;
+    height: 110px;
     font-size: 18px;
   }
   .special-s { font-size: 46px; }
