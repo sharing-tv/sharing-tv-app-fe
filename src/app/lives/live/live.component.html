@@ -1,25 +1,30 @@
-<!-- src/app/lives/live/live.component.html -->
-<div class="live-container">
-  <div class="live-badge">🔴 LIVE</div>
-  <div class="video-wrapper">
-    <video
-      id="liveVideo"
-      class="live-video"
-      autoplay
-      muted
-      playsinline
-      controls
-    ></video>
-  </div>
+<ion-content>
+  <div class="live-wrapper">
+    <div class="video-wrapper">
+      <!-- Overlay caricamento -->
+      <div *ngIf="loading" class="loading-overlay">
+        <div class="spinner"></div>
+        <span>Caricamento live...</span>
+      </div>
 
-  <div *ngIf="!online" class="offline-msg">
-    🔴 Offline - Nessuna diretta disponibile
-  </div>
+      <!-- Badge LIVE -->
+      <div *ngIf="online" class="live-badge">LIVE</div>
 
-  <div *ngIf="online && muted" class="unmute-btn">
-    <ion-button expand="block" color="primary" (click)="unmuteVideo()">
-      🔊 Attiva Audio
-    </ion-button>
-  </div>
-</div>
+      <!-- Video player -->
+      <video
+        #liveVideo
+        id="liveVideo"
+        class="live-video"
+        controls
+        muted
+        playsinline
+        preload="none"
+      ></video>
+    </div>
 
+    <!-- Messaggio offline -->
+    <div *ngIf="!online && !loading" class="offline-msg">
+      ⚫ Live offline
+    </div>
+  </div>
+</ion-content>

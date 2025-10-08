@@ -1,51 +1,121 @@
 /* src/app/lives/live/live.component.scss */
-.live-container {
-  position: relative;
-  margin: 20px auto;
-  max-width: 1200px; // puoi regolare la larghezza massima
-  width: 100%;
+/* Contenitore principale */
+.live-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #fff;
+  text-align: center;
 }
 
+/* Contenitore del video */
 .video-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9; // ✅ mantiene proporzione tipo YouTube
-  background: black;
-  border-radius: 10px;
+  max-width: 1200px;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
+/* Video */
+video,
 .live-video {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; // il video riempie tutto lo spazio
+  object-fit: cover;
+  border: none;
+  background-color: #000;
+  display: block;
+  transition: opacity 0.8s ease-in-out;
+  opacity: 1;
+
+  &.hidden {
+    opacity: 0;
+  }
 }
 
+/* Badge LIVE animato */
 .live-badge {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: red;
-  color: white;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 4px;
+  background: #ff0000;
+  color: #fff;
+  font-weight: 700;
   font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  animation: pulse 1s infinite;
   z-index: 2;
 }
 
-.unmute-btn {
-  margin-top: 10px;
-  text-align: center;
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
 }
 
-.offline-msg {
-  margin-top: 12px;
-  text-align: center;
+/* Overlay di caricamento */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
   font-weight: bold;
-  color: #aaa;
+  font-size: 18px;
+  z-index: 3;
 }
 
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  animation: spin 0.8s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Messaggio Offline */
+.offline-msg {
+  margin-top: 20px;
+  color: #aaa;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .video-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+
+  .live-badge {
+    top: 8px;
+    left: 8px;
+    font-size: 12px;
+  }
+}

@@ -1,48 +1,58 @@
 // src/app/lives/live/live.component.ts
-import { Component, OnDestroy, AfterViewInit } from '@angular/core';
-import { WhipService } from 'src/app/services/whip.service';
-import { environment } from 'src/environments/environment';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { LiveService, LiveStatus } from 'src/app/services/live.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-live',
   templateUrl: './live.component.html',
   styleUrls: ['./live.component.scss'],
 })
-export class LiveComponent implements AfterViewInit, OnDestroy {
-  public online = true; // con WHIP non c’è un health-check semplice → presumi online
+export class LiveComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('liveVideo', { static: false }) videoRef!: ElementRef<HTMLVideoElement>;
+
+  public online = false;
   public muted = true;
-  private videoEl?: HTMLVideoElement;
+  public loading = true;
 
-  constructor(private whip: WhipService) {}
+  private sub?: Subscription;
 
-  async ngAfterViewInit() {
-    this.videoEl = document.getElementById('liveVideo') as HTMLVideoElement;
-    if (!this.videoEl) return;
+  constructor(private liveService: LiveService) {}
 
-    this.videoEl.muted = this.muted;
+  ngOnInit(): void {
+    this.liveService.startMonitoring();
 
-    try {
-      // 👉 Chiede al service di avviare la sessione WHIP
-      const whipProxyUrl = `${environment.apiBaseUrl}/whip`;
-      await this.whip.startPlayback(this.videoEl, whipProxyUrl);
-      console.log('✅ WebRTC WHIP playback avviato');
-    } catch (err) {
-      console.error('❌ Errore avvio WHIP:', err);
-      this.online = false;
+    // 🔹 Osserva cambiamenti di stato della live
+    this.sub = this.liveService.liveStatus$.subscribe(async (status: LiveStatus) => {
+      this.loading = false;
+      this.online = status.online;
+
+      if (this.online && this.videoRef?.nativeElement) {
+        await this.liveService.initPlayer(this.videoRef.nativeElement, status.streamUrl, this.muted);
+      } else if (!this.online) {
+        this.liveService.stopPlayer();
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // Garantisce che il player venga inizializzato solo dopo il render
+    if (this.online && this.videoRef?.nativeElement) {
+      this.liveService.initPlayer(this.videoRef.nativeElement, '', this.muted);
     }
   }
 
-  public unmuteVideo() {
-    if (this.videoEl) {
-      this.videoEl.muted = false;
+  public unmuteVideo(): void {
+    if (this.videoRef?.nativeElement) {
+      this.videoRef.nativeElement.muted = false;
       this.muted = false;
       console.log('🔊 Audio attivato manualmente');
     }
   }
 
-  ngOnDestroy() {
-    this.whip.stopPlayback();
-    console.log('🧹 WHIP session terminata');
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+    this.liveService.stopPlayer();
   }
 }
 
