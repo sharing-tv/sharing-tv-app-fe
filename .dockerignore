@@ -3,10 +3,8 @@ node_modules
 .gitignore
 firebase.json
 firebase.rc
-src
 e2e
 .editorconfig
-angular.json
 tsconfig.json
 package-lock.json
 README.md
