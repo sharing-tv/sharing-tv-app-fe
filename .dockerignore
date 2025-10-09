@@ -5,6 +5,5 @@ firebase.json
 firebase.rc
 e2e
 .editorconfig
-tsconfig.json
 package-lock.json
 README.md
