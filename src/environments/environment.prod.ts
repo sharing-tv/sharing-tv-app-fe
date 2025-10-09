@@ -1,9 +1,10 @@
+// src/environments/environment.prod.ts
 export const environment = {
   production: true,
-  // backend deployato (es. su Cloud Run o VPS con dominio configurato)
-  apiBaseUrl: 'https://tuo-dominio-backend.com/api',
 
-  // stream HLS dal media server in produzione
-  liveHlsUrl: 'https://tuo-dominio-backend.com/live/stream/index.m3u8',
+  // backend API deployato su Cloud Run
+  apiBaseUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/api',
+
+  // stream HLS dal media server in produzione (OME)
+  liveHlsUrl: 'http://91.99.119.51:8880/live/stream/index.m3u8',
 };
-
