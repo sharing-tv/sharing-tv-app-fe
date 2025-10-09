@@ -2,30 +2,28 @@
 FROM node:20 AS build
 WORKDIR /app
 
-# Copia i file del progetto
+# Copia i file di progetto
 COPY package*.json ./
 RUN npm install -g @ionic/cli
 RUN npm install
 
-# Copia il resto del codice
+# Copia tutto il codice sorgente
 COPY . .
 
-# Build Ionic (in modalità produzione)
+# Esegui build di Ionic in produzione
 RUN ionic build --configuration production
 
 # STEP 2: Serve con NGINX
 FROM nginx:alpine
 
-# Cambia porta di ascolto (Cloud Run usa 8080)
+# Imposta la porta corretta per Cloud Run
 RUN sed -i 's/listen       80;/listen       8080;/' /etc/nginx/conf.d/default.conf
 
-# Copia il file di configurazione Nginx personalizzato (se lo hai)
+# Copia configurazione personalizzata (se presente)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copia la build generata da Ionic
 COPY --from=build /app/www /usr/share/nginx/html
 
-# Espone la porta 8080
 EXPOSE 8080
-
 CMD ["nginx", "-g", "daemon off;"]
