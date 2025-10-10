@@ -44,4 +44,9 @@ npm run build → build produzione (dist/)
 npm run test → unit test (se configurati)
 
 Esegui la build di produzione
-npx ng build --configuration production
+ionic build --configuration production
+serve -s www -l 8100
+
+
+
+npm install -g serve
