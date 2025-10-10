@@ -15,9 +15,8 @@ export interface LiveStatus {
 })
 export class LiveService {
   private readonly apiUrl = `${environment.apiBaseUrl}/live`;
-  private readonly pollIntervalMs = 10000; // ogni 10s
+  private readonly pollIntervalMs = 10000; // ogni 10 secondi
 
-  // Stato osservabile condiviso
   public readonly liveStatus$ = new BehaviorSubject<LiveStatus>({
     streamUrl: '',
     online: false,
@@ -28,12 +27,10 @@ export class LiveService {
 
   constructor(private http: HttpClient, private zone: NgZone) {}
 
-  /** Avvia il polling periodico per lo stato della live */
+  /** 🔹 Avvia il monitoraggio periodico dello stato live */
   startMonitoring(): void {
-    // 🔹 Primo controllo immediato
     this.fetchLiveStatus();
 
-    // 🔹 Polling ogni 10 secondi
     interval(this.pollIntervalMs)
       .pipe(
         switchMap(() =>
@@ -45,41 +42,45 @@ export class LiveService {
           )
         )
       )
-      .subscribe((status) => this.liveStatus$.next(status));
+      .subscribe((status) => {
+        this.liveStatus$.next(status);
+      });
   }
 
-  /** Effettua subito una richiesta singola di stato */
+  /** 🔹 Effettua un singolo controllo immediato */
   private fetchLiveStatus(): void {
     this.http
       .get<LiveStatus>(this.apiUrl)
-      .pipe(
-        catchError(() => of({ streamUrl: '', online: false }))
-      )
+      .pipe(catchError(() => of({ streamUrl: '', online: false })))
       .subscribe((status) => this.liveStatus$.next(status));
   }
 
-  /** Inizializza il player video con Hls.js o supporto nativo */
+  /** 🔹 Inizializza il player HLS */
   async initPlayer(videoElement: HTMLVideoElement, streamUrl: string, muted = true): Promise<void> {
-    if (!videoElement || !streamUrl) return;
+    if (!videoElement || !streamUrl) {
+      console.warn('⚠️ initPlayer chiamato senza stream valido');
+      return;
+    }
 
     this.videoEl = videoElement;
     this.videoEl.muted = muted;
 
-    // 🔸 Pulizia eventuale player precedente
+    // Pulizia eventuale player precedente
     this.stopPlayer();
 
-    // 🔹 Caso Safari / iOS — HLS nativo
+    // 🔹 Caso Safari/iOS — HLS nativo
     if (this.videoEl.canPlayType('application/vnd.apple.mpegurl')) {
       this.videoEl.src = streamUrl;
       try {
         await this.videoEl.play();
+        console.log('✅ HLS nativo avviato');
       } catch (err) {
         console.warn('⚠️ Autoplay bloccato (Safari):', err);
       }
       return;
     }
 
-    // 🔹 Browser moderni — usa Hls.js
+    // 🔹 Caso browser moderni — usa Hls.js
     if (Hls.isSupported()) {
       this.hlsInstance = new Hls({
         enableWorker: true,
@@ -87,12 +88,16 @@ export class LiveService {
         backBufferLength: 30,
       });
 
+      console.log('🔗 Carico stream HLS:', streamUrl);
       this.hlsInstance.loadSource(streamUrl);
       this.hlsInstance.attachMedia(this.videoEl);
 
       this.hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+        console.log('✅ HLS manifest parsed, avvio playback');
         this.zone.runOutsideAngular(() => {
-          this.videoEl!.play().catch((err) => console.warn('⚠️ Autoplay bloccato:', err));
+          this.videoEl!.play().catch((err) =>
+            console.warn('⚠️ Autoplay bloccato:', err)
+          );
         });
       });
 
@@ -104,7 +109,7 @@ export class LiveService {
     }
   }
 
-  /** Distrugge istanze Hls e resetta il player */
+  /** 🔹 Arresta il player e libera risorse */
   stopPlayer(): void {
     try {
       this.hlsInstance?.destroy();

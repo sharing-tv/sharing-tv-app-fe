@@ -43,3 +43,5 @@ npm run start → dev server (ng serve)
 npm run build → build produzione (dist/)
 npm run test → unit test (se configurati)
 
+Esegui la build di produzione
+npx ng build --configuration production

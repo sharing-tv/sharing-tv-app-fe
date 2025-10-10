@@ -1,3 +1,4 @@
+// src/app/shared/shared.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -21,6 +22,8 @@ import { BackgroundComponent } from '../components/background/background.compone
 import { ChannelLogoComponent } from '../components/channel-logo/channel-logo.component';
 import { TvLogoComponent } from '../components/tv-logo/tv-logo.component';
 import { SloganComponent } from '../components/slogan/slogan.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -45,9 +48,16 @@ import { SloganComponent } from '../components/slogan/slogan.component';
   imports: [
     CommonModule,
     IonicModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule,
+    FormsModule
   ],
   exports: [
+    CommonModule,
+    IonicModule,
+    RouterModule,
+    HttpClientModule,
+    FormsModule,
     RssLiveNewsComponent,
     CanaleNewsComponent,
     CanaleShowComponent,
