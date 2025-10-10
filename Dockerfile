@@ -36,3 +36,4 @@ EXPOSE 8080
 
 # Avvia Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
