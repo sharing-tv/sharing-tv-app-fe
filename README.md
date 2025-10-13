@@ -55,3 +55,18 @@ serve -s www -l 8100
 
 
 npm install -g serve
+
+
+npm install @capacitor/core@latest @capacitor/cli@latest
+Poi installa la piattaforma:
+npm install @capacitor/android@latest @capacitor/ios@latest
+npm install @capacitor/app@latest @capacitor/haptics@latest @capacitor/keyboard@latest @capacitor/status-bar@latest
+E inizializza Capacitor:
+npx cap init sharing-tv-app com.sharingtv.app
+
+npm run build:mobile
+
+
+✅ appId: com.sharingtv.app
+✅ appName: Sharing TV
+✅ webDir: www

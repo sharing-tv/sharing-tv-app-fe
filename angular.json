@@ -58,9 +58,6 @@
                 }
               ],
               "outputHashing": "all",
-
-              
-              "buildOptimizer": false,
               "optimization": {
                 "scripts": true,
                 "styles": true,
@@ -80,13 +77,28 @@
               "sourceMap": true,
               "namedChunks": true
             },
+            "mobile": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "sourceMap": true,
+              "outputHashing": "none",
+              "aot": true,
+              "vendorChunk": false,
+              "extractLicenses": true,
+              "namedChunks": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mobile.ts"
+                }
+              ]
+            },
             "ci": {
               "progress": false
             }
           },
           "defaultConfiguration": "production"
         },
-
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
@@ -96,20 +108,21 @@
             "development": {
               "buildTarget": "app:build:development"
             },
+            "mobile": {
+              "buildTarget": "app:build:mobile"
+            },
             "ci": {
               "progress": false
             }
           },
           "defaultConfiguration": "development"
         },
-
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "buildTarget": "app:build"
           }
         },
-
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -143,7 +156,6 @@
             }
           }
         },
-
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
@@ -156,13 +168,11 @@
       }
     }
   },
-
   "cli": {
     "schematicCollections": [
       "@ionic/angular-toolkit"
     ]
   },
-
   "schematics": {
     "@ionic/angular-toolkit:component": {
       "styleext": "scss"

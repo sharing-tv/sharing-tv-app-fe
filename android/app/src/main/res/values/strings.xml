@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Sharing TV Europa</string>
+    <string name="title_activity_main">Sharing TV Europa</string>
+    <string name="package_name">com.sharingtv.app</string>
+    <string name="custom_url_scheme">com.sharingtv.app</string>
+</resources>

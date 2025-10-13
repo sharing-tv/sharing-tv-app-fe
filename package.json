@@ -1,16 +1,24 @@
 {
   "name": "sharing-app-fe",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
+  "version": "1.0.0",
+  "author": "SharingTV Team",
   "private": true,
+  "description": "Sharing TV – Ionic + Angular 18 + Capacitor 7 mobile app",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:prod": "serve www -l 8100",
     "build": "ng build",
+    "build:prod": "ng build --configuration production",
+    "build:mobile": "ng build --configuration mobile",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "start:prod": "serve www -l 8100"
+    "sync:mobile": "npx cap sync",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios",
+    "prepare:android": "npm run build:mobile && npm run sync:mobile && npm run open:android",
+    "prepare:ios": "npm run build:mobile && npm run sync:mobile && npm run open:ios"
   },
   "dependencies": {
     "@angular/animations": "18.2.12",
@@ -21,11 +29,14 @@
     "@angular/platform-browser": "18.2.12",
     "@angular/platform-browser-dynamic": "18.2.12",
     "@angular/router": "18.2.12",
-    "@capacitor/app": "5.0.6",
-    "@capacitor/core": "5.7.8",
-    "@capacitor/haptics": "5.0.6",
-    "@capacitor/keyboard": "5.0.6",
-    "@capacitor/status-bar": "5.0.6",
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/app": "^7.1.0",
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/haptics": "^7.0.2",
+    "@capacitor/ios": "^7.4.3",
+    "@capacitor/keyboard": "^7.0.3",
+    "@capacitor/status-bar": "^7.0.3",
     "@ionic/angular": "7.8.6",
     "hls.js": "^1.6.13",
     "ionicons": "^7.0.0",
@@ -43,9 +54,7 @@
     "@angular/cli": "18.2.12",
     "@angular/compiler-cli": "18.2.12",
     "@angular/language-service": "18.2.12",
-    "@capacitor/cli": "5.7.8",
     "@ionic/angular-toolkit": "11.0.1",
     "typescript": "5.5.2"
-  },
-  "description": "An Ionic project"
+  }
 }
