@@ -26,21 +26,21 @@ export class LiveComponent implements OnInit, OnDestroy {
 
   constructor(private liveService: LiveService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // 🔹 Prima di tutto, carica la configurazione HLS dal backend
+    await this.liveService.loadStreamConfig();
+
+    // 🔹 Avvia il monitoraggio periodico dello stato live
     this.liveService.startMonitoring();
 
-    // 🔹 Osserva cambiamenti di stato della live
+    // 🔹 Osserva i cambiamenti di stato
     this.sub = this.liveService.liveStatus$.subscribe(async (status: LiveStatus) => {
       this.loading = false;
       this.online = status.online;
 
       if (this.online && this.videoRef?.nativeElement) {
-        console.log('🎥 Stream online, inizializzo player:', status.streamUrl);
-        await this.liveService.initPlayer(
-          this.videoRef.nativeElement,
-          status.streamUrl,
-          this.muted
-        );
+        console.log('🎥 Stream online, inizializzo player');
+        await this.liveService.initPlayer(this.videoRef.nativeElement, this.muted);
       } else if (!this.online) {
         console.warn('⚫ Stream offline, stop player');
         this.liveService.stopPlayer();
@@ -48,6 +48,7 @@ export class LiveComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** 🔊 Attiva manualmente l’audio */
   public unmuteVideo(): void {
     if (this.videoRef?.nativeElement) {
       this.videoRef.nativeElement.muted = false;

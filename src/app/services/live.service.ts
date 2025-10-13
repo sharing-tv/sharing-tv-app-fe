@@ -1,8 +1,7 @@
 // src/app/services/live.service.ts
-
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, interval, switchMap, catchError, of } from 'rxjs';
+import { BehaviorSubject, interval, switchMap, catchError, of, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import Hls from 'hls.js';
 
@@ -11,12 +10,11 @@ export interface LiveStatus {
   online: boolean;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class LiveService {
   private readonly apiUrl = `${environment.apiBaseUrl}/live`;
-  private readonly pollIntervalMs = 10000; // ogni 10 secondi
+  private readonly pollIntervalMs = 10000;
+  private liveUrlFromBackend = '';
 
   public readonly liveStatus$ = new BehaviorSubject<LiveStatus>({
     streamUrl: '',
@@ -27,6 +25,17 @@ export class LiveService {
   private hlsInstance?: Hls;
 
   constructor(private http: HttpClient, private zone: NgZone) {}
+
+  /** 🔹 Carica dinamicamente la URL HLS dal backend */
+  async loadStreamConfig(): Promise<void> {
+    try {
+      const res: any = await firstValueFrom(this.http.get(`${this.apiUrl}/config`));
+      this.liveUrlFromBackend = res?.streamUrl || '';
+      console.log('🌍 URL HLS ricevuta dal backend:', this.liveUrlFromBackend);
+    } catch (err) {
+      console.error('❌ Errore nel caricamento config HLS:', err);
+    }
+  }
 
   /** 🔹 Avvia il monitoraggio periodico dello stato live */
   startMonitoring(): void {
@@ -43,9 +52,7 @@ export class LiveService {
           )
         )
       )
-      .subscribe((status) => {
-        this.liveStatus$.next(status);
-      });
+      .subscribe((status) => this.liveStatus$.next(status));
   }
 
   /** 🔹 Effettua un singolo controllo immediato */
@@ -57,11 +64,8 @@ export class LiveService {
   }
 
   /** 🔹 Inizializza il player HLS */
-  async initPlayer(
-    videoElement: HTMLVideoElement,
-    streamUrl: string,
-    muted = true
-  ): Promise<void> {
+  async initPlayer(videoElement: HTMLVideoElement, muted = true): Promise<void> {
+    const streamUrl = this.liveUrlFromBackend || environment.liveHlsUrl;
     if (!videoElement || !streamUrl) {
       console.warn('⚠️ initPlayer chiamato senza stream valido');
       return;
@@ -69,7 +73,6 @@ export class LiveService {
 
     // Arresta eventuale player precedente
     this.stopPlayer();
-
     this.videoEl = videoElement;
     this.videoEl.muted = muted;
 
@@ -89,15 +92,15 @@ export class LiveService {
     if (Hls.isSupported()) {
       this.hlsInstance = new Hls({
         enableWorker: true,
-        lowLatencyMode: false,           // Mantieni disattivo (più stabile)
-        backBufferLength: 60,            // Più margine per saltare micro-stalli
-        liveSyncDuration: 8,             // Allinea al segmento reale (6-8s)
-        liveMaxLatencyDuration: 16,      // Tolleranza doppia
-        maxLiveSyncPlaybackRate: 1.0,    // Evita salti in avanti aggressivi
-        maxBufferLength: 45,             // Buffer più grande
-        maxBufferHole: 3,                // Ignora micro-gap più lunghi
-        maxStarvationDelay: 5,           // Evita stall prolungati in play
-        fragLoadingTimeOut: 20000,       // Timeout segmenti più alto
+        lowLatencyMode: false,
+        backBufferLength: 60,
+        liveSyncDuration: 8,
+        liveMaxLatencyDuration: 16,
+        maxLiveSyncPlaybackRate: 1.0,
+        maxBufferLength: 45,
+        maxBufferHole: 3,
+        maxStarvationDelay: 5,
+        fragLoadingTimeOut: 20000,
         manifestLoadingTimeOut: 15000,
         manifestLoadingRetryDelay: 2000,
         manifestLoadingMaxRetry: 5,
@@ -109,36 +112,23 @@ export class LiveService {
       this.hlsInstance.loadSource(streamUrl);
       this.hlsInstance.attachMedia(this.videoEl);
 
-      // 🔹 Manifest caricato
+      // Manifest caricato
       this.hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
         console.log('✅ HLS manifest parsed, avvio playback');
         this.zone.runOutsideAngular(() => {
-          this.videoEl!.play().catch((err) => {
-            console.warn('⚠️ Autoplay bloccato:', err);
-          });
+          this.videoEl!.play().catch((err) => console.warn('⚠️ Autoplay bloccato:', err));
         });
       });
 
-      // 🔹 Gestione errori dettagliata e auto-recovery
+      // Gestione errori e recovery
       this.hlsInstance.on(Hls.Events.ERROR, (event, data) => {
-        console.error(
-          '💥 HLS error:',
-          `details=${data.details}`,
-          `type=${data.type}`,
-          `fatal=${data.fatal}`,
-          data
-        );
+        console.error('💥 HLS error:', `details=${data.details}`, `type=${data.type}`, `fatal=${data.fatal}`, data);
 
-        // 🔸 Gestione stall non fatale
         if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR && !data.fatal) {
           console.warn('⏸️ Buffer stall rilevato — forzo resume');
-          this.videoEl?.play().catch(() => {
-            console.warn('⚠️ Tentativo di resume fallito, ritento...');
-            setTimeout(() => this.videoEl?.play(), 1500);
-          });
+          this.videoEl?.play().catch(() => setTimeout(() => this.videoEl?.play(), 1500));
         }
 
-        // 🔸 Gestione errori fatali
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
