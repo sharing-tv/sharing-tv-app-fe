@@ -10,7 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "start:prod": "serve www --port 8100"
+    "start:prod": "serve www -l 8100"
   },
   "dependencies": {
     "@angular/animations": "18.2.12",

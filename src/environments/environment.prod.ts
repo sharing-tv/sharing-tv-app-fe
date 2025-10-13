@@ -8,3 +8,4 @@ export const environment = {
   // stream HLS dal media server in produzione (OME)
   liveHlsUrl: 'http://91.99.119.51:8880/live/stream/index.m3u8',
 };
+

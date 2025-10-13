@@ -40,7 +40,12 @@ HLS → http://localhost:8888/live/index.m3u8
 
 Scripts utili:
 npm run start → dev server (ng serve)
-npm run build → build produzione (dist/)
+npm run build → build produzione (dist/) Questo genera la cartella: 
+www/
+
+Avvia il server locale in modalità produzione
+npm run start:prod
+
 npm run test → unit test (se configurati)
 
 Esegui la build di produzione
