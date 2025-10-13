@@ -2,10 +2,11 @@
 export const environment = {
   production: true,
 
-  // backend API deployato su Cloud Run
+  // ✅ Backend API Cloud Run
   apiBaseUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/api',
 
-  // stream HLS dal media server in produzione (OME)
-  liveHlsUrl: 'http://91.99.119.51:8880/live/stream/index.m3u8',
+  // ✅ Stream HLS tramite proxy backend Cloud Run
+  liveHlsUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/proxy/hls/live/stream/index.m3u8',
+  liveUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/proxy/hls/live/stream/index.m3u8',
 };
 

@@ -2,11 +2,11 @@
 export const environment = {
   production: false,
 
-  // ✅ Backend API (locale o remoto)
+  // ✅ Backend API locale
   apiBaseUrl: 'http://localhost:4100/api',
 
-  // stream HLS locale
-  liveHlsUrl: 'http://91.99.119.51:8880/live/stream/index.m3u8',
-  liveUrl: 'http://91.99.119.51:8880/live/stream/index.m3u8',
+  // ✅ Stream HLS tramite proxy backend (locale)
+  liveHlsUrl: 'http://localhost:4100/proxy/hls/live/stream/index.m3u8',
+  liveUrl: 'http://localhost:4100/proxy/hls/live/stream/index.m3u8',
 };
 
