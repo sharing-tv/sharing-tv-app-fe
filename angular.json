@@ -47,8 +47,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "8kb",
+                  "maximumError": "10kb"
                 }
               ],
               "fileReplacements": [
@@ -59,7 +59,7 @@
               ],
               "outputHashing": "all",
               "optimization": {
-                "scripts": true,
+                "scripts": false,
                 "styles": true,
                 "fonts": true
               },

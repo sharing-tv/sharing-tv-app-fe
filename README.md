@@ -70,3 +70,11 @@ npm run build:mobile
 ✅ appId: com.sharingtv.app
 ✅ appName: Sharing TV
 ✅ webDir: www
+
+
+Questo fa automaticamente: npm run prepare:android
+ng build --configuration mobile
+npx cap sync
+npx cap open android
+
+npm run prepare:android

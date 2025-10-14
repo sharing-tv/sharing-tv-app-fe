@@ -10,8 +10,8 @@ COPY package*.json ./
 # Installa Ionic e Angular CLI globalmente
 RUN npm install -g @angular/cli @ionic/cli
 
-# Installa le dipendenze del progetto
-RUN npm install
+# Installa le dipendenze del progetto (usa npm ci per build riproducibili)
+RUN npm ci
 
 # Copia tutto il codice sorgente nel container
 COPY . .
