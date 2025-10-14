@@ -49,6 +49,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     IonicModule,
     RouterModule,
+    HttpClientModule,
     FormsModule
   ],
   exports: [

@@ -1,5 +1,12 @@
 /* src/app/lives/live/live.component.scss */
 /* Contenitore principale */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+
 .live-wrapper {
   display: flex;
   flex-direction: column;
@@ -119,3 +126,4 @@ video,
     font-size: 12px;
   }
 }
+

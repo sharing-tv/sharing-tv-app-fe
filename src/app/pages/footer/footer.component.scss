@@ -6,20 +6,24 @@
   z-index: 1000;
 }
 
+/* 🌌 Griglia footer */
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   padding: 12px;
-  background: #111; // colore scuro
+  background: rgba(17, 17, 17, 0.9); // leggero effetto trasparente sul background stellato
+  backdrop-filter: blur(6px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* 🔹 Singolo item */
 .footer-item {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #222;
+  background: rgba(34, 34, 34, 0.85);
   color: white;
   border-radius: 8px;
   padding: 16px;
@@ -30,7 +34,7 @@
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   }
 
   h3 {
@@ -43,6 +47,9 @@
     margin: 0;
   }
 }
+
+
+
 
 /* Mobile first */
 @media (max-width: 768px) {

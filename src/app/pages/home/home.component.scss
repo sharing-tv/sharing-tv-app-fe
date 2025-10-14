@@ -1,11 +1,40 @@
 /* src/app/pages/home/home.component.scss */
 @import "src/theme/variables";
 
+/* === LAYOUT BASE === */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Centra tutto sopra il background */
+ion-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* usa center per centratura verticale */
+  text-align: center;
+  padding: 20px;
+  z-index: 2;
+}
+
+/* === DISTANZE TRA SEZIONI === */
+app-tv-logo {
+  margin-top: 3rem;
+}
+
+app-slogan {
+  margin-top: 1rem;
+}
+
 /* 🔝 Wrapper griglia canali */
 .channels-wrapper {
-  margin: 16px auto;
+  margin-top: 2rem;
   width: 100%;
-  max-width: 1200px;
+  display: flex;
+  justify-content: center;
 
   @include respond-above(md) {
     margin: 24px auto;
@@ -18,13 +47,15 @@
 
 /* 🎥 Wrapper live centrale */
 .live-wrapper {
-  margin: 20px auto;
+  margin-top: 2rem;
   width: 100%;
   max-width: 1000px;
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
 
   @include respond-above(md) {
     margin: 28px auto;
@@ -37,6 +68,40 @@
   @include respond-above(xl) {
     margin: 40px auto;
     border-radius: 16px;
+  }
+}
+
+/* 📰 RSS ticker */
+app-rss-live-news {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+/* 🔻 Footer */
+app-footer {
+  margin-top: 4rem;
+  width: 100%;
+}
+
+/* === RESPONSIVE ADJUSTMENTS === */
+@include respond-above(md) {
+  ion-content {
+    padding: 40px;
+  }
+}
+
+@include respond-above(lg) {
+  app-tv-logo {
+    margin-top: 4rem;
+  }
+  app-slogan {
+    margin-top: 1.5rem;
+  }
+  .channels-wrapper {
+    margin-top: 3rem;
+  }
+  .live-wrapper {
+    margin-top: 3rem;
   }
 }
 
