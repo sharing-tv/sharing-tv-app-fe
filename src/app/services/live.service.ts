@@ -1,4 +1,5 @@
 // src/app/services/live.service.ts
+
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, interval, switchMap, catchError, of, firstValueFrom } from 'rxjs';
@@ -21,6 +22,7 @@ export class LiveService {
     online: false,
   });
 
+  private lastOnlineStatus = false; // 🔸 evita emissioni duplicate
   private videoEl?: HTMLVideoElement;
   private hlsInstance?: Hls;
 
@@ -52,7 +54,13 @@ export class LiveService {
           )
         )
       )
-      .subscribe((status) => this.liveStatus$.next(status));
+      .subscribe((status) => {
+        // 🔸 Pubblica solo se lo stato online cambia
+        if (status.online !== this.lastOnlineStatus) {
+          this.lastOnlineStatus = status.online;
+          this.liveStatus$.next(status);
+        }
+      });
   }
 
   /** 🔹 Effettua un singolo controllo immediato */
@@ -60,7 +68,10 @@ export class LiveService {
     this.http
       .get<LiveStatus>(this.apiUrl)
       .pipe(catchError(() => of({ streamUrl: '', online: false })))
-      .subscribe((status) => this.liveStatus$.next(status));
+      .subscribe((status) => {
+        this.lastOnlineStatus = status.online;
+        this.liveStatus$.next(status);
+      });
   }
 
   /** 🔹 Inizializza il player HLS */
@@ -112,7 +123,6 @@ export class LiveService {
       this.hlsInstance.loadSource(streamUrl);
       this.hlsInstance.attachMedia(this.videoEl);
 
-      // Manifest caricato
       this.hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
         console.log('✅ HLS manifest parsed, avvio playback');
         this.zone.runOutsideAngular(() => {
@@ -120,7 +130,6 @@ export class LiveService {
         });
       });
 
-      // Gestione errori e recovery
       this.hlsInstance.on(Hls.Events.ERROR, (event, data) => {
         console.error('💥 HLS error:', `details=${data.details}`, `type=${data.type}`, `fatal=${data.fatal}`, data);
 

@@ -1,4 +1,5 @@
 // src/app/lives/live/live.component.ts
+
 import {
   Component,
   OnDestroy,
@@ -27,23 +28,27 @@ export class LiveComponent implements OnInit, OnDestroy {
   constructor(private liveService: LiveService) {}
 
   async ngOnInit(): Promise<void> {
-    // 🔹 Prima di tutto, carica la configurazione HLS dal backend
+    // 🔹 Carica la configurazione HLS dal backend
     await this.liveService.loadStreamConfig();
 
-    // 🔹 Avvia il monitoraggio periodico dello stato live
+    // 🔹 Avvia il monitoraggio dello stato live
     this.liveService.startMonitoring();
 
-    // 🔹 Osserva i cambiamenti di stato
+    // 🔹 Osserva i cambiamenti reali di stato
     this.sub = this.liveService.liveStatus$.subscribe(async (status: LiveStatus) => {
       this.loading = false;
-      this.online = status.online;
 
-      if (this.online && this.videoRef?.nativeElement) {
-        console.log('🎥 Stream online, inizializzo player');
-        await this.liveService.initPlayer(this.videoRef.nativeElement, this.muted);
-      } else if (!this.online) {
-        console.warn('⚫ Stream offline, stop player');
-        this.liveService.stopPlayer();
+      // Solo se cambia stato
+      if (status.online !== this.online) {
+        this.online = status.online;
+
+        if (this.online && this.videoRef?.nativeElement) {
+          console.log('🎥 Stream online — avvio player');
+          await this.liveService.initPlayer(this.videoRef.nativeElement, this.muted);
+        } else if (!this.online) {
+          console.warn('🔴 Stream offline — stop player');
+          this.liveService.stopPlayer();
+        }
       }
     });
   }
