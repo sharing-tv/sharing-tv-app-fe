@@ -26,7 +26,7 @@ FROM nginx:alpine
 RUN sed -i 's/listen       80;/listen       8080;/' /etc/nginx/conf.d/default.conf
 
 # Copia il file di configurazione Nginx personalizzato (se lo usi)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copia la build di produzione dal primo stage
 COPY --from=build /app/www /usr/share/nginx/html
