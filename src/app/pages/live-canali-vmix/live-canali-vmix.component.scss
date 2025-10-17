@@ -1,3 +1,35 @@
+
+.live-header {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    margin: 0;
+    padding: 0 10px;
+
+    span {
+      color: #ff3366; // accento rosso per "Sharing TV Europa"
+    }
+
+    @media (min-width: 768px) {
+      font-size: 2rem;
+    }
+
+    @media (min-width: 1200px) {
+      font-size: 2.4rem;
+    }
+  }
+}
+
+
 .vmix-container {
   display: flex;
   justify-content: center;

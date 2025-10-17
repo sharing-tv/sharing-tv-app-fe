@@ -10,6 +10,11 @@
     <!-- Badge LIVE -->
     <div *ngIf="online" class="live-badge">LIVE</div>
 
+    <!-- Overlay autoplay bloccato -->
+    <div *ngIf="autoplayBlocked" class="autoplay-overlay" (click)="startPlayback()">
+      ▶️ Clicca per avviare il live
+    </div>
+
     <!-- Video player -->
     <video
       #liveVideo

@@ -3,18 +3,12 @@
     "target": "http://localhost:4100",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "info",
-    "headers": {
-      "Access-Control-Allow-Origin": "*"
-    }
+    "logLevel": "info"
   },
   "/proxy": {
     "target": "http://localhost:4100",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "info",
-    "headers": {
-      "Access-Control-Allow-Origin": "*"
-    }
+    "logLevel": "info"
   }
 }

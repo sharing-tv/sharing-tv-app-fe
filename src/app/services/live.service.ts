@@ -1,5 +1,4 @@
 // src/app/services/live.service.ts
-
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -75,57 +74,59 @@ export class LiveService {
       });
   }
 
-  /** 🔹 Inizializza il player video con fallback per iOS / Android */
+  /** 🔹 Inizializza il player video con gestione autoplay */
   async initPlayer(videoElement: HTMLVideoElement, muted = true): Promise<void> {
     const streamUrl = this.liveUrlFromBackend || environment.liveHlsUrl;
     if (!videoElement || !streamUrl) return;
 
     this.stopPlayer();
     this.videoEl = videoElement;
+
+    // Imposta proprietà essenziali
     this.videoEl.muted = muted;
-    this.videoEl.playsInline = true;
     this.videoEl.autoplay = true;
+    this.videoEl.playsInline = true;
+    this.videoEl.setAttribute('muted', '');
+    this.videoEl.setAttribute('playsinline', '');
+    this.videoEl.setAttribute('webkit-playsinline', '');
 
     const ua = navigator.userAgent;
     const isIOS = /iPhone|iPad|iPod/.test(ua);
     const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
     const isAndroid = /Android/.test(ua);
 
-    // 🔹 Safari / iOS: HLS nativo
+    // 🔹 Safari / iOS → HLS nativo
     if (isIOS || isSafari || this.videoEl.canPlayType('application/vnd.apple.mpegurl')) {
       console.log('🍎 Safari/iOS: uso HLS nativo');
       this.videoEl.src = streamUrl;
-
       try {
-        await this.videoEl.play();
+        await this.videoEl?.play();
         console.log('✅ Riproduzione nativa avviata');
       } catch (err) {
-        console.warn('⚠️ Autoplay iOS bloccato:', err);
-        try {
-          await this.videoEl.play();
-          setTimeout(() => this.videoEl?.pause(), 200);
-        } catch {}
+        console.warn('⚠️ Autoplay bloccato (iOS/Safari):', err);
       }
       return;
     }
 
-    // 🔹 Browser moderni: Hls.js
+    // 🔹 Browser moderni → Hls.js
     if (Hls.isSupported()) {
       this.hlsInstance = new Hls({
         enableWorker: true,
         lowLatencyMode: false,
+        debug: false,
       });
+
       this.hlsInstance.loadSource(streamUrl);
       this.hlsInstance.attachMedia(this.videoEl);
 
-      this.hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-        this.zone.runOutsideAngular(() => {
-          if (!this.videoEl) return;
-          this.videoEl
-            .play()
-            .then(() => console.log('✅ Playback Hls.js avviato'))
-            .catch((err) => console.warn('⚠️ Autoplay bloccato:', err));
-        });
+      this.hlsInstance.on(Hls.Events.MANIFEST_PARSED, async () => {
+        if (!this.videoEl) return;
+        try {
+          await this.videoEl.play();
+          console.log('✅ Playback Hls.js avviato');
+        } catch (err) {
+          console.warn('⚠️ Autoplay bloccato (Hls.js):', err);
+        }
       });
 
       this.hlsInstance.on(Hls.Events.ERROR, (event, data) => {
@@ -137,12 +138,12 @@ export class LiveService {
       return;
     }
 
-    // 🔹 Fallback Android WebView
+    // 🔹 Fallback Android
     if (isAndroid) {
       this.videoEl.src = streamUrl;
       this.videoEl.load();
       try {
-        await this.videoEl.play();
+        await this.videoEl?.play();
         console.log('✅ Playback fallback Android avviato');
       } catch (err) {
         console.warn('⚠️ Playback Android bloccato:', err);
@@ -158,6 +159,9 @@ export class LiveService {
     this.hlsInstance = undefined;
 
     if (this.videoEl) {
+      try {
+        this.videoEl.pause();
+      } catch {}
       this.videoEl.removeAttribute('src');
       this.videoEl.load();
       this.videoEl = null;
