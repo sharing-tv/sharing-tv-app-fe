@@ -6,7 +6,6 @@
   width: 100%;
 }
 
-
 .live-wrapper {
   display: flex;
   flex-direction: column;
@@ -40,16 +39,9 @@ video,
   object-fit: cover;
   border: none;
   background-color: #000;
-  display: block;
-  transition: opacity 0.8s ease-in-out;
-  opacity: 1;
-
-  &.hidden {
-    opacity: 0;
-  }
 }
 
-/* Badge LIVE animato */
+/* Badge LIVE */
 .live-badge {
   position: absolute;
   top: 10px;
@@ -66,17 +58,11 @@ video,
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.05);
-  }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
 }
 
-/* Overlay di caricamento */
+/* Overlay caricamento */
 .loading-overlay {
   position: absolute;
   inset: 0;
@@ -101,9 +87,25 @@ video,
 }
 
 @keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pulsante manuale Play */
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #e91e63;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 
 /* Messaggio Offline */
@@ -124,6 +126,12 @@ video,
     top: 8px;
     left: 8px;
     font-size: 12px;
+  }
+
+  .play-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 18px;
   }
 }
 

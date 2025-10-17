@@ -1,33 +1,41 @@
 <!-- src/app/lives/live/live.component.html -->
-<!-- <ion-content> -->
-  <div class="live-wrapper">
-    <div class="video-wrapper">
-      <!-- Overlay caricamento -->
-      <div *ngIf="loading" class="loading-overlay">
-        <div class="spinner"></div>
-        <span>Caricamento live...</span>
-      </div>
-
-      <!-- Badge LIVE -->
-      <div *ngIf="online" class="live-badge">LIVE</div>
-
-      <!-- Video player -->
-      <video
-        #liveVideo
-        id="liveVideo"
-        class="live-video"
-        controls
-        autoplay
-        muted
-        playsinline
-        preload="none"
-      ></video>
+<div class="live-wrapper">
+  <div class="video-wrapper">
+    <!-- Overlay caricamento -->
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <span>Caricamento live...</span>
     </div>
 
-    <!-- Messaggio offline -->
-    <div *ngIf="!online && !loading" class="offline-msg">
-      ⚫ Live offline
-    </div>
+    <!-- Badge LIVE -->
+    <div *ngIf="online" class="live-badge">LIVE</div>
+
+    <!-- Video player -->
+    <video
+      #liveVideo
+      id="liveVideo"
+      class="live-video"
+      controls
+      autoplay
+      muted
+      playsinline
+      webkit-playsinline
+      preload="auto"
+    ></video>
+
+    <!-- Bottone di avvio manuale (per Safari iOS se autoplay bloccato) -->
+    <button
+      *ngIf="online && !loading"
+      class="play-btn"
+      (click)="unmuteVideo()"
+    >
+      ▶️ Avvia Live
+    </button>
   </div>
-<!-- </ion-content> -->
+
+  <!-- Messaggio offline -->
+  <div *ngIf="!online && !loading" class="offline-msg">
+    ⚫ Live offline
+  </div>
+</div>
 

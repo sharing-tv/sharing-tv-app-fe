@@ -2,7 +2,14 @@
 
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, interval, switchMap, catchError, of, firstValueFrom } from 'rxjs';
+import {
+  BehaviorSubject,
+  interval,
+  switchMap,
+  catchError,
+  of,
+  firstValueFrom,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import Hls from 'hls.js';
 
@@ -22,7 +29,7 @@ export class LiveService {
     online: false,
   });
 
-  private lastOnlineStatus = false; // 🔸 evita emissioni duplicate
+  private lastOnlineStatus = false;
   private videoEl?: HTMLVideoElement;
   private hlsInstance?: Hls;
 
@@ -31,7 +38,9 @@ export class LiveService {
   /** 🔹 Carica dinamicamente la URL HLS dal backend */
   async loadStreamConfig(): Promise<void> {
     try {
-      const res: any = await firstValueFrom(this.http.get(`${this.apiUrl}/config`));
+      const res: any = await firstValueFrom(
+        this.http.get(`${this.apiUrl}/config`)
+      );
       this.liveUrlFromBackend = res?.streamUrl || '';
       console.log('🌍 URL HLS ricevuta dal backend:', this.liveUrlFromBackend);
     } catch (err) {
@@ -55,7 +64,6 @@ export class LiveService {
         )
       )
       .subscribe((status) => {
-        // 🔸 Pubblica solo se lo stato online cambia
         if (status.online !== this.lastOnlineStatus) {
           this.lastOnlineStatus = status.online;
           this.liveStatus$.next(status);
@@ -86,20 +94,27 @@ export class LiveService {
     this.stopPlayer();
     this.videoEl = videoElement;
     this.videoEl.muted = muted;
+    this.videoEl.playsInline = true;
 
-    // 🔹 Caso Safari/iOS — HLS nativo
-    if (this.videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+    // 🔹 Rileva Safari / iOS
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+
+    // 🔹 Usa HLS nativo se Safari o iOS
+    if (isIOS || isSafari || this.videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+      console.log('🍎 Rilevato Safari/iOS — uso HLS nativo');
       this.videoEl.src = streamUrl;
       try {
         await this.videoEl.play();
-        console.log('✅ HLS nativo avviato (Safari/iOS)');
+        console.log('✅ Playback nativo avviato');
       } catch (err) {
-        console.warn('⚠️ Autoplay bloccato (Safari):', err);
+        console.warn('⚠️ Autoplay bloccato, richiede interazione utente:', err);
       }
       return;
     }
 
-    // 🔹 Caso browser moderni — usa Hls.js
+    // 🔹 Browser moderni — usa Hls.js
     if (Hls.isSupported()) {
       this.hlsInstance = new Hls({
         enableWorker: true,
@@ -107,35 +122,30 @@ export class LiveService {
         backBufferLength: 60,
         liveSyncDuration: 8,
         liveMaxLatencyDuration: 16,
-        maxLiveSyncPlaybackRate: 1.0,
-        maxBufferLength: 45,
-        maxBufferHole: 3,
-        maxStarvationDelay: 5,
-        fragLoadingTimeOut: 20000,
-        manifestLoadingTimeOut: 15000,
-        manifestLoadingRetryDelay: 2000,
-        manifestLoadingMaxRetry: 5,
         fragLoadingMaxRetry: 5,
-        fragLoadingRetryDelay: 2000,
       });
 
-      console.log('🔗 Carico stream HLS:', streamUrl);
+      console.log('🔗 Carico stream HLS con Hls.js:', streamUrl);
       this.hlsInstance.loadSource(streamUrl);
       this.hlsInstance.attachMedia(this.videoEl);
 
       this.hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
         console.log('✅ HLS manifest parsed, avvio playback');
         this.zone.runOutsideAngular(() => {
-          this.videoEl!.play().catch((err) => console.warn('⚠️ Autoplay bloccato:', err));
+          this.videoEl!.play().catch((err) =>
+            console.warn('⚠️ Autoplay bloccato:', err)
+          );
         });
       });
 
       this.hlsInstance.on(Hls.Events.ERROR, (event, data) => {
-        console.error('💥 HLS error:', `details=${data.details}`, `type=${data.type}`, `fatal=${data.fatal}`, data);
+        console.error('💥 HLS error:', data.details, data);
 
         if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR && !data.fatal) {
           console.warn('⏸️ Buffer stall rilevato — forzo resume');
-          this.videoEl?.play().catch(() => setTimeout(() => this.videoEl?.play(), 1500));
+          this.videoEl?.play().catch(() =>
+            setTimeout(() => this.videoEl?.play(), 1500)
+          );
         }
 
         if (data.fatal) {
