@@ -16,7 +16,6 @@
   text-align: center;
 }
 
-/* Contenitore del video */
 .video-wrapper {
   position: relative;
   width: 100%;
@@ -29,7 +28,6 @@
 }
 
 /* Video */
-video,
 .live-video {
   position: absolute;
   top: 0;
@@ -41,7 +39,7 @@ video,
   background-color: #000;
 }
 
-/* Badge LIVE */
+/* LIVE badge */
 .live-badge {
   position: absolute;
   top: 10px;
@@ -90,48 +88,10 @@ video,
   100% { transform: rotate(360deg); }
 }
 
-/* Pulsante manuale Play */
-.play-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #e91e63;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 5;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
-
-/* Messaggio Offline */
 .offline-msg {
   margin-top: 20px;
   color: #aaa;
   font-weight: bold;
   font-size: 18px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .video-wrapper {
-    aspect-ratio: 16 / 9;
-  }
-
-  .live-badge {
-    top: 8px;
-    left: 8px;
-    font-size: 12px;
-  }
-
-  .play-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 18px;
-  }
 }
 

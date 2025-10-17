@@ -35,31 +35,25 @@ export class LiveService {
 
   constructor(private http: HttpClient, private zone: NgZone) {}
 
-  /** 🔹 Carica dinamicamente la URL HLS dal backend */
+  /** 🔹 Carica la URL dello stream dal backend */
   async loadStreamConfig(): Promise<void> {
     try {
-      const res: any = await firstValueFrom(
-        this.http.get(`${this.apiUrl}/config`)
-      );
+      const res: any = await firstValueFrom(this.http.get(`${this.apiUrl}/config`));
       this.liveUrlFromBackend = res?.streamUrl || '';
-      console.log('🌍 URL HLS ricevuta dal backend:', this.liveUrlFromBackend);
+      console.log('🌍 URL HLS dal backend:', this.liveUrlFromBackend);
     } catch (err) {
-      console.error('❌ Errore nel caricamento config HLS:', err);
+      console.error('❌ Errore caricamento config HLS:', err);
     }
   }
 
-  /** 🔹 Avvia il monitoraggio periodico dello stato live */
+  /** 🔹 Controlla stato live ogni 10s */
   startMonitoring(): void {
     this.fetchLiveStatus();
-
     interval(this.pollIntervalMs)
       .pipe(
         switchMap(() =>
           this.http.get<LiveStatus>(this.apiUrl).pipe(
-            catchError((err) => {
-              console.error('❌ Errore nel controllo live:', err);
-              return of({ streamUrl: '', online: false });
-            })
+            catchError(() => of({ streamUrl: '', online: false }))
           )
         )
       )
@@ -71,7 +65,6 @@ export class LiveService {
       });
   }
 
-  /** 🔹 Effettua un singolo controllo immediato */
   private fetchLiveStatus(): void {
     this.http
       .get<LiveStatus>(this.apiUrl)
@@ -82,55 +75,43 @@ export class LiveService {
       });
   }
 
-  /** 🔹 Inizializza il player HLS */
+  /** 🔹 Inizializza il player video */
   async initPlayer(videoElement: HTMLVideoElement, muted = true): Promise<void> {
     const streamUrl = this.liveUrlFromBackend || environment.liveHlsUrl;
-    if (!videoElement || !streamUrl) {
-      console.warn('⚠️ initPlayer chiamato senza stream valido');
-      return;
-    }
+    if (!videoElement || !streamUrl) return;
 
-    // Arresta eventuale player precedente
     this.stopPlayer();
     this.videoEl = videoElement;
     this.videoEl.muted = muted;
     this.videoEl.playsInline = true;
 
-    // 🔹 Rileva Safari / iOS
+    // 🔍 Safari / iOS nativo
     const ua = navigator.userAgent;
-    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isIOS = /iPhone|iPad|iPod/.test(ua);
     const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
 
-    // 🔹 Usa HLS nativo se Safari o iOS
     if (isIOS || isSafari || this.videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-      console.log('🍎 Rilevato Safari/iOS — uso HLS nativo');
+      console.log('🍎 Safari/iOS: HLS nativo');
       this.videoEl.src = streamUrl;
       try {
         await this.videoEl.play();
         console.log('✅ Playback nativo avviato');
       } catch (err) {
-        console.warn('⚠️ Autoplay bloccato, richiede interazione utente:', err);
+        console.warn('⚠️ Richiesta interazione utente (autoplay bloccato):', err);
       }
       return;
     }
 
-    // 🔹 Browser moderni — usa Hls.js
+    // 🔹 Hls.js per gli altri browser
     if (Hls.isSupported()) {
       this.hlsInstance = new Hls({
         enableWorker: true,
         lowLatencyMode: false,
-        backBufferLength: 60,
-        liveSyncDuration: 8,
-        liveMaxLatencyDuration: 16,
-        fragLoadingMaxRetry: 5,
       });
-
-      console.log('🔗 Carico stream HLS con Hls.js:', streamUrl);
       this.hlsInstance.loadSource(streamUrl);
       this.hlsInstance.attachMedia(this.videoEl);
 
       this.hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-        console.log('✅ HLS manifest parsed, avvio playback');
         this.zone.runOutsideAngular(() => {
           this.videoEl!.play().catch((err) =>
             console.warn('⚠️ Autoplay bloccato:', err)
@@ -139,44 +120,19 @@ export class LiveService {
       });
 
       this.hlsInstance.on(Hls.Events.ERROR, (event, data) => {
-        console.error('💥 HLS error:', data.details, data);
-
-        if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR && !data.fatal) {
-          console.warn('⏸️ Buffer stall rilevato — forzo resume');
-          this.videoEl?.play().catch(() =>
-            setTimeout(() => this.videoEl?.play(), 1500)
-          );
-        }
-
         if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              console.warn('🌐 Tentativo di recupero rete...');
-              this.hlsInstance?.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              console.warn('🎞️ Tentativo di recupero media...');
-              this.hlsInstance?.recoverMediaError();
-              break;
-            default:
-              console.error('🛑 Errore HLS fatale, distruggo istanza');
-              this.stopPlayer();
-              break;
-          }
+          console.error('💥 Errore HLS fatale:', data);
+          this.stopPlayer();
         }
       });
-    } else {
-      console.error('❌ HLS non supportato su questo browser');
     }
   }
 
-  /** 🔹 Arresta il player e libera risorse */
+  /** 🔹 Ferma e resetta il player */
   stopPlayer(): void {
     try {
       this.hlsInstance?.destroy();
-    } catch (e) {
-      console.warn('⚠️ Errore nella distruzione Hls:', e);
-    }
+    } catch {}
     this.hlsInstance = undefined;
 
     if (this.videoEl) {

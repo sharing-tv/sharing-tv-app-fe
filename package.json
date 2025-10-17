@@ -13,6 +13,7 @@
     "build:mobile": "ng build --configuration mobile",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:live": "npm run build && node tools/test-live.js",
     "lint": "ng lint",
     "sync:mobile": "npx cap sync",
     "open:android": "npx cap open android",
@@ -55,6 +56,8 @@
     "@angular/compiler-cli": "18.2.12",
     "@angular/language-service": "18.2.12",
     "@ionic/angular-toolkit": "11.0.1",
+    "chalk": "^5.6.2",
+    "ngrok": "^5.0.0-beta.2",
     "typescript": "5.5.2"
   }
 }

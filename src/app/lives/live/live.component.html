@@ -22,15 +22,6 @@
       webkit-playsinline
       preload="auto"
     ></video>
-
-    <!-- Bottone di avvio manuale (per Safari iOS se autoplay bloccato) -->
-    <button
-      *ngIf="online && !loading"
-      class="play-btn"
-      (click)="unmuteVideo()"
-    >
-      ▶️ Avvia Live
-    </button>
   </div>
 
   <!-- Messaggio offline -->
