@@ -2,10 +2,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    /* === Percorsi e output === */
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
 
-    /* Controlli di qualità */
+    /* === Controlli di qualità === */
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -13,30 +14,44 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
-    /* Output e compatibilità */
+    /* === Compatibilità e generazione === */
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2022",
-    "module": "es2020",
     "useDefineForClassFields": false,
 
-    /* Librerie di riferimento */
+    /* === Target e moduli === */
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "node",
+
+    /* === Librerie di riferimento === */
     "lib": ["es2018", "dom"],
 
-    /* FIX per errori provenienti da node_modules */
+    /* === Fix per node_modules e compatibilità con import === */
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    /* === Per script Node come tools/test-live.ts === */
+    "resolveJsonModule": true,
+    "types": ["node"]
   },
 
+  /* === Configurazione Angular === */
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+
+  /* === Aggiungiamo l’inclusione dei tool personalizzati === */
+  "include": [
+    "src/**/*.ts",
+    "tools/**/*.ts"
+  ]
 }
+

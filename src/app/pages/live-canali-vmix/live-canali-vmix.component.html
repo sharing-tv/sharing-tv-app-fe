@@ -1,0 +1,27 @@
+<ion-content [fullscreen]="true">
+  <app-background></app-background>
+
+  <div class="vmix-container">
+    <!-- Colonna sinistra -->
+    <div class="side-column left">
+      <app-channel-logo name="news" label="News"></app-channel-logo>
+      <app-channel-logo name="show" label="Show"></app-channel-logo>
+      <app-channel-logo name="arts" label="Arts"></app-channel-logo>
+      <app-channel-logo name="earth" label="Earth"></app-channel-logo>
+    </div>
+
+    <!-- Live centrale -->
+    <div class="center-live">
+      <app-live></app-live>
+    </div>
+
+    <!-- Colonna destra -->
+    <div class="side-column right">
+      <app-channel-logo name="economy" label="Economy"></app-channel-logo>
+      <app-channel-logo name="tech" label="Tech"></app-channel-logo>
+      <app-channel-logo name="life" label="Life"></app-channel-logo>
+      <app-channel-logo name="health" label="Health"></app-channel-logo>
+    </div>
+  </div>
+</ion-content>
+

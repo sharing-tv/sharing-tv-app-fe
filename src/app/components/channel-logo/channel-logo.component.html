@@ -1,5 +1,8 @@
-<!-- src/app/components/channel-logo/channel-logo.component.html -->
-<div class="channel-logo" [ngClass]="name">
+<div
+  class="channel-logo"
+  [ngClass]="name"
+  (click)="goToChannel()"
+>
   <span class="special-s">S</span>
   <div class="label">{{ label }}</div>
 </div>

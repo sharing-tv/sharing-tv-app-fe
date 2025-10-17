@@ -11,6 +11,7 @@ import { CanaleEconomyComponent } from './components/canale-economy/canale-econo
 import { CanaleTechComponent } from './components/canale-tech/canale-tech.component';
 import { CanaleLifeComponent } from './components/canale-life/canale-life.component';
 import { CanaleHealthComponent } from './components/canale-health/canale-health.component';
+import { LiveCanaliVmixComponent } from './pages/live-canali-vmix/live-canali-vmix.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -41,6 +42,13 @@ const routes: Routes = [
   {
     path: 'privacy-policy',
     loadChildren: () => import('./pages/privacy-policy/privacy-policy.module').then( m => m.PrivacyPolicyPageModule)
+  },
+    {
+    path: 'live-canali-vmix',
+    loadChildren: () =>
+      import('./pages/live-canali-vmix/live-canali-vmix.module').then(
+        (m) => m.LiveCanaliVmixModule
+      ),
   },
 ];
 
