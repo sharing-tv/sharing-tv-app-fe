@@ -51,13 +51,18 @@ html, body {
 
 /* === LAYERING CORRETTO === */
 app-background {
-  position: absolute !important; /* non fixed */
+  position: fixed !important; /* non fixed */
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
 }
+
+ion-app, ion-content, ion-page, ion-router-outlet {
+  background: transparent !important;
+}
+
 
 ion-content {
   position: relative;
@@ -74,4 +79,6 @@ app-footer {
   position: relative;
   z-index: 2;
 }
+
+
 

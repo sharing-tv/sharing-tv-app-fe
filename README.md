@@ -78,3 +78,12 @@ npx cap sync
 npx cap open android
 
 npm run prepare:android
+
+
+
+
+Build iOS (Capacitor)
+ionic build --prod
+ionic capacitor copy ios
+ionic capacitor sync ios
+ionic capacitor add ios

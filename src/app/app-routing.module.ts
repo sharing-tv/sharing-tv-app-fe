@@ -19,11 +19,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/home/home.module').then(m => m.HomeModule)
   },
-  {
-    path: 'live',
-    loadChildren: () =>
-      import('./lives/live.module').then(m => m.LiveModule)
-  },
+  // {
+  //   path: 'live',
+  //   loadChildren: () =>
+  //     import('./lives/live.module').then(m => m.LiveModule)
+  // },
   {
   path: 'rss-live-news',
   loadChildren: () =>
@@ -38,6 +38,10 @@ const routes: Routes = [
   { path: 'canale/tech', component: CanaleTechComponent },
   { path: 'canale/life', component: CanaleLifeComponent },
   { path: 'canale/health', component: CanaleHealthComponent },
+  {
+    path: 'privacy-policy',
+    loadChildren: () => import('./pages/privacy-policy/privacy-policy.module').then( m => m.PrivacyPolicyPageModule)
+  },
 ];
 
 @NgModule({

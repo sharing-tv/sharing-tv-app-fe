@@ -42,8 +42,8 @@ import { FormsModule } from '@angular/forms';
     BackgroundComponent,
     ChannelLogoComponent,
     TvLogoComponent,
-    SloganComponent
-    // LiveComponent
+    SloganComponent,
+    LiveComponent
   ],
   imports: [
     CommonModule,
@@ -73,8 +73,8 @@ import { FormsModule } from '@angular/forms';
     BackgroundComponent,
     ChannelLogoComponent,
     TvLogoComponent,
-    SloganComponent
-    // LiveComponent
+    SloganComponent,
+    LiveComponent
   ]
 })
 export class SharedModule {}

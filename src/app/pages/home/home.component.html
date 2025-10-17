@@ -1,26 +1,31 @@
 <!-- src/app/pages/home/home.component.html -->
+<!-- Template principale della pagina Home -->
 <ion-content [fullscreen]="true">
 
-  <!-- 🌌 Sfondo -->
   <app-background></app-background>
-
+  
+  <!-- Logo (deve avere il suo stile nel componente o CSS globale) -->
   <app-tv-logo></app-tv-logo>
+  
+  <!-- Slogan -->
   <app-slogan></app-slogan>
-
-  <!-- 🔝 Canali -->
+  
+  <!-- Wrapper Canali: Qui si userà il selettore del componente app-canali -->
   <div class="channels-wrapper">
+    <!-- Componente Canali con la griglia di link -->
     <app-canali></app-canali>
   </div>
-
-  <!-- 🎥 Live centrale -->
+  
+  <!-- Wrapper Live: Componente che mostra il video in primo piano -->
   <div class="live-wrapper">
     <app-live></app-live>
   </div>
-
-  <!-- 📰 RSS Ticker -->
+  
+  <!-- News in tempo reale (RSS) -->
   <app-rss-live-news></app-rss-live-news>
-
-  <!-- 🔻 Footer -->
+  
+  <!-- Footer -->
   <app-footer></app-footer>
+  
 </ion-content>
 
