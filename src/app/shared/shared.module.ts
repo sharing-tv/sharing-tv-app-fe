@@ -15,7 +15,7 @@ import { CanaleLifeComponent } from '../components/canale-life/canale-life.compo
 import { CanaleHealthComponent } from '../components/canale-health/canale-health.component';
 import { FooterComponent } from '../pages/footer/footer.component';
 import { CanaliComponent } from '../components/canali/canali.component';
-import { LiveComponent } from '../lives/live/live.component';
+// import { LiveComponent } from '../lives/live/live.component';
 import { RouterModule } from '@angular/router';
 import { ComingSoonComponent } from '../pages/coming-soon/coming-soon.component';
 import { BackgroundComponent } from '../components/background/background.component';
@@ -24,6 +24,7 @@ import { TvLogoComponent } from '../components/tv-logo/tv-logo.component';
 import { SloganComponent } from '../components/slogan/slogan.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { LiveNativoComponent } from '../pages/live-nativo/live-nativo.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { FormsModule } from '@angular/forms';
     ChannelLogoComponent,
     TvLogoComponent,
     SloganComponent,
-    LiveComponent
+    LiveNativoComponent
+    // LiveComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +76,8 @@ import { FormsModule } from '@angular/forms';
     ChannelLogoComponent,
     TvLogoComponent,
     SloganComponent,
-    LiveComponent
+    LiveNativoComponent
+    // LiveComponent
   ]
 })
 export class SharedModule {}

@@ -26,6 +26,14 @@ const routes: Routes = [
   //     import('./lives/live.module').then(m => m.LiveModule)
   // },
   {
+  path: 'live-nativo',
+  loadChildren: () =>
+    import('./pages/live-nativo/live-nativo.module').then(
+      (m) => m.LiveNativoModule
+    ),
+  },
+
+  {
   path: 'rss-live-news',
   loadChildren: () =>
     import('./pages/rss-live-news/rss-live-news.module').then(m => m.RssLiveNewsModule)

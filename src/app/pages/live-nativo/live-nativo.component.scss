@@ -1,0 +1,36 @@
+.live-page {
+  --background: #111;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h2 {
+    margin-top: 1rem;
+    color: #ff4081;
+  }
+
+  video {
+    width: 90%;
+    max-width: 960px;
+    border: 3px solid #ff4081;
+    border-radius: 8px;
+    background: #000;
+    margin: 1rem auto;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  ion-button {
+    font-size: 1.1rem;
+    --border-radius: 8px;
+    --padding-start: 1.2rem;
+    --padding-end: 1.2rem;
+  }
+}
+

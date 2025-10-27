@@ -1,0 +1,27 @@
+
+<ion-content class="live-page" [fullscreen]="true">
+  <div class="live-container">
+    <h2>🎥 Trasmetti in diretta (WHIP)</h2>
+
+    <video id="preview" autoplay playsinline muted></video>
+
+    <div class="actions">
+      <ion-button
+        color="danger"
+        (click)="startBroadcast()"
+        *ngIf="!isStreaming"
+      >
+        🎬 Avvia trasmissione
+      </ion-button>
+
+      <ion-button
+        color="medium"
+        (click)="stopBroadcast()"
+        *ngIf="isStreaming"
+      >
+        ⏹ Stop trasmissione
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
+

@@ -10,7 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
-import { LiveService } from './services/live.service';
+// import { LiveService } from './services/live.service';
+import { LiveNativoModule } from './pages/live-nativo/live-nativo.module';
+import { LiveNativoService } from './services/live-nativo.service';
 
 @NgModule({
   declarations: [
@@ -21,12 +23,14 @@ import { LiveService } from './services/live.service';
     IonicModule.forRoot(), 
     AppRoutingModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    LiveNativoModule
   ],
   providers: [{ 
     provide: RouteReuseStrategy, useClass: IonicRouteStrategy 
   },
-  LiveService,
+  // LiveService,
+  LiveNativoService
   ],
   bootstrap: [AppComponent],
 })

@@ -1,22 +1,22 @@
 <!-- src/app/lives/live/live.component.html -->
-<div class="live-wrapper">
-  <div class="video-wrapper">
+<!-- <div class="live-wrapper">
+  <div class="video-wrapper"> -->
     <!-- Overlay caricamento -->
-    <div *ngIf="loading" class="loading-overlay">
+    <!-- <div *ngIf="loading" class="loading-overlay">
       <div class="spinner"></div>
       <span>Caricamento live...</span>
-    </div>
+    </div> -->
 
     <!-- Badge LIVE -->
-    <div *ngIf="online" class="live-badge">LIVE</div>
+    <!-- <div *ngIf="online" class="live-badge">LIVE</div> -->
 
     <!-- Overlay autoplay bloccato -->
-    <div *ngIf="autoplayBlocked" class="autoplay-overlay" (click)="startPlayback()">
+    <!-- <div *ngIf="autoplayBlocked" class="autoplay-overlay" (click)="startPlayback()">
       ▶️ Clicca per avviare il live
-    </div>
+    </div> -->
 
     <!-- Video player -->
-    <video
+    <!-- <video
       #liveVideo
       id="liveVideo"
       class="live-video"
@@ -27,11 +27,11 @@
       muted
       controls
     ></video>
-  </div>
+  </div> -->
 
   <!-- Messaggio offline -->
-  <div *ngIf="!online && !loading" class="offline-msg">
+  <!-- <div *ngIf="!online && !loading" class="offline-msg">
     ⚫ Live offline
   </div>
-</div>
+</div> -->
 
