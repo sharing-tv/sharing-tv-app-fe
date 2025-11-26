@@ -1,0 +1,65 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Canale VOD 24/7</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="center-spinner">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <!-- Errore -->
+  <ion-text color="danger" *ngIf="error">
+    <p class="ion-padding">{{ error }}</p>
+  </ion-text>
+
+  <ng-container *ngIf="!isLoading && !error && nowPlaying as np">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ np.title }}</ion-card-title>
+        <ion-card-subtitle>
+          Sorgente: {{ currentSource || '...' }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <video
+          #videoPlayer
+          controls
+          playsinline
+          webkit-playsinline
+          style="width: 100%; max-height: 60vh; background: #000;"
+        ></video>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Palinsesto / Prossimi -->
+    <ion-list *ngIf="nextItems.length > 0">
+      <ion-list-header>
+        Prossimi in onda
+      </ion-list-header>
+
+      <ion-item *ngFor="let item of nextItems">
+        <ion-label>
+          <h2>{{ item.title }}</h2>
+          <p *ngIf="item.startTime">Inizio: {{ item.startTime }}</p>
+          <p *ngIf="item.length">
+            Durata: ~{{ item.length | number:'1.0-0' }} sec
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+  </ng-container>
+
+</ion-content>
+

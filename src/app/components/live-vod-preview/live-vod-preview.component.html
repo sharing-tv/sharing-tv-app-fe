@@ -1,0 +1,38 @@
+
+<div class="live-preview">
+
+  <!-- VIDEO PLAYER -->
+  <video
+    #player
+    playsinline
+    webkit-playsinline
+    autoplay
+    muted
+    disablePictureInPicture
+    controlsList="nodownload noremoteplayback nofullscreen noplaybackrate"
+    class="video-player no-controls"
+  ></video>
+
+  <!-- OVERLAY GRAFICO STILE TV -->
+  <div class="overlay">
+
+    <!-- BOX LIVE ROSSO -->
+    <div class="live-badge">
+      LIVE
+    </div>
+
+    <!-- TITOLO PROGRAMMA CORRENTE -->
+    <div class="now-playing">
+      <div class="label">In onda adesso:</div>
+      <div class="title">{{ cleanTitle(nowPlaying?.title) }}</div>
+    </div>
+
+    <!-- LOGO TV (personalizzabile) -->
+    <div class="logo">
+      <img src="assets/logo/sharing-tv-white.png" alt="SHARING TV" />
+    </div>
+
+  </div>
+
+</div>
+

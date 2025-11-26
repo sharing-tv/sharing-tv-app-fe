@@ -1,0 +1,41 @@
+
+.buttons {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease, transform 0.1s ease;
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .start {
+    background: #2196f3;
+    color: white;
+  }
+
+  .stop {
+    background: #f44336;
+    color: white;
+  }
+
+  .capture {
+    background: #4caf50;
+    color: white;
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+}
+

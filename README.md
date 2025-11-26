@@ -87,3 +87,49 @@ ionic build --prod
 ionic capacitor copy ios
 ionic capacitor sync ios
 ionic capacitor add ios
+
+ng generate module pages/live-nativo --module app.module.ts
+ng generate module pages/live-nativo/live-nativo-routing --flat --module=pages/live-nativo/live-nativo.module.ts
+ng g c pages/live-nativo --standalone false
+
+# ng g page pages/admin-live-nativo
+
+// ng generate module admin/admin-upload --module app.module.ts
+// ng generate module admin/admin-upload-routing --flat --module=admin/admin-upload/admin-upload.module.ts
+// ng g c admin/admin-upload --standalone false
+
+
+// ng generate module admin/scarica --module app.module.ts
+// ng generate module admin/scarica-routing --flat --module=admin/scarica/scarica.module.ts
+// ng g c admin/scarica --standalone false
+// ng g s admin/scarica/scarica
+
+# ng g m pages/diretta --module app
+# ng g c pages/diretta
+# ng g m pages/diretta-routing --flat --module=pages/diretta/diretta.module.ts
+
+
+# ng g m pages/vod --module app
+ng g c pages/vod
+ng g m pages/vod/vod-routing --flat --module=pages/vod/vod.module.ts
+
+ng g c pages/vod/vod-detail
+
+ionic serve
+
+ng g c shared/live --standalone=false
+
+ng g c pages/live-vod
+
+ng g c admin/palinsesto
+
+# un componente leggero che mostra:
+  il video in autoplay
+  il titolo del video attuale
+  l’avanzamento
+  e si aggiorna ogni minuto
+ng g c components/live-vod-preview
+
+ng g c components/mini-live-vod
+
+ionic generate component components/navbar

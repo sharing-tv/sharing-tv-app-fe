@@ -1,74 +1,92 @@
-// src/app/pages/live-nativo/live-nativo.component.ts
-import { Component, OnDestroy } from '@angular/core';
+// // src/app/pages/live-nativo/live-nativo.component.ts
+// // src/app/pages/live-nativo/live-nativo.component.ts
+// import { Component, OnInit, OnDestroy } from '@angular/core';
+// import { LiveNativoService, LiveResponse } from 'src/app/services/live-nativo.service';
 
-@Component({
-  selector: 'app-live-nativo',
-  templateUrl: './live-nativo.component.html',
-  styleUrls: ['./live-nativo.component.scss']
-})
-export class LiveNativoComponent implements OnDestroy {
-  private pc?: RTCPeerConnection;
-  private stream?: MediaStream;
-  isStreaming = false;
+// @Component({
+//   selector: 'app-live-nativo',
+//   templateUrl: './live-nativo.component.html',
+//   styleUrls: ['./live-nativo.component.scss'],
+// })
+// export class LiveNativoComponent implements OnInit, OnDestroy {
+//   private pc?: RTCPeerConnection;
+//   private interval?: any;
 
-  // ✅ Endpoint WHIP del tuo OME
-  private whipEndpoint = 'http://128.140.48.50:3333/live'; // <-- puoi spostarlo in env se vuoi
+//   isLive = false;
+//   currentVideo?: string;
+//   checking = false;
 
-  async startBroadcast() {
-    try {
-      this.isStreaming = true;
+//   constructor(private liveService: LiveNativoService) {}
 
-      // 🎥 Ottieni flusso da webcam + microfono
-      this.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+//   ngOnInit(): void {
+//     this.checkStreamStatus();
+//     this.interval = setInterval(() => this.checkStreamStatus(), 15000);
+//   }
 
-      const preview = document.getElementById('preview') as HTMLVideoElement;
-      if (preview) {
-        preview.srcObject = this.stream;
-      }
+//   ngOnDestroy(): void {
+//     this.destroyPlayer();
+//     if (this.interval) clearInterval(this.interval);
+//   }
 
-      // 🔗 Crea connessione WebRTC
-      this.pc = new RTCPeerConnection();
-      this.stream.getTracks().forEach(track => this.pc?.addTrack(track, this.stream!));
+//   /** 🔎 Controlla se siamo in live o VOD */
+//   async checkStreamStatus() {
+//     try {
+//       this.checking = true;
+//       const res = (await this.liveService.getCurrentStream().toPromise()) as LiveResponse;
 
-      const offer = await this.pc.createOffer();
-      await this.pc.setLocalDescription(offer);
+//       if (res.type === 'live' && res.whep) {
+//         this.isLive = true;
+//         await this.startLivePlayer(res.whep);
+//       } else if (res.type === 'vod' && res.video) {
+//         this.isLive = false;
+//         this.destroyPlayer();
+//         this.currentVideo = res.video;
+//       } else {
+//         this.destroyPlayer();
+//         this.currentVideo = undefined;
+//       }
+//     } catch (err) {
+//       console.error('❌ Errore stato live/vod:', err);
+//     } finally {
+//       this.checking = false;
+//     }
+//   }
 
-      // 📡 Invia SDP all’endpoint WHIP di OME
-      const response = await fetch(this.whipEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/sdp' },
-        body: offer.sdp
-      });
+//   /** 📡 Avvia player WebRTC (WHEP) */
+//   async startLivePlayer(whepUrl: string) {
+//     try {
+//       this.destroyPlayer();
+//       const videoEl = document.getElementById('player') as HTMLVideoElement;
+//       if (!videoEl) return;
 
-      const answerSDP = await response.text();
-      await this.pc.setRemoteDescription({ type: 'answer', sdp: answerSDP });
+//       const pc = new RTCPeerConnection();
+//       const offer = await pc.createOffer();
+//       await pc.setLocalDescription(offer);
 
-      console.log('✅ Diretta avviata via WHIP');
-    } catch (err) {
-      console.error('❌ Errore durante l’avvio della diretta:', err);
-      this.isStreaming = false;
-    }
-  }
+//       const res = await fetch(whepUrl, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/sdp' },
+//         body: offer.sdp,
+//       });
 
-  async stopBroadcast() {
-    try {
-      // 🔇 Ferma tutti i track
-      this.stream?.getTracks().forEach(track => track.stop());
-      this.stream = undefined;
+//       const answerSdp = await res.text();
+//       await pc.setRemoteDescription({ type: 'answer', sdp: answerSdp });
+//       pc.ontrack = (event) => (videoEl.srcObject = event.streams[0]);
 
-      // 🔌 Chiudi la connessione
-      await this.pc?.close();
-      this.pc = undefined;
+//       this.pc = pc;
+//       console.log('🎬 Player WebRTC attivo');
+//     } catch (err) {
+//       console.error('❌ Errore player live:', err);
+//     }
+//   }
 
-      this.isStreaming = false;
-      console.log('🛑 Trasmissione terminata');
-    } catch (err) {
-      console.error('Errore nello stop:', err);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.stopBroadcast();
-  }
-}
+//   destroyPlayer() {
+//     try {
+//       this.pc?.close();
+//       this.pc = undefined;
+//       const videoEl = document.getElementById('player') as HTMLVideoElement;
+//       if (videoEl) videoEl.srcObject = null;
+//     } catch {}
+//   }
+// }
 

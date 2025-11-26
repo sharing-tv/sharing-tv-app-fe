@@ -1,0 +1,20 @@
+
+<h2>Cattura Schermo</h2>
+
+<video #preview autoplay playsinline controls muted
+       style="width:100%; border:1px solid #ccc; border-radius:8px;"></video>
+
+<div class="buttons">
+  <button type="button" class="btn start" (click)="start()" [disabled]="isRecording">
+    🎥 Avvia registrazione
+  </button>
+
+  <button type="button" class="btn stop" (click)="stop()" [disabled]="!isRecording">
+    🛑 Ferma e scarica
+  </button>
+
+  <button type="button" class="btn capture" (click)="captureImage()">
+    📸 Cattura immagine (PNG)
+  </button>
+</div>
+

@@ -1,0 +1,9 @@
+<!-- // src/app/admin/admin-upload/admin-upload.component.html -->
+
+<div class="upload-container">
+  <h2>🎬 Carica nuovo video VOD</h2>
+  <input type="file" (change)="onFileSelected($event)" />
+  <div *ngIf="progress > 0">Caricamento: {{ progress }}%</div>
+  <div *ngIf="uploadedUrl">✅ Caricato: <a [href]="uploadedUrl" target="_blank">{{ uploadedUrl }}</a></div>
+</div>
+

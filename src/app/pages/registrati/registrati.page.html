@@ -1,0 +1,49 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registrati</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+      <small *ngIf="form.get('email')?.errors?.['required']">Email obbligatoria</small>
+      <small *ngIf="form.get('email')?.errors?.['email']">Formato email non valido</small>
+    </ion-text>
+
+    <ion-item class="ion-margin-top">
+      <ion-label position="stacked">Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+      <small *ngIf="form.get('password')?.errors?.['required']">Password obbligatoria</small>
+      <small *ngIf="form.get('password')?.errors?.['minlength']">Minimo 6 caratteri</small>
+    </ion-text>
+
+    <ion-button
+      expand="block"
+      type="submit"
+      class="ion-margin-top"
+      [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Registrazione...' : 'Registrati' }}
+    </ion-button>
+
+  </form>
+
+  <ion-button
+    fill="clear"
+    size="small"
+    routerLink="/login"
+    class="ion-margin-top">
+    Hai già un account? Login
+  </ion-button>
+
+</ion-content>
+

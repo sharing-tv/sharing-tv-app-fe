@@ -11,12 +11,16 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 // import { LiveService } from './services/live.service';
-import { LiveNativoModule } from './pages/live-nativo/live-nativo.module';
-import { LiveNativoService } from './services/live-nativo.service';
+// import { LiveNativoModule } from './pages/live-nativo/live-nativo.module';
+// import { LiveNativoService } from './services/live-nativo.service';
+import { AdminUploadModule } from './admin/admin-upload/admin-upload.module';
+// import { DirettaModule } from './pages/diretta/diretta.module';
+// import { ScaricaModule } from './admin/scarica/scarica.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    // NavbarComponent
   ],
   imports: [
     BrowserModule, 
@@ -24,13 +28,16 @@ import { LiveNativoService } from './services/live-nativo.service';
     AppRoutingModule,
     SharedModule,
     HttpClientModule,
-    LiveNativoModule
+    // LiveNativoModule,
+    AdminUploadModule,
+    // DirettaModule,
+    // ScaricaModule
   ],
   providers: [{ 
     provide: RouteReuseStrategy, useClass: IonicRouteStrategy 
   },
   // LiveService,
-  LiveNativoService
+  // LiveNativoService
   ],
   bootstrap: [AppComponent],
 })

@@ -1,10 +1,15 @@
 // src/app/app.component.scss
 
-// ion-app {
-//   min-height: 100vh; // copre tutta la viewport
-//   background: url("/assets/sfondo/sfondo.jpg") no-repeat center center fixed;
-//   background-size: cover;
-//   display: flex;
-//   flex-direction: column;
-// }
+ion-toolbar {
+  --background: #1f1f1f;
+  --color: #fff;
+}
+
+ion-menu {
+  --background: #1f1f1f;
+}
+
+ion-content {
+  background: #ffffff;
+}
 

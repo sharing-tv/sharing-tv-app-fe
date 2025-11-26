@@ -1,0 +1,233 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestione Palinsesto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="loadData(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="loading">
+    <div class="center">
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-container>
+
+  <ion-text color="danger" *ngIf="error">
+    <p>{{ error }}</p>
+  </ion-text>
+
+  <ng-container *ngIf="!loading && !error">
+
+    <!-- VOD Sync -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Gestione contenuti VOD</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button expand="block" color="secondary" (click)="syncVod()">
+          🔄 Aggiorna lista VOD
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Impostazioni Canale -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Impostazioni Canale</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label>Loop infinito</ion-label>
+          <ion-toggle [(ngModel)]="loop"></ion-toggle>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- TIMELINE -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Timeline (EPG)</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="timeline-wrapper">
+
+          <!-- tacche orarie -->
+          <div class="timeline-hour"
+               *ngFor="let h of [].constructor(24); let i = index"
+               [style.left.%]="(i * 60) / 14.4">
+            {{ i }}:00
+          </div>
+
+          <div class="timeline-items">
+            <div class="tl-item"
+              *ngFor="let t of timeline; let i = index"
+              [style.width.px]="t.width"
+              [style.left.px]="t.offset"
+              [style.background]="colors[i % colors.length]"
+              [class.conflict]="t.conflict">
+              <strong>{{ t.title }}</strong><br>
+              {{ t.start }} → {{ t.end }}
+            </div>
+          </div>
+
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- LAYOUT 2 COLONNE -->
+    <div class="columns">
+
+      <!-- VOD disponibili -->
+      <div class="col">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>VOD disponibili</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+
+            <ion-list>
+              <ion-item *ngFor="let v of vodList">
+                <ion-label>
+                  <h2>{{ v.title }}</h2>
+                  <p>{{ v.bunnyId }} • Durata: {{ formatDuration(v.length!) }}</p>
+                </ion-label>
+                <ion-button fill="outline" size="small" (click)="addVod(v)">
+                  Aggiungi
+                </ion-button>
+              </ion-item>
+            </ion-list>
+
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <!-- PALINSESTO -->
+      <div class="col">
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Palinsesto (ordine di messa in onda)</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+
+            <ion-list *ngIf="items.length > 0; else noItems"
+                      cdkDropList
+                      (cdkDropListDropped)="drop($event)">
+
+              <ion-item *ngFor="let item of items; let i = index"
+                        cdkDrag
+                        class="palinsesto-item"
+                        [class.conflict]="item.conflict">
+
+                <div class="content-col">
+
+                  <h2 class="title">{{ i + 1 }}. {{ item.title }}</h2>
+
+                  <div class="info-grid">
+
+                    <!-- INIZIO -->
+                    <div class="info-box">
+                      <label>Inizio</label>
+
+                      <!-- VISUAL MODE -->
+                      <div *ngIf="!item.editing">
+                        <strong>{{ item.startTime || '--:--:--' }}</strong><br>
+                        <ion-button size="small"
+                                    fill="outline"
+                                    (click)="item.editing = true">
+                          Modifica orario
+                        </ion-button>
+                      </div>
+
+                      <!-- EDIT MODE (3 select orizzontali + salva) -->
+                      <div *ngIf="item.editing" class="edit-time-row">
+
+                        <select [(ngModel)]="item.editHour">
+                          <option *ngFor="let h of hours" [value]="h">{{ h | number:'2.0' }}</option>
+                        </select>
+
+                        <select [(ngModel)]="item.editMinute">
+                          <option *ngFor="let m of minutes" [value]="m">{{ m | number:'2.0' }}</option>
+                        </select>
+
+                        <select [(ngModel)]="item.editSecond">
+                          <option *ngFor="let s of seconds" [value]="s">{{ s | number:'2.0' }}</option>
+                        </select>
+
+                        <ion-button size="small"
+                                    color="success"
+                                    fill="outline"
+                                    (click)="saveStartTime(item)">
+                          Salva
+                        </ion-button>
+
+                      </div>
+                    </div>
+
+                    <!-- FINE -->
+                    <div class="info-box">
+                      <label>Fine</label>
+                      <p>{{ item.endTime || '--:--:--' }}</p>
+                    </div>
+
+                    <!-- BUNNY ID -->
+                    <div class="info-box">
+                      <label>BunnyID</label>
+                      <p>{{ item.bunnyId }}</p>
+                    </div>
+
+                  </div>
+
+                  <p *ngIf="item.conflict" class="conflict-msg">
+                    ⚠ Sovrapposizione oraria!
+                  </p>
+
+                </div>
+
+                <div class="buttons-col">
+                  <ion-button fill="clear" size="small" (click)="moveUp(i)">↑</ion-button>
+                  <ion-button fill="clear" size="small" (click)="moveDown(i)">↓</ion-button>
+                  <ion-button size="small"
+                              color="danger"
+                              fill="outline"
+                              (click)="removeAt(i)">
+                    Rimuovi
+                  </ion-button>
+                </div>
+
+              </ion-item>
+
+            </ion-list>
+
+            <ng-template #noItems>
+              <ion-text color="medium">
+                <p>Nessun contenuto.</p>
+              </ion-text>
+            </ng-template>
+
+            <ion-button expand="block"
+                        (click)="save()"
+                        [disabled]="saving">
+              <ion-spinner *ngIf="saving" slot="start"></ion-spinner>
+              Salva palinsesto
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+    </div>
+
+  </ng-container>
+
+</ion-content>
+

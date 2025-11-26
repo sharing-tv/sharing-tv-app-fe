@@ -1,27 +1,27 @@
-
+<!-- 
 <ion-content class="live-page" [fullscreen]="true">
   <div class="live-container">
-    <h2>🎥 Trasmetti in diretta (WHIP)</h2>
+    <h2>🎥 Live / VOD Sharing TV</h2>
 
-    <video id="preview" autoplay playsinline muted></video>
+    <!-- Se live attivo
+    <ng-container *ngIf="isLive; else vodTemplate">
+      <video id="player" autoplay playsinline controls muted></video>
+      <p class="status live">🔴 In diretta</p>
+    </ng-container>
+     -->
 
-    <div class="actions">
-      <ion-button
-        color="danger"
-        (click)="startBroadcast()"
-        *ngIf="!isStreaming"
-      >
-        🎬 Avvia trasmissione
-      </ion-button>
-
-      <ion-button
-        color="medium"
-        (click)="stopBroadcast()"
-        *ngIf="isStreaming"
-      >
-        ⏹ Stop trasmissione
-      </ion-button>
-    </div>
+    <!-- Se non è live 
+    <ng-template #vodTemplate>
+      <video
+        *ngIf="currentVideo"
+        [src]="currentVideo"
+        controls
+        autoplay
+        playsinline
+      ></video>
+      <p *ngIf="!currentVideo && !checking">📺 Nessun contenuto disponibile</p>
+      <ion-spinner *ngIf="checking"></ion-spinner>
+    </ng-template>
   </div>
 </ion-content>
-
+ -->

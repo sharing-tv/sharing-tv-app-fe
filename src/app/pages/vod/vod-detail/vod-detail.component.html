@@ -1,0 +1,54 @@
+
+<!-- src/app/pages/vod/vod-detail/vod-detail.component.html -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/vod"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ vod?.title || 'Dettaglio Video' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="center-spinner">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <!-- Errore -->
+  <ion-text color="danger" *ngIf="error">
+    <p class="ion-padding">{{ error }}</p>
+  </ion-text>
+
+  <!-- Contenuto solo quando vod è pronto -->
+  <ng-container *ngIf="!isLoading && !error && vod as v">
+
+    <ion-card>
+      <ion-card-content>
+
+        <!-- Player HLS -->
+        <video
+          #videoPlayer
+          controls
+          playsinline
+          webkit-playsinline
+          style="width: 100%; max-height: 60vh; background: #000;"
+        ></video>
+
+        <h2 class="ion-padding-top">{{ v.title }}</h2>
+        <p class="ion-padding-top" *ngIf="v.description">{{ v.description }}</p>
+
+        <ion-text color="medium" *ngIf="currentSource">
+          <p class="ion-padding-top">
+            Sorgente in uso: {{ currentSource }}
+          </p>
+        </ion-text>
+
+      </ion-card-content>
+    </ion-card>
+
+  </ng-container>
+</ion-content>
+

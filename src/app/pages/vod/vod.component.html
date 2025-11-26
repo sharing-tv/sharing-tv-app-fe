@@ -1,0 +1,33 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Video On Demand</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
+
+  <ion-text color="danger" *ngIf="error">
+    {{ error }}
+  </ion-text>
+
+  <ion-list *ngIf="!isLoading && !error">
+    <ion-item 
+      button 
+      *ngFor="let item of vodList"
+      (click)="openDetail(item.id)"
+    >
+      <ion-thumbnail slot="start">
+        <img [src]="item.thumbnail || 'https://placehold.co/300x200?text=No+Thumbnail'" >
+      </ion-thumbnail>
+
+      <ion-label>
+        <h2>{{ item.title }}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+

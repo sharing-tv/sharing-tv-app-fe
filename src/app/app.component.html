@@ -1,7 +1,49 @@
  <!-- src/app/app.component.html  -->
 
 <ion-app>
-  <!-- <app-background></app-background> -->
-  <ion-router-outlet></ion-router-outlet>
+
+  <!-- NAVBAR FISSA -->
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button> <!-- Hamburger -->
+      </ion-buttons>
+
+      <ion-title>Sharing TV</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- MENU HAMBURGER -->
+  <ion-menu contentId="main-content" side="start">
+    <ion-header>
+      <ion-toolbar color="dark">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-item routerLink="/home">Home</ion-item>
+        <ion-item routerLink="/chi-siamo">Chi Siamo</ion-item>
+        <ion-item routerLink="/cosa-facciamo">Cosa Facciamo</ion-item>
+        <ion-item routerLink="/comitato-scientifico">Comitato Scientifico</ion-item>
+        <ion-item routerLink="/nostri-portali">Nostri Portali</ion-item>
+        <ion-item routerLink="/sharing-legalita">Sharing per la Legalità</ion-item>
+        <ion-item routerLink="/sharing-ia">Sharing e IA</ion-item>
+
+        <ion-item routerLink="/registrati">Registrati</ion-item>
+        <ion-item routerLink="/login" *ngIf="!isLogged">Login</ion-item>
+
+        <ion-item routerLink="/admin" *ngIf="isLogged">Admin Panel</ion-item>
+        <ion-item button color="danger" *ngIf="isLogged" (click)="logout()">
+          Logout
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- CONTENUTO PAGINE -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
 </ion-app>
 

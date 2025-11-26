@@ -24,7 +24,9 @@ import { TvLogoComponent } from '../components/tv-logo/tv-logo.component';
 import { SloganComponent } from '../components/slogan/slogan.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { LiveNativoComponent } from '../pages/live-nativo/live-nativo.component';
+import { ScaricaComponent } from '../admin/scarica/scarica.component';
+// import { LiveComponent } from './live/live.component';
+// import { LiveNativoComponent } from '../pages/live-nativo/live-nativo.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { LiveNativoComponent } from '../pages/live-nativo/live-nativo.component'
     ChannelLogoComponent,
     TvLogoComponent,
     SloganComponent,
-    LiveNativoComponent
+    ScaricaComponent,
+    // LiveComponent
+    // LiveNativoComponent
     // LiveComponent
   ],
   imports: [
@@ -76,8 +80,9 @@ import { LiveNativoComponent } from '../pages/live-nativo/live-nativo.component'
     ChannelLogoComponent,
     TvLogoComponent,
     SloganComponent,
-    LiveNativoComponent
+    ScaricaComponent,
     // LiveComponent
+    // LiveNativoComponent
   ]
 })
 export class SharedModule {}

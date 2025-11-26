@@ -1,0 +1,38 @@
+
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Sharing TV</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu contentId="main-content">
+  <ion-content>
+
+    <ion-list>
+      <!-- Pubbliche -->
+      <ion-item routerLink="/registrati">Registrati</ion-item>
+      <ion-item routerLink="/login">Login</ion-item>
+      <ion-item routerLink="/chi-siamo">Chi Siamo</ion-item>
+      <ion-item routerLink="/cosa-facciamo">Cosa Facciamo</ion-item>
+      <ion-item routerLink="/comitato-scientifico">Comitato Scientifico</ion-item>
+      <ion-item routerLink="/nostri-portali">Nostri Portali</ion-item>
+      <ion-item routerLink="/sharing-legalita">Sharing per la Legalità</ion-item>
+      <ion-item routerLink="/sharing-ia">Sharing e IA</ion-item>
+
+      <!-- Protette -->
+      <ion-item routerLink="/admin" *ngIf="isLogged">Admin Panel</ion-item>
+      <ion-item routerLink="/admin/palinsesto" *ngIf="isLogged">Gestione Palinsesto</ion-item>
+
+      <ion-item (click)="logout()" *ngIf="isLogged">Logout</ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-menu>
+
+<div id="main-content">
+  <ng-content></ng-content>
+</div>
+

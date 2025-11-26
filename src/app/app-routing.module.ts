@@ -12,6 +12,7 @@ import { CanaleTechComponent } from './components/canale-tech/canale-tech.compon
 import { CanaleLifeComponent } from './components/canale-life/canale-life.component';
 import { CanaleHealthComponent } from './components/canale-health/canale-health.component';
 import { LiveCanaliVmixComponent } from './pages/live-canali-vmix/live-canali-vmix.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,13 +26,13 @@ const routes: Routes = [
   //   loadChildren: () =>
   //     import('./lives/live.module').then(m => m.LiveModule)
   // },
-  {
-  path: 'live-nativo',
-  loadChildren: () =>
-    import('./pages/live-nativo/live-nativo.module').then(
-      (m) => m.LiveNativoModule
-    ),
-  },
+  // {
+  // path: 'live-nativo',
+  // loadChildren: () =>
+  //   import('./pages/live-nativo/live-nativo.module').then(
+  //     (m) => m.LiveNativoModule
+  //   ),
+  // },
 
   {
   path: 'rss-live-news',
@@ -58,6 +59,70 @@ const routes: Routes = [
         (m) => m.LiveCanaliVmixModule
       ),
   },
+
+    {
+    path: 'vod',
+    loadChildren: () =>
+      import('./pages/vod/vod.module').then(m => m.VodModule)
+  },
+
+    {
+    path: 'vod-detail/:id',
+    loadChildren: () =>
+      import('./pages/vod/vod-detail/vod-detail.module').then(m => m.VodDetailModule)
+  },
+  {
+    path: 'palinsesto',
+    loadChildren: () =>
+      import('./admin/palinsesto/palinsesto.module').then(m => m.PalinsestoModule)
+  },
+  {
+    path: 'registrati',
+    loadChildren: () => import('./pages/registrati/registrati.module').then( m => m.RegistratiPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'chi-siamo',
+    loadChildren: () => import('./pages/chi-siamo/chi-siamo.module').then( m => m.ChiSiamoPageModule)
+  },
+  {
+    path: 'cosa-facciamo',
+    loadChildren: () => import('./pages/cosa-facciamo/cosa-facciamo.module').then( m => m.CosaFacciamoPageModule)
+  },
+  {
+    path: 'comitato-scientifico',
+    loadChildren: () => import('./pages/comitato-scientifico/comitato-scientifico.module').then( m => m.ComitatoScientificoPageModule)
+  },
+  {
+    path: 'nostri-portali',
+    loadChildren: () => import('./pages/nostri-portali/nostri-portali.module').then( m => m.NostriPortaliPageModule)
+  },
+  {
+    path: 'sharing-legalita',
+    loadChildren: () => import('./pages/sharing-legalita/sharing-legalita.module').then( m => m.SharingLegalitaPageModule)
+  },
+  {
+    path: 'sharing-ia',
+    loadChildren: () => import('./pages/sharing-ia/sharing-ia.module').then( m => m.SharingIaPageModule)
+  },
+  {
+    path: 'admin',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: 'admin/palinsesto',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./admin/palinsesto/palinsesto.module').then(m => m.PalinsestoModule)
+  }
+  
+  // {
+  //   path: 'admin-live-nativo',
+  //   loadChildren: () => import('./pages/admin-live-nativo/admin-live-nativo.module').then( m => m.AdminLiveNativoPageModule)
+  // },
 ];
 
 @NgModule({
