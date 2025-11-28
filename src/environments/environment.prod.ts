@@ -6,7 +6,7 @@ export const environment = {
   apiBaseUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/api',
 
   // ✅ Stream HLS tramite proxy backend Cloud Run
-  liveHlsUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/proxy/hls/live/stream/index.m3u8',
-  liveUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/proxy/hls/live/stream/index.m3u8',
+  // liveHlsUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/proxy/hls/live/stream/index.m3u8',
+  // liveUrl: 'https://sharing-tv-app-be-1081841606305.europe-west1.run.app/proxy/hls/live/stream/index.m3u8',
 };
 
