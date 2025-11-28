@@ -111,6 +111,9 @@
             "mobile": {
               "buildTarget": "app:build:mobile"
             },
+            "ionic": {
+              "buildTarget": "app:build:development"
+            },
             "ci": {
               "progress": false
             }

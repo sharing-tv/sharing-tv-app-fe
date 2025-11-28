@@ -20,7 +20,13 @@ export class AuthService {
 
   private readonly apiBase = `${environment.apiBaseUrl}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  console.log('==============================');
+  console.log('ENV LOADED:', environment);
+  console.log('ENV.apiBaseUrl:', environment.apiBaseUrl);
+  console.log('API BASE COMPLETA:', this.apiBase);
+  console.log('==============================');
+  }
 
   register(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiBase}/register`, { email, password });
