@@ -20,9 +20,9 @@ export class LiveVodPreviewComponent implements OnInit, OnDestroy {
 
   constructor(private live: LiveService) {}
 
-    cleanTitle(name: string): string {
-    return name.replace(/\.[^/.]+$/, ""); 
-    }
+    // cleanTitle(name: string): string {
+    // return name.replace(/\.[^/.]+$/, ""); 
+    // }
 
 
   ngOnInit() {

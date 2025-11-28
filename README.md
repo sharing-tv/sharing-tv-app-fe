@@ -133,3 +133,8 @@ ng g c components/live-vod-preview
 ng g c components/mini-live-vod
 
 ionic generate component components/navbar
+
+# DOCKER
+docker build -t sharingtv-fe .
+docker run -p 4102:8080 sharingtv-fe
+
