@@ -110,12 +110,12 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
   },
   {
     path: 'admin/palinsesto',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () => import('./admin/palinsesto/palinsesto.module').then(m => m.PalinsestoModule)
   }
   
