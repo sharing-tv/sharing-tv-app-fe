@@ -1,7 +1,10 @@
 
-<div class="live-preview">
+<div class="live-preview"
+  (mouseenter)="showControls()"
+  (mouseleave)="hideControls()"
+  (click)="toggleControls()">
 
-  <!-- VIDEO PLAYER -->
+  <!-- VIDEO -->
   <video
     #player
     playsinline
@@ -9,29 +12,58 @@
     autoplay
     muted
     disablePictureInPicture
-    controlsList="nodownload noremoteplayback nofullscreen noplaybackrate"
-    class="video-player no-controls"
-  ></video>
+    controlsList="nodownload noremoteplayback noplaybackrate"
+    class="video-player">
+  </video>
 
-  <!-- OVERLAY GRAFICO STILE TV -->
+  <!-- BOTTOM RIGHT FIXED FULLSCREEN BUTTON -->
+  <button 
+      class="fullscreen-btn"
+      [class.visible]="controlsVisible"
+      (click)="toggleFullScreen($event)">
+      {{ isFullscreen ? '⇲' : '⛶' }}
+  </button>
+
+  <!-- MAIN CONTROL PANEL -->
+  <div class="control-panel" [class.visible]="controlsVisible">
+
+      <!-- TIMER -->
+      <div class="ctrl-timer">
+        {{ currentClock }}
+      </div>
+
+      <!-- QUALITY -->
+      <select class="quality-sel" #quality (change)="setQuality(quality.value)">
+        <option value="auto">Auto</option>
+        <option value="0">1080p</option>
+        <option value="1">720p</option>
+        <option value="2">480p</option>
+        <option value="3">360p</option>
+      </select>
+
+      <!-- MUTE -->
+      <button class="ctrl-btn" (click)="toggleMute()">
+        {{ isMuted ? '🔇' : '🔊' }}
+      </button>
+
+  </div>
+
+  <!-- FULLSCREEN TOP INFO BAR -->
+  <div class="fs-bar" *ngIf="isFullscreen && controlsVisible">
+
+    <div class="fs-info">
+      <div class="fs-title">{{ nowPlaying?.title }}</div>
+
+      <div class="fs-progress-container">
+        <div class="fs-progress" [style.width.%]="progressPercent"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LIVE BADGE -->
   <div class="overlay">
-
-    <!-- BOX LIVE ROSSO -->
-    <div class="live-badge">
-      LIVE
-    </div>
-
-    <!-- TITOLO PROGRAMMA CORRENTE -->
-    <div class="now-playing">
-      <div class="label">In onda adesso:</div>
-      <!-- <div class="title">{{ cleanTitle(nowPlaying?.title) }}</div> -->
-    </div>
-
-    <!-- LOGO TV (personalizzabile) -->
-    <div class="logo">
-      <!-- <img src="assets/logo/sharing-tv-white.png" alt="SHARING TV" /> -->
-    </div>
-
+    <div class="live-badge">LIVE</div>
   </div>
 
 </div>

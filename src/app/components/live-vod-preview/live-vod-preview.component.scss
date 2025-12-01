@@ -12,37 +12,134 @@
   display: block;
 }
 
-.no-controls {
-  pointer-events: none; // nessun click sul video
-}
+// .no-controls {
+//   pointer-events: none;
+// }
 
 video::-webkit-media-controls {
   display: none !important;
 }
 
+/* OVERLAY */
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; // overlay non cliccabile
+  pointer-events: none;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
 }
 
-/* LIVE badge */
 .live-badge {
   margin: 15px;
-  padding: 6px 14px;
+  padding: 6px 10px;
   background: #e50914;
-  color: white;
+  color: #fff;
   font-size: 14px;
-  font-weight: 700;
   border-radius: 6px;
-  width: max-content;
-  animation: pulse 1.6s infinite ease-in-out;
+  animation: pulse 1.6s infinite;
+  // flex: none;
+}
+
+/* FULLSCREEN BUTTON */
+.fullscreen-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 20px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  // z-index: 40;
+
+  opacity: 0.5;
+  transition: opacity .25s;
+  pointer-events: none;
+}
+
+.fullscreen-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* FULLSCREEN CONTROL BAR (Netflix Style) */
+.fs-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 26px;
+  background: linear-gradient(to top,
+            rgba(0,0,0,0.8),
+            rgba(0,0,0,0));
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 60;
+}
+
+.fs-info {
+  width: 70%;
+}
+
+.fs-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.fs-progress-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.fs-progress {
+  height: 100%;
+  background: #e50914;
+  width: 0%;
+}
+
+.fs-timer {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+/* CONTROL BUTTONS */
+.fs-controls {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.fs-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.fs-quality {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #666;
 }
 
 @keyframes pulse {
@@ -51,45 +148,78 @@ video::-webkit-media-controls {
   100% { opacity: 0.45; }
 }
 
-/* TITOLO PROGRAMMA */
-.now-playing {
+:host ::ng-deep .live-preview:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+}
+
+:host ::ng-deep .live-preview:-webkit-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+}
+
+
+:host ::ng-deep .control-panel.ng-enter {
+  opacity: 0;
+}
+
+:host ::ng-deep .control-panel.ng-enter-active {
+  opacity: 1;
+}
+
+/* CONTROL PANEL ALWAYS VISIBLE */
+.control-panel {
   position: absolute;
   bottom: 0px;
   left: 0px;
-  background: rgba(0, 0, 0, 0.55);
-  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 50;
+
+  background: rgba(0,0,0,0.55);
+  padding: 5px 6px;
   border-radius: 10px;
   backdrop-filter: blur(5px);
-  color: white;
-  max-width: 70%;
-  animation: slideUp 0.6s ease-out;
-}
+  z-index: 80;
 
-@keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.now-playing .label {
-  font-size: 12px;
   opacity: 0.8;
+  transition: opacity .25s ease;
+  pointer-events: none;
 }
 
-.now-playing .title {
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: 600;
+.control-panel.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-/* LOGO */
-.logo {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+.timer {
+  color: white;
+  font-size: 14px;
 }
 
-.logo img {
-  height: 40px;
-  opacity: 0.9;
+.ctrl-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 10px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
+.quality-sel {
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #666;
+}
+
+.ctrl-timer {
+  color: white;
+  font-size: 14px;
+  margin-right: 14px;
+}
