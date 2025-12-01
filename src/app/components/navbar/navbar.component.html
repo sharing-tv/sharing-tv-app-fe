@@ -1,10 +1,53 @@
-<!-- 
- src/app/components/navbar 
-<ion-header>...</ion-header>
 
-<ion-menu contentId="main-content">...</ion-menu>
+<!-- src/app/components/navbar/navbar.component.html -->
+<!-- NAVBAR -->
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
 
-<div id="main-content">
-  <ng-content></ng-content>
-</div>
- -->
+    <ion-title>Sharing TV</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- MENU -->
+<ion-menu contentId="main-content" side="start" menuId="start">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+
+      <ion-item routerLink="/home" (click)="closeMenu()">Home</ion-item>
+      <ion-item routerLink="/chi-siamo" (click)="closeMenu()">Chi Siamo</ion-item>
+      <ion-item routerLink="/cosa-facciamo" (click)="closeMenu()">Cosa Facciamo</ion-item>
+      <ion-item routerLink="/comitato-scientifico" (click)="closeMenu()">Comitato Scientifico</ion-item>
+      <ion-item routerLink="/nostri-portali" (click)="closeMenu()">Nostri Portali</ion-item>
+      <ion-item routerLink="/sharing-legalita" (click)="closeMenu()">Sharing per la Legalità</ion-item>
+      <ion-item routerLink="/sharing-ia" (click)="closeMenu()">Sharing e IA</ion-item>
+
+      <ion-item routerLink="/registrati" (click)="closeMenu()">Registrati</ion-item>
+
+      <ion-item routerLink="/login" (click)="closeMenu()" *ngIf="!isLogged">Login</ion-item>
+
+      <ion-item routerLink="/admin" (click)="closeMenu()" *ngIf="isLogged">
+        Admin Panel
+      </ion-item>
+
+      <ion-item button color="danger" *ngIf="isLogged" (click)="logout()">
+        Logout
+      </ion-item>
+
+      <ion-item routerLink="/admin/palinsesto" (click)="closeMenu()">
+          Palinsesto
+      </ion-item>
+
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+

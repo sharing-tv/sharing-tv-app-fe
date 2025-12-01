@@ -14,13 +14,14 @@ import { SharedModule } from './shared/shared.module';
 // import { LiveNativoModule } from './pages/live-nativo/live-nativo.module';
 // import { LiveNativoService } from './services/live-nativo.service';
 import { AdminUploadModule } from './admin/admin-upload/admin-upload.module';
+import { NavbarComponent } from './components/navbar/navbar.component';
 // import { DirettaModule } from './pages/diretta/diretta.module';
 // import { ScaricaModule } from './admin/scarica/scarica.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // NavbarComponent
+    NavbarComponent
   ],
   imports: [
     BrowserModule, 

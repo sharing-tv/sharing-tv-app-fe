@@ -6,7 +6,6 @@ import { AuthGuard } from '../guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
     children: [
       {
         path: 'palinsesto',
