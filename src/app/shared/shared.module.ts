@@ -25,6 +25,7 @@ import { SloganComponent } from '../components/slogan/slogan.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ScaricaComponent } from '../admin/scarica/scarica.component';
+import { LiveVodDashComponent } from '../components/live-vod-dash/live-vod-dash.component';
 // import { LiveComponent } from './live/live.component';
 // import { LiveNativoComponent } from '../pages/live-nativo/live-nativo.component';
 
@@ -47,6 +48,7 @@ import { ScaricaComponent } from '../admin/scarica/scarica.component';
     TvLogoComponent,
     SloganComponent,
     ScaricaComponent,
+    LiveVodDashComponent,
     // LiveComponent
     // LiveNativoComponent
     // LiveComponent
@@ -81,6 +83,7 @@ import { ScaricaComponent } from '../admin/scarica/scarica.component';
     TvLogoComponent,
     SloganComponent,
     ScaricaComponent,
+    LiveVodDashComponent
     // LiveComponent
     // LiveNativoComponent
   ]

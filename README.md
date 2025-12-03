@@ -138,3 +138,8 @@ ionic generate component components/navbar
 docker build -t sharingtv-fe .
 docker run -p 4102:8080 sharingtv-fe
 
+
+
+ionic g page pages/tv-player
+  E questa pagina sarà il player ufficiale per TV:
+  https://www.sharingtveuropa.it/tv

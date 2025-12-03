@@ -15,7 +15,8 @@ export interface VodListItem {
 
 export interface ChannelItem {
   vod: string;           // id VodItem
-  startTime: string|null;
+  startAt: string | null;  // ISO datetime
+  startTime?: string|null;
 }
 
 export interface ChannelDto {

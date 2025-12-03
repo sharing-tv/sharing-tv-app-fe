@@ -1,0 +1,34 @@
+
+<div class="tv-player-container">
+  <video #tvPlayer class="tv-video" autoplay playsinline></video>
+
+  <div class="tv-ui">
+
+    <div class="clock">{{ currentClock }}</div>
+
+    <div class="controls-row">
+
+      <button class="btn" (click)="toggleMute()">
+        {{ isMuted ? '🔇' : '🔊' }}
+      </button>
+
+      <button class="btn" (click)="toggleFullScreen()">
+        ⛶
+      </button>
+
+      <select class="quality-select" 
+              [(ngModel)]="currentQuality"
+              (change)="setQuality(currentQuality)">
+        <option value="auto">Auto</option>
+        <option *ngFor="let q of qualities" [value]="q">Q{{q}}</option>
+      </select>
+
+    </div>
+
+    <div class="timeline">
+      <div class="bar" [style.width.%]="progressPercent"></div>
+    </div>
+
+  </div>
+</div>
+

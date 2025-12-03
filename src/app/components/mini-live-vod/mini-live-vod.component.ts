@@ -1,4 +1,5 @@
 
+// src/app/components/mini-live-vod/mini-live-vod.component.ts
 import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import Hls from 'hls.js';

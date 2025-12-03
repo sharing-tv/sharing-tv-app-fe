@@ -152,6 +152,19 @@ const routes: Routes = [
         m => m.PalinsestoModule
       ),
   },
+  {
+    path: 'tv-player',
+    loadChildren: () => import('./pages/tv-player/tv-player.module').then( m => m.TvPlayerPageModule)
+  },
+  {
+    path: 'player/hls',
+    loadChildren: () => import('./pages/player-hls/player-hls.module').then( m => m.PlayerHlsPageModule)
+  },
+  {
+    path: 'player/dash',
+    loadChildren: () => import('./pages/player-dash/player-dash.module').then( m => m.PlayerDashPageModule)
+  },
+
 ];
 
 @NgModule({

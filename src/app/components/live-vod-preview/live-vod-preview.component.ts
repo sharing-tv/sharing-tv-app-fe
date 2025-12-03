@@ -1,7 +1,8 @@
 
+// src/app/components/live-vod-preview/live-vod-preview.component.ts
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import Hls from 'hls.js';
-import { LiveService } from 'src/app/services/live.service';
+import { LiveService, VodChannelResponse } from 'src/app/services/live.service';
 
 @Component({
   selector: 'app-live-vod-preview',
@@ -15,30 +16,31 @@ export class LiveVodPreviewComponent implements OnInit, OnDestroy {
 
   hls?: Hls;
   nowPlaying: any = null;
-  refreshTimer: any;
-  clockTimer: any;
 
-  // UI STATE
-  controlsVisible = false;
-  isFullscreen = false;
+  refreshTimer: any;
+  monitorTimer: any;
+  clockTimer: any;
   hideTimeout: any;
 
-  // PLAYER STATE
+  controlsVisible = false;
+  isFullscreen = false;
+
   currentTime = 0;
   duration = 0;
   progressPercent = 0;
   isMuted = false;
 
-  // ORA CORRENTE
-  currentClock: string = "--:--:--";
+  currentClock = "--:--:--";
 
   constructor(private live: LiveService) {}
 
   ngOnInit() {
-    this.load();
-    this.refreshTimer = setInterval(() => this.load(), 60000);
+    this.load(false);
 
-    /** ⏱ Aggiorna l'orario ogni secondo */
+    // refresh API (fallback)
+    this.refreshTimer = setInterval(() => this.load(true), 10000);
+
+    // orologio
     this.clockTimer = setInterval(() => {
       this.currentClock = this.formatClock(new Date());
     }, 1000);
@@ -48,27 +50,45 @@ export class LiveVodPreviewComponent implements OnInit, OnDestroy {
     });
   }
 
-  // GET VOD INFO
-  load() {
+  // ------------------------------------------------------
+  // LOAD NOW PLAYING
+  // ------------------------------------------------------
+  load(auto: boolean) {
     this.live.getVodChannel().subscribe({
-      next: (data) => {
+      next: (data: VodChannelResponse) => {
+        if (!data.nowPlaying) return;
+
+        const newId = data.nowPlaying.id;
+
+        // se refresh automatico → evita restart inutile
+        if (auto && this.nowPlaying?.id === newId) return;
+
         this.nowPlaying = data.nowPlaying;
+
         setTimeout(() => this.initPlayer(), 0);
-      }
+      },
+      error: (err) => console.error("Errore getVodChannel:", err)
     });
   }
 
+  // ------------------------------------------------------
   // INIT PLAYER
-  initPlayer() {
-    const video = this.videoRef.nativeElement;
+  // ------------------------------------------------------
+  private initPlayer() {
+    if (!this.nowPlaying || !this.videoRef?.nativeElement) return;
 
+    const video = this.videoRef.nativeElement;
+    const hlsUrl = this.nowPlaying.hls;
+
+    this.destroyHls();
+
+    // usa hls.js se possibile
     if (Hls.isSupported()) {
-      if (this.hls) this.hls.destroy();
       this.hls = new Hls({ enableWorker: true });
-      this.hls.loadSource(this.nowPlaying.hls);
+      this.hls.loadSource(hlsUrl);
       this.hls.attachMedia(video);
     } else {
-      video.src = this.nowPlaying.hls;
+      video.src = hlsUrl;
       video.load();
     }
 
@@ -81,24 +101,44 @@ export class LiveVodPreviewComponent implements OnInit, OnDestroy {
       this.progressPercent = (video.currentTime / video.duration) * 100;
     };
 
+    // 🔵 evita pause automatiche
     video.onpause = () => {
       video.play().catch(() => {});
     };
 
+    // posizione iniziale
     if (this.nowPlaying.position > 0) {
       video.currentTime = this.nowPlaying.position;
     }
 
+    // avvia
     video.play().catch(() => {});
+
+    // monitor tempo reale
+    this.startMonitor();
   }
 
-  ngOnDestroy() {
-    if (this.hls) this.hls.destroy();
-    if (this.refreshTimer) clearInterval(this.refreshTimer);
-    if (this.clockTimer) clearInterval(this.clockTimer);
+  // ------------------------------------------------------
+  // MONITOR CAMBIO VIDEO IN REAL TIME
+  // ------------------------------------------------------
+  private startMonitor() {
+    if (this.monitorTimer) clearInterval(this.monitorTimer);
+
+    this.monitorTimer = setInterval(() => {
+      const v = this.videoRef?.nativeElement;
+      if (!v || !this.nowPlaying) return;
+
+      // se sta finendo → cambio immediato
+      if (v.duration > 0 && (v.duration - v.currentTime) <= 0.30) {
+        this.load(false); // NO auto mode → reinizializza sempre
+      }
+
+    }, 300);
   }
 
-  /** SHOW/HIDE CONTROLS */
+  // ------------------------------------------------------
+  // UI CONTROLS
+  // ------------------------------------------------------
   showControls() {
     this.controlsVisible = true;
     if (this.hideTimeout) clearTimeout(this.hideTimeout);
@@ -118,16 +158,15 @@ export class LiveVodPreviewComponent implements OnInit, OnDestroy {
 
     if (this.controlsVisible) {
       if (this.hideTimeout) clearTimeout(this.hideTimeout);
+
       this.hideTimeout = setTimeout(() => {
         this.controlsVisible = false;
       }, 3000);
     }
   }
 
-  /** FULLSCREEN TOGGLE */
   toggleFullScreen(event: MouseEvent) {
     event.stopPropagation();
-
     const container = document.querySelector('.live-preview') as HTMLElement;
 
     if (!document.fullscreenElement) {
@@ -137,36 +176,62 @@ export class LiveVodPreviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** MUTE / UNMUTE */
   toggleMute() {
     const video = this.videoRef.nativeElement;
     this.isMuted = !this.isMuted;
     video.muted = this.isMuted;
   }
 
-  /** QUALITY SWITCH */
   setQuality(value: string) {
     if (!this.hls) return;
 
     if (value === 'auto') {
       this.hls.currentLevel = -1;
-      return;
+    } else {
+      this.hls.currentLevel = Number(value);
     }
-
-    this.hls.currentLevel = Number(value);
   }
 
-  /** MOBILE CHECK */
+  // ------------------------------------------------------
+  // UTILS
+  // ------------------------------------------------------
   isMobile(): boolean {
     return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
   }
 
-  /** FORMAT CURRENT CLOCK */
-  formatClock(date: Date): string {
-    const h = date.getHours().toString().padStart(2, "0");
-    const m = date.getMinutes().toString().padStart(2, "0");
-    const s = date.getSeconds().toString().padStart(2, "0");
+  formatClock(d: Date): string {
+    const h = d.getHours().toString().padStart(2, "0");
+    const m = d.getMinutes().toString().padStart(2, "0");
+    const s = d.getSeconds().toString().padStart(2, "0");
     return `${h}:${m}:${s}`;
+  }
+
+  // ------------------------------------------------------
+  // DESTROY
+  // ------------------------------------------------------
+  ngOnDestroy() {
+    if (this.refreshTimer) clearInterval(this.refreshTimer);
+    if (this.monitorTimer) clearInterval(this.monitorTimer);
+    if (this.clockTimer) clearInterval(this.clockTimer);
+    this.destroyPlayer();
+  }
+
+  private destroyHls() {
+    if (this.hls) {
+      this.hls.destroy();
+      this.hls = undefined;
+    }
+  }
+
+  private destroyPlayer() {
+    this.destroyHls();
+
+    if (this.videoRef) {
+      const v = this.videoRef.nativeElement;
+      v.pause();
+      v.removeAttribute('src');
+      v.load();
+    }
   }
 }
 

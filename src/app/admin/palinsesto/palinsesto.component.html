@@ -7,21 +7,24 @@
 
 <ion-content class="ion-padding">
 
-  <!-- refresh -->
+  <!-- Refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="loadData(); $event.target.complete()">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <!-- Loading -->
   <ng-container *ngIf="loading">
     <div class="center">
       <ion-spinner></ion-spinner>
     </div>
   </ng-container>
 
+  <!-- Error -->
   <ion-text color="danger" *ngIf="error">
     <p>{{ error }}</p>
   </ion-text>
 
+  <!-- MAIN -->
   <ng-container *ngIf="!loading && !error">
 
     <!-- VOD Sync -->
@@ -52,19 +55,21 @@
     <!-- TIMELINE -->
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Timeline (EPG)</ion-card-title>
+        <ion-card-title>Timeline (EPG - visione giornaliera)</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <div class="timeline-wrapper">
 
-          <!-- tacche orarie -->
-          <div class="timeline-hour"
-               *ngFor="let h of [].constructor(24); let i = index"
-               [style.left.%]="(i * 60) / 14.4">
+          <!-- Ore -->
+          <div
+            class="timeline-hour"
+            *ngFor="let h of [].constructor(24); let i = index"
+            [style.left.%]="(i * 60) / 14.4">
             {{ i }}:00
           </div>
 
+          <!-- Eventi -->
           <div class="timeline-items">
             <div class="tl-item"
               *ngFor="let t of timeline; let i = index"
@@ -73,43 +78,43 @@
               [style.background]="colors[i % colors.length]"
               [class.conflict]="t.conflict">
               <strong>{{ t.title }}</strong><br>
-              {{ t.start }} → {{ t.end }}
+              <!-- FIX: ora mostriamo orari formattati -->
+              {{ formatHHMMSS(t.start) }} → {{ formatHHMMSS(t.end) }}
             </div>
           </div>
-
 
         </div>
       </ion-card-content>
     </ion-card>
 
-    <!-- LAYOUT 2 COLONNE -->
+    <!-- Colonne Layout -->
     <div class="columns">
 
-      <!-- VOD disponibili -->
+      <!-- COL 1 - VOD disponibili -->
       <div class="col">
         <ion-card>
           <ion-card-header>
             <ion-card-title>VOD disponibili</ion-card-title>
           </ion-card-header>
-          <ion-card-content>
 
+          <ion-card-content>
             <ion-list>
               <ion-item *ngFor="let v of vodList">
                 <ion-label>
                   <h2>{{ v.title }}</h2>
                   <p>{{ v.bunnyId }} • Durata: {{ formatDuration(v.length!) }}</p>
                 </ion-label>
+
                 <ion-button fill="outline" size="small" (click)="addVod(v)">
                   Aggiungi
                 </ion-button>
               </ion-item>
             </ion-list>
-
           </ion-card-content>
         </ion-card>
       </div>
 
-      <!-- PALINSESTO -->
+      <!-- COL 2 - PALINSESTO -->
       <div class="col">
 
         <ion-card>
@@ -119,6 +124,7 @@
 
           <ion-card-content>
 
+            <!-- Lista -->
             <ion-list *ngIf="items.length > 0; else noItems"
                       cdkDropList
                       (cdkDropListDropped)="drop($event)">
@@ -140,16 +146,22 @@
 
                       <!-- VISUAL MODE -->
                       <div *ngIf="!item.editing">
-                        <strong>{{ item.startTime || '--:--:--' }}</strong><br>
+                        <!-- FIX: item.startAt → formato -->
+                        <strong>{{ item.editDate }} {{ formatHHMMSS(item.startAt) }}</strong><br>
+
                         <ion-button size="small"
                                     fill="outline"
                                     (click)="item.editing = true">
-                          Modifica orario
+                          Modifica data/orario
                         </ion-button>
                       </div>
 
-                      <!-- EDIT MODE (3 select orizzontali + salva) -->
+                      <!-- EDIT MODE -->
                       <div *ngIf="item.editing" class="edit-time-row">
+
+                        <input type="date"
+                               [(ngModel)]="item.editDate"
+                               class="date-input" />
 
                         <select [(ngModel)]="item.editHour">
                           <option *ngFor="let h of hours" [value]="h">{{ h | number:'2.0' }}</option>
@@ -169,17 +181,18 @@
                                     (click)="saveStartTime(item)">
                           Salva
                         </ion-button>
-
                       </div>
                     </div>
 
                     <!-- FINE -->
                     <div class="info-box">
                       <label>Fine</label>
-                      <p>{{ item.endTime || '--:--:--' }}</p>
+
+                      <!-- FIX: item.endTime → formatHHMMSS(item.endAt) -->
+                      <p>{{ formatHHMMSS(item.endAt) }}</p>
                     </div>
 
-                    <!-- BUNNY ID -->
+                    <!-- BUNNY -->
                     <div class="info-box">
                       <label>BunnyID</label>
                       <p>{{ item.bunnyId }}</p>
@@ -208,6 +221,7 @@
 
             </ion-list>
 
+            <!-- Nessun item -->
             <ng-template #noItems>
               <ion-text color="medium">
                 <p>Nessun contenuto.</p>

@@ -1,4 +1,7 @@
 
+/* ---------------------------
+   SEZIONE LOADING
+---------------------------- */
 .center {
   display: flex;
   justify-content: center;
@@ -6,154 +9,189 @@
   min-height: 120px;
 }
 
-/* Colonne */
+/* ---------------------------
+   COLONNE
+---------------------------- */
 .columns {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .col {
   flex: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .columns {
     flex-direction: row;
   }
 }
 
-/* Timeline migliorata */
+/* ---------------------------
+   TIMELINE
+---------------------------- */
 .timeline-wrapper {
   position: relative;
   width: 100%;
-  min-height: 140px;
-  border: 1px solid #e0e0e0;
+  min-height: 150px;
+  border: 1px solid #ddd;
   background: #fafafa;
+  border-radius: 10px;
+  padding-top: 20px;
   overflow-x: auto;
-  white-space: nowrap;
 }
 
 .timeline-hour {
   position: absolute;
   top: 0;
   font-size: 11px;
-  opacity: 0.6;
+  opacity: 0.65;
   transform: translateX(-50%);
+  color: #444;
 }
 
 .timeline-items {
   position: relative;
-  height: 100px;
+  height: 110px;
+  margin-top: 20px;
 }
 
 .tl-item {
   position: absolute;
-  height: 60px;
-  color: white;
+  height: 70px;
   padding: 8px;
   border-radius: 6px;
-  box-sizing: border-box;
+  color: white;
   font-size: 13px;
   overflow: hidden;
+  box-sizing: border-box;
 }
-
 
 .tl-item.conflict {
-  border: 2px solid red;
+  border: 2px solid #e53935;
 }
 
-/* PALINSESTO ITEMS */
+/* ---------------------------
+   PALINSESTO ITEMS
+---------------------------- */
 .palinsesto-item {
   align-items: flex-start;
-  padding: 12px;
+  padding: 14px;
   border-radius: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   background: #f8f9fa;
+  display: flex;
+  gap: 15px;
 
   &.conflict {
-    border-left: 4px solid #e53935;
+    border-left: 5px solid #e53935;
     background: #ffebee;
   }
 }
 
 .content-col {
   flex: 1;
+  min-width: 0;
 }
 
 .title {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-size: 1.15rem;
   font-weight: 600;
+  margin-bottom: 10px;
 }
 
+/* ---------------------------
+   BOX INFO (Inizio, Fine, BunnyID)
+---------------------------- */
 .info-grid {
   display: flex;
-  gap: 15px;
   flex-wrap: wrap;
+  gap: 15px;
 }
 
 .info-box {
-  background: #ffffff;
-  padding: 8px 10px;
+  background: #fff;
+  padding: 10px 12px;
   border-radius: 8px;
-  width: 150px;
-  box-shadow: rgba(0,0,0,0.08) 0px 1px 3px;
+  width: 200px;
+  box-shadow: rgba(0,0,0,0.08) 0px 1px 4px;
 
   label {
     font-size: 0.8rem;
-    font-weight: 600;
-    color: #666;
-    display: block;
+    font-weight: 700;
+    color: #555;
     margin-bottom: 4px;
+    display: block;
   }
 
   p {
     margin: 0;
     font-size: 0.9rem;
-
-    small {
-      color: #666;
-    }
+    word-wrap: break-word;
   }
 }
 
-/* EDITOR ORARIO (SCELTA B: HH / MM / SS inline) */
+.date-input {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+/* ---------------------------
+   EDIT DATE / TIME
+---------------------------- */
 .edit-time-row {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 6px;
+  align-items: center;
 
   select {
-    padding: 4px 6px;
+    padding: 5px 6px;
     font-size: 0.9rem;
-    border-radius: 6px;
     border: 1px solid #ccc;
-    background: #ffffff;
-    width: 60px;
+    border-radius: 6px;
+    background: #fff;
+    width: 65px;
   }
 
-  ion-button {
-    margin-left: 5px;
+  .date-input {
+    width: 150px;
   }
 }
 
+/* ---------------------------
+   COLONNA BOTTONI (↑ ↓ Rimuovi)
+---------------------------- */
 .buttons-col {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-left: 10px;
+  gap: 6px;
+  min-width: 60px;
 }
 
 .conflict-msg {
-  color: #c62828;
   margin-top: 6px;
   font-size: 0.85rem;
   font-weight: 600;
+  color: #d32f2f;
 }
 
-.save-row {
-  margin-top: 20px;
+/* ---------------------------
+   RESPONSIVE
+---------------------------- */
+@media (max-width: 600px) {
+  .info-box {
+    width: 100%;
+  }
+
+  .buttons-col {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+  }
 }
 

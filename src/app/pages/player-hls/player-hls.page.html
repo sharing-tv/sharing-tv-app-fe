@@ -1,0 +1,14 @@
+
+<div class="player-container">
+  <video #video autoplay playsinline controls muted></video>
+</div>
+
+<div class="clock">
+  {{ currentClock }}
+</div>
+
+<div class="controls">
+  <button (click)="toggleMute()">🔇 Mute</button>
+  <button (click)="full()">⛶ Fullscreen</button>
+</div>
+
