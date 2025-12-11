@@ -247,20 +247,36 @@ export class PalinsestoComponent implements OnInit, OnDestroy {
     this.recalculateTimes();
   }
 
-  /** ADD VOD → in cima + startAt = fine ultimo */
+  /** ADD VOD → lo piazza alla fine dell'ultimo orario trasmesso */
   addVod(v: VodListItem) {
-    const nowUTC = new Date();
-    let startAtISO = nowUTC.toISOString();
+    // 1) Cerco l’ultimo "end" reale tra tutti gli item esistenti
+    let lastEnd: number | null = null;
 
-    if (this.items.length > 0) {
-      const last = this.items[this.items.length - 1];
-      if (last.endAt) {
-        startAtISO = new Date(last.endAt).toISOString();
+    for (const it of this.items) {
+      if (!it.startAt || !it.length) continue;
+
+      const start = new Date(it.startAt).getTime();
+      if (isNaN(start)) continue;
+
+      const end = start + it.length;
+
+      if (lastEnd === null || end > lastEnd) {
+        lastEnd = end;
       }
+    }
+
+    // 2) Se non c’è ancora niente nel palinsesto, parto dall’orario attuale
+    let startAtISO: string;
+    if (lastEnd === null) {
+      startAtISO = new Date().toISOString();
+    } else {
+      // end già contiene anche la data corretta (anche se è passato a giorno dopo)
+      startAtISO = new Date(lastEnd).toISOString();
     }
 
     const d = new Date(startAtISO);
 
+    // 3) Creo il nuovo item che parte esattamente dove finisce l’ultimo
     const newItem: PalinsestoItem = {
       vod: v.id,
       title: v.title,
@@ -268,7 +284,7 @@ export class PalinsestoComponent implements OnInit, OnDestroy {
       length: this.parseLength(v.length),
 
       startAt: startAtISO,
-      endAt: null,
+      endAt: null,  // verrà calcolato in recalculateTimes()
 
       editDate: d.toISOString().substring(0, 10),
       editHour: d.getUTCHours(),
@@ -279,9 +295,13 @@ export class PalinsestoComponent implements OnInit, OnDestroy {
       editing: false
     };
 
-    this.items.unshift(newItem);
+    // 4) Lo aggiungo IN FONDO alla lista (fine della messa in onda)
+    this.items.push(newItem);
+
+    // 5) Ricalcolo tutti gli orari e la timeline
     this.recalculateTimes();
   }
+
 
   saveStartTime(item: PalinsestoItem) {
     if (!item.editDate) return;
@@ -349,7 +369,23 @@ export class PalinsestoComponent implements OnInit, OnDestroy {
       const start = new Date(item.startAt).getTime();
       const end = start + item.length;
 
-      item.endAt = new Date(end).toISOString();
+      // 🔥 Se l'evento supera mezzanotte → aggiorna automaticamente la data
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      if (endDate.getUTCDate() !== startDate.getUTCDate()) {
+        item.endAt = new Date(Date.UTC(
+          endDate.getUTCFullYear(),
+          endDate.getUTCMonth(),
+          endDate.getUTCDate(),
+          endDate.getUTCHours(),
+          endDate.getUTCMinutes(),
+          endDate.getUTCSeconds()
+        )).toISOString();
+      } else {
+        item.endAt = new Date(end).toISOString();
+      }
+
+      // item.endAt = new Date(end).toISOString();
       item.conflict = false;
 
       if (lastEnd !== null) {
