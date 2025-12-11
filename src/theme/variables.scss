@@ -2,36 +2,46 @@
 //
 // 🎨 Palette canali LIVE
 //
-$color-news:    #E53935; // Rosso energetico
-$color-show:    #8E24AA; // Viola creativo
-$color-arts:    #FB8C00; // Arancione vivo
-$color-earth:   #43A047; // Verde naturale
-$color-economy: #1E88E5; // Blu istituzionale
-$color-tech:    #546E7A; // Grigio/azzurro tecnologico
-$color-life:    #D81B60; // Rosa moderno
-$color-health:  #26C6DA; // Verde acqua (benessere)
+$color-news:    #E53935;
+$color-show:    #8E24AA;
+$color-arts:    #FB8C00;
+$color-earth:   #43A047;
+$color-economy: #1E88E5;
+$color-tech:    #546E7A;
+$color-life:    #D81B60;
+$color-health:  #26C6DA;
 
 //
-// 📱 Breakpoints - Mobile First
+// 📱 Breakpoints moderni - Mobile First (completi 2025)
 //
-$breakpoint-xs:   200px;  // Extra small (device molto piccoli, < iPhone 5)
-$breakpoint-xsm:  420px;  // Extra small-medium (smartphone compatti)
-$breakpoint-sm:   576px;  // Smartphone
-$breakpoint-md:   768px;  // Tablet portrait
-$breakpoint-lg:   992px;  // Tablet landscape / small laptop
-$breakpoint-xl:   1200px; // Desktop standard
-$breakpoint-xxl:  1400px; // Desktop large
+// Ultra-small screens
+$breakpoint-xxxxs: 240px;   // extreme tiny devices
+$breakpoint-xxxs:  300px;   // very tiny devices
+$breakpoint-xxs:   320px;   // extra small (classic mobile minimum)
+$breakpoint-xs:    420px;   // small mobile
+$breakpoint-sm:    576px;   // mobile standard
+$breakpoint-md:    768px;   // tablet portrait
+$breakpoint-lg:    992px;   // tablet landscape / laptop
+$breakpoint-xl:    1200px;  // desktop standard
+$breakpoint-xxl:   1440px;  // wide desktop
+$breakpoint-xxxl:  1920px;  // ultrawide HD
+$breakpoint-4k:    2560px;  // 4K monitors
+$breakpoint-8k:    3840px;  // 8K screens
 
 //
-// ⚙️ Mixin per media queries
+// ⚙️ Mixin per media queries aggiornati
 //
 
 // Min-width (>= breakpoint)
 @mixin respond-above($breakpoint) {
-  @if $breakpoint == xs {
+  @if $breakpoint == xxxxs {
+    @media (min-width: $breakpoint-xxxxs) { @content; }
+  } @else if $breakpoint == xxxs {
+    @media (min-width: $breakpoint-xxxs) { @content; }
+  } @else if $breakpoint == xxs {
+    @media (min-width: $breakpoint-xxs) { @content; }
+  } @else if $breakpoint == xs {
     @media (min-width: $breakpoint-xs) { @content; }
-  } @else if $breakpoint == xsm {
-    @media (min-width: $breakpoint-xsm) { @content; }
   } @else if $breakpoint == sm {
     @media (min-width: $breakpoint-sm) { @content; }
   } @else if $breakpoint == md {
@@ -42,13 +52,32 @@ $breakpoint-xxl:  1400px; // Desktop large
     @media (min-width: $breakpoint-xl) { @content; }
   } @else if $breakpoint == xxl {
     @media (min-width: $breakpoint-xxl) { @content; }
+  } @else if $breakpoint == xxxl {
+    @media (min-width: $breakpoint-xxxl) { @content; }
+  } @else if $breakpoint == _4k {
+    @media (min-width: $breakpoint-4k) { @content; }
+  } @else if $breakpoint == _8k {
+    @media (min-width: $breakpoint-8k) { @content; }
+  }
+}
+
+// Range (>= min e <= max)
+@mixin respond-between($min, $max) {
+  @media (min-width: $min) and (max-width: $max) {
+    @content;
   }
 }
 
 // Max-width (<= breakpoint)
 @mixin respond-below($breakpoint) {
-  @if $breakpoint == xsm {
-    @media (max-width: ($breakpoint-xsm - 1)) { @content; }
+  @if $breakpoint == xxxxs {
+    @media (max-width: ($breakpoint-xxxxs - 1)) { @content; }
+  } @else if $breakpoint == xxxs {
+    @media (max-width: ($breakpoint-xxxs - 1)) { @content; }
+  } @else if $breakpoint == xxs {
+    @media (max-width: ($breakpoint-xxs - 1)) { @content; }
+  } @else if $breakpoint == xs {
+    @media (max-width: ($breakpoint-xs - 1)) { @content; }
   } @else if $breakpoint == sm {
     @media (max-width: ($breakpoint-sm - 1)) { @content; }
   } @else if $breakpoint == md {
@@ -59,13 +88,12 @@ $breakpoint-xxl:  1400px; // Desktop large
     @media (max-width: ($breakpoint-xl - 1)) { @content; }
   } @else if $breakpoint == xxl {
     @media (max-width: ($breakpoint-xxl - 1)) { @content; }
-  }
-}
-
-// Range (>= min e <= max)
-@mixin respond-between($min, $max) {
-  @media (min-width: $min) and (max-width: $max) {
-    @content;
+  } @else if $breakpoint == xxxl {
+    @media (max-width: ($breakpoint-xxxl - 1)) { @content; }
+  } @else if $breakpoint == _4k {
+    @media (max-width: ($breakpoint-4k - 1)) { @content; }
+  } @else if $breakpoint == _8k {
+    @media (max-width: ($breakpoint-8k - 1)) { @content; }
   }
 }
 

@@ -1,4 +1,6 @@
 
+<!-- src/app/admin/palinsesto/palinsesto.component.html -->
+
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Gestione Palinsesto</ion-title>
@@ -7,27 +9,26 @@
 
 <ion-content class="ion-padding">
 
-  <!-- Refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="loadData(); $event.target.complete()">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <!-- Loading -->
+  <!-- LOADING -->
   <ng-container *ngIf="loading">
     <div class="center">
       <ion-spinner></ion-spinner>
     </div>
   </ng-container>
 
-  <!-- Error -->
+  <!-- ERROR -->
   <ion-text color="danger" *ngIf="error">
     <p>{{ error }}</p>
   </ion-text>
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <ng-container *ngIf="!loading && !error">
 
-    <!-- VOD Sync -->
+    <!-- Sync VOD -->
     <ion-card>
       <ion-card-header>
         <ion-card-title>Gestione contenuti VOD</ion-card-title>
@@ -52,54 +53,113 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- TIMELINE -->
+    <!-- Timeline -->
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Timeline (EPG - visione giornaliera)</ion-card-title>
+        <ion-card-title>Timeline (EPG)</ion-card-title>
       </ion-card-header>
+
+      <!-- 🔍 ZOOM CONTROLS -->
+      <div class="timeline-zoom-controls">
+        <ion-button size="small" (click)="setZoom(6)">6h</ion-button>
+        <ion-button size="small" (click)="setZoom(12)">12h</ion-button>
+        <ion-button size="small" (click)="setZoom(16)">16h</ion-button>
+        <ion-button size="small" (click)="setZoom(24)">24h</ion-button>
+      </div>
 
       <ion-card-content>
         <div class="timeline-wrapper">
+          <!-- TRACK LARGA 24H (1440 minuti * zoomFactor px) -->
+          <div class="timeline-track" [style.width.px]="1440 * zoomFactor">
 
-          <!-- Ore -->
-          <div
-            class="timeline-hour"
-            *ngFor="let h of [].constructor(24); let i = index"
-            [style.left.%]="(i * 60) / 14.4">
-            {{ i }}:00
-          </div>
+            <!-- Ore -->
+            <div
+              class="timeline-hour"
+              *ngFor="let h of [].constructor(24); let i = index"
+              [style.left.px]="i * 60 * zoomFactor">
+              {{ i }}:00
+            </div>
 
-          <!-- Eventi -->
-          <div class="timeline-items">
-            <div class="tl-item"
-              *ngFor="let t of timeline; let i = index"
-              [style.width.px]="t.width"
-              [style.left.px]="t.offset"
-              [style.background]="colors[i % colors.length]"
-              [class.conflict]="t.conflict">
-              <strong>{{ t.title }}</strong><br>
-              <!-- FIX: ora mostriamo orari formattati -->
-              {{ formatHHMMSS(t.start) }} → {{ formatHHMMSS(t.end) }}
+            <!-- Eventi + spazi liberi -->
+            <div class="timeline-items">
+              <div class="tl-item"
+                *ngFor="let t of timeline; let i = index"
+                [style.width.px]="t.width * zoomFactor"
+                [style.left.px]="t.offset * zoomFactor"
+                [ngClass]="{ 'free': t.free, 'conflict': t.conflict }">
+
+                <!-- Tooltip -->
+                <div class="tooltip">
+                  <!-- EVENTO -->
+                  <ng-container *ngIf="!t.free">
+                    <strong>{{ t.title }}</strong><br>
+                    {{ formatHHMMSS(t.start) }} → {{ formatHHMMSS(t.end) }}<br>
+                    Durata: {{ formatDuration(t.end - t.start) }}
+                    <span *ngIf="t.conflict"><br>⚠ Conflitto orario</span>
+                  </ng-container>
+
+                  <!-- SPAZIO LIBERO -->
+                  <ng-container *ngIf="t.free">
+                    🕓 <strong>Spazio libero</strong><br>
+                    Durata: {{ formatDuration(t.end - t.start) }}
+                  </ng-container>
+                </div>
+
+                <!-- CONTENUTO VISIVO BREVETTE -->
+                <ng-container *ngIf="t.free; else eventBlock">
+                  <strong>🕓 Spazio libero</strong><br>
+                  Durata: {{ formatDuration(t.end - t.start) }}
+                </ng-container>
+
+                <ng-template #eventBlock>
+                  <strong>{{ t.title }}</strong><br>
+                  {{ formatHHMMSS(t.start) }} → {{ formatHHMMSS(t.end) }}
+                </ng-template>
+
+              </div>
             </div>
           </div>
-
         </div>
       </ion-card-content>
+
+      <!-- BADGE UTC -->
+      <div class="utc-badge">
+        ⚠️ Ricorda: il palinsesto usa orario <strong>UTC</strong>.<br>
+        Ora UTC attuale: <strong>{{ utcNow }}</strong><br>
+        La messa in onda utilizza invece il tuo orario locale.
+      </div>
+
     </ion-card>
 
-    <!-- Colonne Layout -->
+    <!-- COLONNE -->
     <div class="columns">
 
-      <!-- COL 1 - VOD disponibili -->
+      <!-- VOD disponibili -->
       <div class="col">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>VOD disponibili</ion-card-title>
+            <ion-card-title>
+              VOD disponibili ({{ filteredVods.length }}/{{ vodList.length }})
+            </ion-card-title>
           </ion-card-header>
 
           <ion-card-content>
+
+            <!-- Ricerca + ordinamento -->
+            <ion-item>
+              <ion-input
+                placeholder="Cerca per nome..."
+                [(ngModel)]="vodSearch">
+              </ion-input>
+
+              <ion-select [(ngModel)]="vodSort" interface="popover">
+                <ion-select-option value="name">Ordina per nome</ion-select-option>
+                <ion-select-option value="date">Ordina per durata</ion-select-option>
+              </ion-select>
+            </ion-item>
+
             <ion-list>
-              <ion-item *ngFor="let v of vodList">
+              <ion-item *ngFor="let v of filteredVods">
                 <ion-label>
                   <h2>{{ v.title }}</h2>
                   <p>{{ v.bunnyId }} • Durata: {{ formatDuration(v.length!) }}</p>
@@ -110,11 +170,12 @@
                 </ion-button>
               </ion-item>
             </ion-list>
+
           </ion-card-content>
         </ion-card>
       </div>
 
-      <!-- COL 2 - PALINSESTO -->
+      <!-- PALINSESTO -->
       <div class="col">
 
         <ion-card>
@@ -122,14 +183,22 @@
             <ion-card-title>Palinsesto (ordine di messa in onda)</ion-card-title>
           </ion-card-header>
 
+          <!-- PULSANTE SALVA IN ALTO -->
+          <div class="save-top">
+            <ion-button expand="block" (click)="save()" [disabled]="saving">
+              <ion-spinner *ngIf="saving" slot="start"></ion-spinner>
+              Salva palinsesto
+            </ion-button>
+          </div>
+
           <ion-card-content>
 
-            <!-- Lista -->
             <ion-list *ngIf="items.length > 0; else noItems"
                       cdkDropList
                       (cdkDropListDropped)="drop($event)">
 
-              <ion-item *ngFor="let item of items; let i = index"
+              <!-- Ordine invertito: ultimo aggiunto = 1 -->
+              <ion-item *ngFor="let item of items.slice().reverse(); let i = index"
                         cdkDrag
                         class="palinsesto-item"
                         [class.conflict]="item.conflict">
@@ -144,19 +213,18 @@
                     <div class="info-box">
                       <label>Inizio</label>
 
-                      <!-- VISUAL MODE -->
+                      <!-- VIEW -->
                       <div *ngIf="!item.editing">
-                        <!-- FIX: item.startAt → formato -->
                         <strong>{{ item.editDate }} {{ formatHHMMSS(item.startAt) }}</strong><br>
 
                         <ion-button size="small"
                                     fill="outline"
                                     (click)="item.editing = true">
-                          Modifica data/orario
+                          Modifica
                         </ion-button>
                       </div>
 
-                      <!-- EDIT MODE -->
+                      <!-- EDIT -->
                       <div *ngIf="item.editing" class="edit-time-row">
 
                         <input type="date"
@@ -164,15 +232,21 @@
                                class="date-input" />
 
                         <select [(ngModel)]="item.editHour">
-                          <option *ngFor="let h of hours" [value]="h">{{ h | number:'2.0' }}</option>
+                          <option *ngFor="let h of hours" [value]="h">
+                            {{ h | number:'2.0' }}
+                          </option>
                         </select>
 
                         <select [(ngModel)]="item.editMinute">
-                          <option *ngFor="let m of minutes" [value]="m">{{ m | number:'2.0' }}</option>
+                          <option *ngFor="let m of minutes" [value]="m">
+                            {{ m | number:'2.0' }}
+                          </option>
                         </select>
 
                         <select [(ngModel)]="item.editSecond">
-                          <option *ngFor="let s of seconds" [value]="s">{{ s | number:'2.0' }}</option>
+                          <option *ngFor="let s of seconds" [value]="s">
+                            {{ s | number:'2.0' }}
+                          </option>
                         </select>
 
                         <ion-button size="small"
@@ -187,17 +261,20 @@
                     <!-- FINE -->
                     <div class="info-box">
                       <label>Fine</label>
-
-                      <!-- FIX: item.endTime → formatHHMMSS(item.endAt) -->
                       <p>{{ formatHHMMSS(item.endAt) }}</p>
                     </div>
 
-                    <!-- BUNNY -->
+                    <!-- DURATA -->
                     <div class="info-box">
-                      <label>BunnyID</label>
-                      <p>{{ item.bunnyId }}</p>
+                      <label>Durata</label>
+                      <p>{{ formatDuration(item.length) }}</p>
                     </div>
 
+                    <!-- BUNNY -->
+                    <!-- <div class="info-box">
+                      <label>BunnyID</label>
+                      <p>{{ item.bunnyId }}</p>
+                    </div> -->
                   </div>
 
                   <p *ngIf="item.conflict" class="conflict-msg">
@@ -212,7 +289,7 @@
                   <ion-button size="small"
                               color="danger"
                               fill="outline"
-                              (click)="removeAt(i)">
+                              (click)="removeItem(item)">
                     Rimuovi
                   </ion-button>
                 </div>
@@ -221,26 +298,17 @@
 
             </ion-list>
 
-            <!-- Nessun item -->
             <ng-template #noItems>
               <ion-text color="medium">
                 <p>Nessun contenuto.</p>
               </ion-text>
             </ng-template>
 
-            <ion-button expand="block"
-                        (click)="save()"
-                        [disabled]="saving">
-              <ion-spinner *ngIf="saving" slot="start"></ion-spinner>
-              Salva palinsesto
-            </ion-button>
-
           </ion-card-content>
         </ion-card>
 
       </div>
     </div>
-
   </ng-container>
 
 </ion-content>

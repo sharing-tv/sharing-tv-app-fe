@@ -12,6 +12,7 @@ import { CanaleEconomyComponent } from './components/canale-economy/canale-econo
 import { CanaleTechComponent } from './components/canale-tech/canale-tech.component';
 import { CanaleLifeComponent } from './components/canale-life/canale-life.component';
 import { CanaleHealthComponent } from './components/canale-health/canale-health.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -151,6 +152,7 @@ const routes: Routes = [
       import('./admin/palinsesto/palinsesto.module').then(
         m => m.PalinsestoModule
       ),
+      canActivate: [AdminGuard]
   },
   {
     path: 'tv-player',
@@ -163,7 +165,11 @@ const routes: Routes = [
   {
     path: 'player/dash',
     loadChildren: () => import('./pages/player-dash/player-dash.module').then( m => m.PlayerDashPageModule)
+  },  {
+    path: 'not-authorized',
+    loadChildren: () => import('./not-authorized/not-authorized.module').then( m => m.NotAuthorizedPageModule)
   },
+
 
 ];
 

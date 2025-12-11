@@ -53,5 +53,14 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
+  getEmail(): string | null {
+    return localStorage.getItem('auth_email');
+  }
+
+  isAdmin(): boolean {
+    return this.getEmail() === 'info@fondazionegea.it';
+  }
+
 }
 

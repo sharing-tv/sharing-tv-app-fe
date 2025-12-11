@@ -1,135 +1,111 @@
+
 /* src/app/components/tv-logo/tv-logo.component.scss */
 @import "src/theme/variables";
 
 .tech-tv {
   position: absolute;
-  top: 5px;
-  left: -380px;
-  width: 110px;   // 📱 base extra small
-  height: 60px;
-  border: 2px solid rgba(0, 200, 255, 0.8);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 0 10px rgba(0,200,255,0.6), inset 0 0 5px rgba(0,200,255,0.3);
+  top: 0;
+  left: 0;
+
+  /* Default (mobile medio) */
+  transform: translate(0px, 30px) scale(4);
+  transform-origin: top left;
+
+  z-index: 99999;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Calibri, sans-serif;
-  color: rgba(0, 255, 200, 0.95);
-  text-transform: uppercase;
-  font-size: 10px; // base più piccolo
-  font-weight: bold;
-  letter-spacing: 1px;
-  animation: breathe 6s ease-in-out infinite;
-  z-index: 10;
-}
+  background-color: transparent;
 
-.tech-tv::before,
-.tech-tv::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  height: 2px;
-  background: rgba(0, 200, 255, 0.8);
-  box-shadow: 0 0 3px rgba(0,200,255,0.9);
-}
+  .tv-logo {
+    width: 60px;
+    transition: transform 0.25s ease;
 
-.tech-tv::before { left: -10px; width: 25px; }
-.tech-tv::after  { right: -10px; width: 25px; }
-
-/* 🔠 S speciale */
-.special-s {
-  font-family: Calibri, sans-serif;
-  font-size: 30px; 
-  font-weight: 900;
-  margin-right: 3px;
-  line-height: 1;
-  text-shadow: none;
-}
-
-/* ✨ Animazione respiro */
-@keyframes breathe {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow:
-      0 0 10px rgba(0,200,255,0.6),
-      inset 0 0 5px rgba(0,200,255,0.3);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow:
-      0 0 18px rgba(0,200,255,1),
-      inset 0 0 9px rgba(0,200,255,0.5);
+    &:hover {
+      transform: scale(1.15);
+    }
   }
 }
 
-/* 📱 Extra Small (200–419px) */
-@include respond-between($breakpoint-xs, ($breakpoint-xsm - 1)) {
-  .tech-tv {
-    width: 80px;
-    height: 45px;
-    font-size: 9px;
-  }
-  .special-s { font-size: 18px; }
-}
+// /* 📱 Ultra-small screens (240–299px) */
+// @include respond-between($breakpoint-xxxxs, ($breakpoint-xxxs - 1)) {
+//   .tech-tv {
+//     transform: translate(40px, 50px) scale(2.2);
+//   }
+// }
 
-/* 📱 Small (420–575px) */
-@include respond-between($breakpoint-xsm, ($breakpoint-sm - 1)) {
-  .tech-tv {
-    width: 100px;
-    height: 55px;
-    font-size: 11px;
-  }
-  .special-s { font-size: 22px; }
-}
+// /* 📱 Very tiny (300–319px) */
+// @include respond-between($breakpoint-xxxs, ($breakpoint-xxs - 1)) {
+//   .tech-tv {
+//     transform: translate(50px, 60px) scale(2.5);
+//   }
+// }
 
-/* 📱 Smartphone >= sm */
-@include respond-above(sm) {
-  .tech-tv {
-    width: 120px;
-    height: 60px;
-    font-size: 12px;
-  }
-  .special-s { font-size: 26px; }
-}
+// /* 📱 Extra small (320–419px) */
+// @include respond-between($breakpoint-xxs, ($breakpoint-xs - 1)) {
+//   .tech-tv {
+//     transform: translate(60px, 70px) scale(3);
+//   }
+// }
 
-/* 📲 Tablet portrait >= md */
-@include respond-above(md) {
-  .tech-tv {
-    width: 140px;
-    height: 75px;
-    font-size: 13px;
-  }
-  .special-s { font-size: 30px; }
-}
+// /* 📱 Small mobile (420–575px) */
+// @include respond-between($breakpoint-xs, ($breakpoint-sm - 1)) {
+//   .tech-tv {
+//     transform: translate(70px, 90px) scale(3.5);
+//   }
+// }
 
-/* 💻 Tablet landscape >= lg */
-@include respond-above(lg) {
-  .tech-tv {
-    width: 160px;
-    height: 85px;
-    font-size: 14px;
-  }
-  .special-s { font-size: 34px; }
-}
+// /* 📱 Smartphone >= 576px */
+// @include respond-above(sm) {
+//   .tech-tv {
+//     transform: translate(80px, 100px) scale(3.8);
+//   }
+// }
 
-/* 🖥️ Desktop >= xl */
-@include respond-above(xl) {
-  .tech-tv {
-    width: 170px;
-    height: 95px;
-    font-size: 16px;
-  }
-  .special-s { font-size: 40px; }
-}
+// /* 📲 Tablet portrait >= 768px */
+// @include respond-above(md) {
+//   .tech-tv {
+//     transform: translate(90px, 120px) scale(4);
+//   }
+// }
 
-/* 🖥️ 2K >= xxl */
-@include respond-above(xxl) {
-  .tech-tv {
-    width: 200px;
-    height: 110px;
-    font-size: 18px;
-  }
-  .special-s { font-size: 46px; }
-}
+// /* 💻 Tablet landscape / laptop >= 992px */
+// @include respond-above(lg) {
+//   .tech-tv {
+//     transform: translate(100px, 140px) scale(4.2);
+//   }
+// }
+
+// /* 🖥 Desktop >= 1200px */
+// @include respond-above(xl) {
+//   .tech-tv {
+//     transform: translate(110px, 160px) scale(4.5);
+//   }
+// }
+
+// /* 🖥 Wide desktop >= 1440px */
+// @include respond-above(xxl) {
+//   .tech-tv {
+//     transform: translate(130px, 180px) scale(5);
+//   }
+// }
+
+// /* 🖥 UltraWide HD >= 1920px */
+// @include respond_above(xxxl) {
+//   .tech-tv {
+//     transform: translate(160px, 220px) scale(5.5);
+//   }
+// }
+
+// /* 🖥 4K monitors >= 2560px */
+// @include respond_above(_4k) {
+//   .tech-tv {
+//     transform: translate(200px, 260px) scale(6.5);
+//   }
+// }
+
+// /* 🖥 8K screens >= 3840px */
+// @include respond_above(_8k) {
+//   .tech-tv {
+//     transform: translate(260px, 320px) scale(8);
+//   }
+// }
 

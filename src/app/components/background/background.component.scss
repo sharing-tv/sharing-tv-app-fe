@@ -124,7 +124,7 @@
 }
 
 /* 📱 Extra small (200–419px) */
-@include respond-between($breakpoint-xs, ($breakpoint-xsm - 1)) {
+@include respond-between($breakpoint-xs, ($breakpoint-sm - 1)) {
   .sun { width: 35px; height: 35px; }
   .globe.half { width: 250px; height: 250px; }
 }

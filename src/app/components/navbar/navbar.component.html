@@ -42,9 +42,13 @@
         Logout
       </ion-item>
 
-      <ion-item routerLink="/admin/palinsesto" (click)="closeMenu()">
-          Palinsesto
+      <ion-item 
+        routerLink="/admin/palinsesto"
+        (click)="closeMenu()"
+        *ngIf="isAdmin">
+        Palinsesto
       </ion-item>
+
 
 
     </ion-list>

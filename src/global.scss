@@ -70,8 +70,15 @@ ion-content {
   background: transparent !important;
 }
 
-app-tv-logo,
-app-slogan,
+/* Logo deve potersi posizionare liberamente */
+app-tv-logo {
+  position: static;  /* lascia il componente libero */
+  z-index: 10;
+}
+app-slogan{
+  position: static;
+  z-index: 10;
+}
 app-canali,
 app-live,
 app-rss-live-news,

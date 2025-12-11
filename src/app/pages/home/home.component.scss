@@ -11,6 +11,7 @@
 
 /* Centra tutto sopra il background */
 ion-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,10 +21,10 @@ ion-content {
   z-index: 2;
 }
 
-/* === DISTANZE TRA SEZIONI === */
-app-tv-logo {
-  margin-top: 3rem;
-}
+// app-tv-logo {
+//   position: static;   // oppure semplicemente toglilo del tutto
+//   z-index: 2;
+// }
 
 app-slogan {
   margin-top: 1rem;
@@ -45,31 +46,42 @@ app-slogan {
   }
 }
 
-/* 🎥 Wrapper live centrale */
-.live-wrapper {
-  margin-top: 2rem;
+.live-preview-wrapper {
   width: 100%;
-  max-width: 1000px;
-  aspect-ratio: 16 / 9;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: center;
-
-  @include respond-above(md) {
-    margin: 28px auto;
-  }
-
-  @include respond-above(lg) {
-    margin: 36px auto;
-  }
-
-  @include respond-above(xl) {
-    margin: 40px auto;
-    border-radius: 16px;
-  }
+  justify-content: center;   /* ❤️ centra ORIZZONTALMENTE */
+  margin-top: 180px;         /* ❤️ controlla SOLO la distanza dall’alto */
 }
+
+
+/* 🎥 Wrapper live centrale */
+// .live-wrapper {
+//   // margin-top: 2rem;
+//   width: 100%;
+//   max-width: 1000px;
+//   aspect-ratio: 16 / 9;
+//   border-radius: 12px;
+//   overflow: hidden;
+//   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+//   display: flex;
+//   justify-content: center;
+
+//   transform: translate(40px, 130px);
+
+
+//   @include respond-above(md) {
+//     margin: 28px auto;
+//   }
+
+//   @include respond-above(lg) {
+//     margin: 36px auto;
+//   }
+
+//   @include respond-above(xl) {
+//     margin: 40px auto;
+//     border-radius: 16px;
+//   }
+// }
 
 /* 📰 RSS ticker */
 app-rss-live-news {

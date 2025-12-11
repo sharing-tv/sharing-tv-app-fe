@@ -1,70 +1,67 @@
 
-<div class="live-preview"
-  (mouseenter)="showControls()"
-  (mouseleave)="hideControls()"
-  (click)="toggleControls()">
+<!-- WRAPPER CHE CENTRA IL VIDEO -->
+<div class="live-preview-wrapper">
 
-  <!-- VIDEO -->
-  <video
-    #player
-    playsinline
-    webkit-playsinline
-    autoplay
-    muted
-    disablePictureInPicture
-    controlsList="nodownload noremoteplayback noplaybackrate"
-    class="video-player">
-  </video>
+  <!-- LIVE PREVIEW ORIGINALE -->
+  <div class="live-preview"
+    (mouseenter)="showControls()"
+    (mouseleave)="hideControls()"
+    (click)="toggleControls()">
 
-  <!-- BOTTOM RIGHT FIXED FULLSCREEN BUTTON -->
-  <button 
-      class="fullscreen-btn"
-      [class.visible]="controlsVisible"
-      (click)="toggleFullScreen($event)">
-      {{ isFullscreen ? '⇲' : '⛶' }}
-  </button>
+    <!-- VIDEO -->
+    <video
+      #player
+      playsinline
+      webkit-playsinline
+      autoplay
+      muted
+      disablePictureInPicture
+      controlsList="nodownload noremoteplayback noplaybackrate"
+      class="video-player">
+    </video>
 
-  <!-- MAIN CONTROL PANEL -->
-  <div class="control-panel" [class.visible]="controlsVisible">
+    <!-- BOTTOM-RIGHT FULLSCREEN BUTTON -->
+    <button 
+        class="fullscreen-btn"
+        [class.visible]="controlsVisible"
+        (click)="toggleFullScreen($event)">
+        {{ isFullscreen ? '⇲' : '⛶' }}
+    </button>
 
-      <!-- TIMER -->
-      <div class="ctrl-timer">
-        {{ currentClock }}
-      </div>
+    <!-- MAIN CONTROL PANEL -->
+    <div class="control-panel" [class.visible]="controlsVisible">
 
-      <!-- QUALITY -->
-      <select class="quality-sel" #quality (change)="setQuality(quality.value)">
-        <option value="auto">Auto</option>
-        <option value="0">1080p</option>
-        <option value="1">720p</option>
-        <option value="2">480p</option>
-        <option value="3">360p</option>
-      </select>
+        <!-- TIMER -->
+        <div class="ctrl-timer">
+          {{ currentClock }}
+        </div>
 
-      <!-- MUTE -->
-      <button class="ctrl-btn" (click)="toggleMute()">
-        {{ isMuted ? '🔇' : '🔊' }}
-      </button>
+        <!-- MUTE BUTTON -->
+        <button class="ctrl-btn" (click)="toggleMute()">
+          {{ isMuted ? '🔇' : '🔊' }}
+        </button>
 
-  </div>
-
-  <!-- FULLSCREEN TOP INFO BAR -->
-  <div class="fs-bar" *ngIf="isFullscreen && controlsVisible">
-
-    <div class="fs-info">
-      <div class="fs-title">{{ nowPlaying?.title }}</div>
-
-      <div class="fs-progress-container">
-        <div class="fs-progress" [style.width.%]="progressPercent"></div>
-      </div>
     </div>
 
-  </div>
+    <!-- FULLSCREEN TOP INFO BAR -->
+    <div class="fs-bar" *ngIf="isFullscreen && controlsVisible">
 
-  <!-- LIVE BADGE -->
-  <div class="overlay">
-    <div class="live-badge">LIVE</div>
-  </div>
+      <div class="fs-info">
+        <div class="fs-title">{{ nowPlaying?.title }}</div>
 
-</div>
+        <div class="fs-progress-container">
+          <div class="fs-progress" [style.width.%]="progressPercent"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LIVE BADGE -->
+    <div class="overlay">
+      <div class="live-badge">LIVE</div>
+    </div>
+
+  </div><!-- END .live-preview -->
+
+</div><!-- END .live-preview-wrapper -->
 

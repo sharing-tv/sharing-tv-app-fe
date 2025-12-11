@@ -1,106 +1,118 @@
+
 /* src/app/components/slogan/slogan.component.scss */
 @import "src/theme/variables";
 
-/* 🏷️ Slogan */
 .slogan {
-  margin-top: 20px;          // base mobile più compatta
-  margin-right: 10px;        // spaziatura dal bordo destro
-  text-align: center;        // 👉 allineato di base
+  position: absolute;
+  top: 0;
+  left: 50%;                        /* Punto centrale orizzontale */
+  transform: translate(-50%, 90px) scale(1.8);
+  transform-origin: top center;
+
+  z-index: 9999;
+
+  text-align: center;
   font-family: Calibri, sans-serif;
-  color: rgba(0, 255, 200, 0.95);
-  text-shadow: 0 0 4px rgba(0,255,255,0.8);
+  color: #ecb921;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
   font-weight: bold;
   line-height: 1.3;
-  animation: fadeIn 2s ease-in-out;
+  animation: fadeIn 1.5s ease-in-out;
 
-  .line1 { font-size: 12px; } // molto piccolo su smartphone
+  .line1 { font-size: 14px; }
   .line2 {
-    font-size: 14px;
-    margin-top: 4px;
+    font-size: 18px;
+    margin-top: 1px;
     text-transform: uppercase;
     letter-spacing: 1px;
   }
 }
 
-/* 📱 Extra Small (200px – 419px) */
-@include respond-between($breakpoint-xs, ($breakpoint-xsm - 1)) {
+/* ======================================================
+   BREAKPOINT — SOLO MODIFICHE SU Y E SCALA
+   ====================================================== */
+
+/* 📱 Ultra-small 240–299px */
+@include respond-between($breakpoint-xxxxs, $breakpoint-xxxs) {
   .slogan {
-    margin-top: 35px;   // 👈 più stacco dal tv-logo
-    margin-right: 0;    // 👉 non troppo vicino al bordo
-    text-align: right;  // 👉 allineato a destra su device piccolissimi
+    transform: translate(-50%, 40px) scale(1.1);
   }
 }
 
-/* 📱 Small (>= 420px e < 576px) */
-@include respond-between($breakpoint-xsm, ($breakpoint-sm - 1)) {
+/* 📱 Very tiny 300–319px */
+@include respond-between($breakpoint-xxxs, $breakpoint-xxs) {
   .slogan {
-    margin-top: 28px;
-    margin-right: 30px;
-    text-align: right;
+    transform: translate(-50%, 50px) scale(1.2);
+  }
+}
 
-    .line1 { font-size: 14px; }
-    .line2 { font-size: 16px; }
+/* 📱 Extra small 320–419px */
+@include respond-between($breakpoint-xxs, $breakpoint-xs) {
+  .slogan {
+    transform: translate(-50%, 60px) scale(1.3);
+  }
+}
+
+/* 📱 Small mobile 420–575px */
+@include respond-between($breakpoint-xs, $breakpoint-sm) {
+  .slogan {
+    transform: translate(-50%, 75px) scale(1.45);
   }
 }
 
 /* 📱 Smartphone >= sm */
 @include respond-above(sm) {
   .slogan {
-    margin-top: 30px;
-    margin-right: 120px;
-
-    .line1 { font-size: 16px; }
-    .line2 { font-size: 18px; }
+    transform: translate(-50%, 90px) scale(1.55);
   }
 }
 
 /* 📲 Tablet portrait >= md */
 @include respond-above(md) {
   .slogan {
-    margin-top: 40px;
-    margin-right: 120px;
-
-    .line1 { font-size: 20px; }
-    .line2 { font-size: 24px; }
+    transform: translate(-50%, 100px) scale(1.65);
   }
 }
 
 /* 💻 Tablet landscape >= lg */
 @include respond-above(lg) {
   .slogan {
-    margin-top: 60px;
-    margin-right: 40px;
-
-    .line1 { font-size: 26px; }
-    .line2 { font-size: 32px; }
+    transform: translate(-50%, 110px) scale(1.75);
   }
 }
 
 /* 🖥️ Desktop >= xl */
 @include respond-above(xl) {
   .slogan {
-    margin-top: 90px;
-    margin-right: 50px;
-
-    .line1 { font-size: 30px; }
-    .line2 { font-size: 40px; }
+    transform: translate(-50%, 120px) scale(1.8);
   }
 }
 
-/* 🖥️ 2K >= xxl */
+/* 🖥️ Wide desktop >= xxl */
 @include respond-above(xxl) {
   .slogan {
-    margin-top: 100px;
-    margin-right: 60px;
-
-    .line1 { font-size: 36px; }
-    .line2 { font-size: 50px; }
+    transform: translate(-50%, 130px) scale(1.9);
   }
 }
 
-/* ✨ Animazione fade-in */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* 🖥️ Ultra-wide >= 1920px */
+@include respond-above(xxxl) {
+  .slogan {
+    transform: translate(-50%, 145px) scale(2);
+  }
+}
+
+/* 🖥️ 4K */
+@include respond-above(_4k) {
+  .slogan {
+    transform: translate(-50%, 180px) scale(2.3);
+  }
+}
+
+/* 🖥️ 8K */
+@include respond-above(_8k) {
+  .slogan {
+    transform: translate(-50%, 220px) scale(2.6);
+  }
 }
 

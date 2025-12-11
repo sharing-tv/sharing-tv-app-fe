@@ -1,6 +1,10 @@
 
+// src/app/admin/palinsesto/palinsesto.component.scss
+
+@import "src/theme/variables";
+
 /* ---------------------------
-   SEZIONE LOADING
+   LOADING
 ---------------------------- */
 .center {
   display: flex;
@@ -10,22 +14,28 @@
 }
 
 /* ---------------------------
-   COLONNE
+   GRID → SEMPRE 2 COLONNE
 ---------------------------- */
 .columns {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
+
+  @include respond-below(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include respond-between($breakpoint-md, $breakpoint-lg) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include respond-above(lg) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .col {
   flex: 1;
-}
-
-@media (min-width: 900px) {
-  .columns {
-    flex-direction: row;
-  }
 }
 
 /* ---------------------------
@@ -34,42 +44,160 @@
 .timeline-wrapper {
   position: relative;
   width: 100%;
-  min-height: 150px;
-  border: 1px solid #ddd;
-  background: #fafafa;
-  border-radius: 10px;
-  padding-top: 20px;
+  min-height: 170px;
+  border: 1px solid #dcdcdc;
+  background: linear-gradient(180deg, #fefefe 0%, #f4f4f4 100%);
+  border-radius: 12px;
+  padding-top: 25px;
   overflow-x: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
+/* la track interna è larga 1440 minuti * zoomFactor */
+.timeline-track {
+  position: relative;
+  height: 140px;
+}
+
+/* ore */
 .timeline-hour {
   position: absolute;
-  top: 0;
+  top: 2px;
   font-size: 11px;
-  opacity: 0.65;
+  opacity: 0.8;
   transform: translateX(-50%);
-  color: #444;
+  color: #333;
+  font-weight: 600;
 }
 
 .timeline-items {
   position: relative;
-  height: 110px;
+  height: 120px;
   margin-top: 20px;
 }
 
+/* ---------------------------
+   TIMELINE EVENT BLOCKS
+---------------------------- */
+
+/* EVENTO normale */
 .tl-item {
   position: absolute;
-  height: 70px;
-  padding: 8px;
-  border-radius: 6px;
-  color: white;
+  height: 80px;
+  padding: 8px 10px;
+  border-radius: 10px;
   font-size: 13px;
   overflow: hidden;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  /* ombra moderna */
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+  color: #fff !important;
+  font-weight: 500;
+  cursor: pointer;
+
+  .tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translate(-50%, -100%);
+    background: rgba(30, 30, 30, 0.92);
+    color: white;
+    padding: 8px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 11px;
+    z-index: 999;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  }
 }
 
+/* Tooltip visibile al passaggio */
+.tl-item:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* COLORI EVENTI → palette streaming */
+.tl-item:nth-child(10n + 1) { background: #4e79a7; }
+.tl-item:nth-child(10n + 2) { background: #f28e2b; }
+.tl-item:nth-child(10n + 3) { background: #e15759; }
+.tl-item:nth-child(10n + 4) { background: #76b7b2; }
+.tl-item:nth-child(10n + 5) { background: #59a14f; }
+.tl-item:nth-child(10n + 6) { background: #edc949; color: #333 !important; }
+.tl-item:nth-child(10n + 7) { background: #af7aa1; }
+.tl-item:nth-child(10n + 8) { background: #ff9da7; color: #333 !important; }
+.tl-item:nth-child(10n + 9) { background: #9c755f; }
+.tl-item:nth-child(10n + 10) { background: #bab0ab; color: #333 !important; }
+
+/* CONFLITTI */
 .tl-item.conflict {
-  border: 2px solid #e53935;
+  border: 2px solid #d32f2f !important;
+  box-shadow: 0px 0px 10px rgba(211, 47, 47, 0.6);
+}
+
+/* SPAZI LIBERI */
+.tl-item.free {
+  background: repeating-linear-gradient(
+    135deg,
+    #cfd8dc,
+    #cfd8dc 10px,
+    #b0bec5 10px,
+    #b0bec5 20px
+  );
+  color: #263238 !important;
+  font-weight: 600;
+  border: 1px dashed #37474f;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
+}
+
+.tl-item.free .tooltip {
+  background: #37474f;
+  color: #eceff1;
+}
+
+/* ---------------------------
+   ZOOM CONTROLS
+---------------------------- */
+.timeline-zoom-controls {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 5px 16px;
+
+  ion-button {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-size: 12px;
+    height: 26px;
+  }
+}
+
+/* ---------------------------
+   BADGE UTC
+---------------------------- */
+.utc-badge {
+  margin: 10px 16px 20px 16px;
+  padding: 12px 14px;
+  background: #fff3cd;
+  border-left: 4px solid #ffca28;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  color: #695400;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+/* ---------------------------
+   SAVE BUTTON TOP
+---------------------------- */
+.save-top {
+  padding: 12px;
 }
 
 /* ---------------------------
@@ -77,32 +205,36 @@
 ---------------------------- */
 .palinsesto-item {
   align-items: flex-start;
-  padding: 14px;
+  padding: 16px;
   border-radius: 12px;
   margin-bottom: 15px;
-  background: #f8f9fa;
+  background: #ffffff;
   display: flex;
   gap: 15px;
 
-  &.conflict {
-    border-left: 5px solid #e53935;
-    background: #ffebee;
-  }
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-left: 4px solid #2196f3;
+}
+
+/* IN CASO DI CONFLITTO */
+.palinsesto-item.conflict {
+  border-left: 6px solid #d32f2f;
+  background: #ffebee;
 }
 
 .content-col {
   flex: 1;
-  min-width: 0;
 }
 
 .title {
   font-size: 1.15rem;
-  font-weight: 600;
-  margin-bottom: 10px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #212121;
 }
 
 /* ---------------------------
-   BOX INFO (Inizio, Fine, BunnyID)
+   INFO BOX
 ---------------------------- */
 .info-grid {
   display: flex;
@@ -111,14 +243,14 @@
 }
 
 .info-box {
-  background: #fff;
-  padding: 10px 12px;
+  background: #fafafa;
+  padding: 12px 14px;
   border-radius: 8px;
-  width: 200px;
-  box-shadow: rgba(0,0,0,0.08) 0px 1px 4px;
+  width: 210px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 
   label {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
     color: #555;
     margin-bottom: 4px;
@@ -128,7 +260,7 @@
   p {
     margin: 0;
     font-size: 0.9rem;
-    word-wrap: break-word;
+    color: #333;
   }
 }
 
@@ -140,7 +272,7 @@
 }
 
 /* ---------------------------
-   EDIT DATE / TIME
+   EDIT TIME INPUTS
 ---------------------------- */
 .edit-time-row {
   display: flex;
@@ -148,23 +280,20 @@
   gap: 8px;
   margin-top: 6px;
   align-items: center;
+}
 
-  select {
-    padding: 5px 6px;
-    font-size: 0.9rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background: #fff;
-    width: 65px;
-  }
-
-  .date-input {
-    width: 150px;
-  }
+.edit-time-row select,
+.edit-time-row .date-input {
+  background: #ffffff;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 0.9rem;
+  min-width: 70px;
 }
 
 /* ---------------------------
-   COLONNA BOTTONI (↑ ↓ Rimuovi)
+   BUTTONS
 ---------------------------- */
 .buttons-col {
   display: flex;
@@ -178,20 +307,5 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: #d32f2f;
-}
-
-/* ---------------------------
-   RESPONSIVE
----------------------------- */
-@media (max-width: 600px) {
-  .info-box {
-    width: 100%;
-  }
-
-  .buttons-col {
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10px;
-  }
 }
 

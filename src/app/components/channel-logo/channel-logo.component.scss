@@ -62,24 +62,60 @@
   &.health  { color: $color-health; }
 }
 
-/* 📱 Extra Small (200–419px) */
+/* 📱 Ultra-small screens (240–299px) */
+@include respond-between($breakpoint-xxxxs, ($breakpoint-xxxs - 1)) {
+  .channel-logo {
+    width: 45px;
+    height: 45px;
+
+    .special-s { font-size: 22px; padding: 2px 3px; }
+    .label { font-size: 7px; }
+  }
+}
+
+
+/* 📱 Very tiny screens (300–319px) */
+@include respond-between($breakpoint-xxxs, ($breakpoint-xxs - 1)) {
+  .channel-logo {
+    width: 50px;
+    height: 50px;
+
+    .special-s { font-size: 25px; padding: 2px 3px; }
+    .label { font-size: 8px; }
+  }
+}
+
+
+/* 📱 Extra small (320–419px) */
+@include respond-between($breakpoint-xxs, ($breakpoint-xs - 1)) {
+  .channel-logo {
+    width: 52px;
+    height: 52px;
+
+    .special-s { font-size: 26px; padding: 2px 4px; }
+    .label { font-size: 8px; }
+  }
+}
+
+
+/* 📱 Small mobile (420–575px) */
 @include respond-between($breakpoint-xs, ($breakpoint-sm - 1)) {
   .channel-logo {
     width: 55px;
     height: 55px;
 
-    .special-s { font-size: 28px; padding: 1px 3px; }
+    .special-s { font-size: 28px; padding: 3px 5px; }
     .label { font-size: 8px; }
   }
 }
 
-/* 📱 Smartphone >= sm */
+/* 📱 Mobile standard (576–767px) */
 @include respond-above(sm) {
   .channel-logo {
     width: 85px;
     height: 85px;
 
-    .special-s { font-size: 38px; }
+    .special-s { font-size: 38px; padding: 4px 6px; }
     .label { font-size: 11px; }
   }
 }
@@ -90,7 +126,7 @@
     width: 100px;
     height: 100px;
 
-    .special-s { font-size: 46px; }
+    .special-s { font-size: 46px; padding: 5px 7px; }
     .label { font-size: 12px; }
   }
 }
@@ -101,7 +137,7 @@
     width: 115px;
     height: 115px;
 
-    .special-s { font-size: 52px; }
+    .special-s { font-size: 52px; padding: 6px 8px; }
     .label { font-size: 13px; }
   }
 }
@@ -112,7 +148,7 @@
     width: 130px;
     height: 130px;
 
-    .special-s { font-size: 60px; }
+    .special-s { font-size: 60px; padding: 7px 10px; }
     .label { font-size: 14px; }
   }
 }
@@ -123,8 +159,41 @@
     width: 150px;
     height: 150px;
 
-    .special-s { font-size: 70px; }
+    .special-s { font-size: 70px; padding: 9px 12px; }
     .label { font-size: 16px; }
+  }
+}
+
+/* 🖥️ UltraWide HD (>= 1920px) */
+@include respond-above(xxxl) {
+  .channel-logo {
+    width: 170px;
+    height: 170px;
+
+    .special-s { font-size: 80px; padding: 10px 14px; }
+    .label { font-size: 18px; }
+  }
+}
+
+/* 🖥️ 4K screens (>= 2560px) */
+@include respond-above(_4k) {
+  .channel-logo {
+    width: 200px;
+    height: 200px;
+
+    .special-s { font-size: 95px; padding: 12px 16px; }
+    .label { font-size: 20px; }
+  }
+}
+
+/* 🖥️ 8K screens (>= 3840px) */
+@include respond-above(_8k) {
+  .channel-logo {
+    width: 240px;
+    height: 240px;
+
+    .special-s { font-size: 120px; padding: 15px 20px; }
+    .label { font-size: 26px; }
   }
 }
 

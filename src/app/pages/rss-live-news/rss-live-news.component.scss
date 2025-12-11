@@ -1,4 +1,6 @@
+
 // src/app/pages/rss-live-news/rss-live-news.component.scss
+@import "src/theme/variables";
 .ticker-container {
   overflow: hidden;
   white-space: nowrap;
@@ -51,5 +53,97 @@
 
 :host ::ng-deep ion-content {
   --background: transparent !important;
+}
+
+/* ========================================= */
+/* POSIZIONAMENTO VERTICALE TICKER (Translate Y) */
+/* ========================================= */
+
+.ticker-container {
+  transform: translateY(200px);   /* posizione base mobile */
+}
+
+/* 📱 Ultra-small 240–299px */
+@include respond-between($breakpoint-xxxxs, $breakpoint-xxxs) {
+  .ticker-container {
+    transform: translateY(120px);
+  }
+}
+
+/* 📱 Very tiny 300–319px */
+@include respond-between($breakpoint-xxxs, $breakpoint-xxs) {
+  .ticker-container {
+    transform: translateY(140px);
+  }
+}
+
+/* 📱 Extra small 320–419px */
+@include respond-between($breakpoint-xxs, $breakpoint-xs) {
+  .ticker-container {
+    transform: translateY(160px);
+  }
+}
+
+/* 📱 Small mobile 420–575px */
+@include respond-between($breakpoint-xs, $breakpoint-sm) {
+  .ticker-container {
+    transform: translateY(180px);
+  }
+}
+
+/* 📱 Smartphone >= sm */
+@include respond-above(sm) {
+  .ticker-container {
+    transform: translateY(200px);
+  }
+}
+
+/* 📲 Tablet portrait >= md */
+@include respond-above(md) {
+  .ticker-container {
+    transform: translateY(230px);
+  }
+}
+
+/* 💻 Tablet landscape >= lg */
+@include respond-above(lg) {
+  .ticker-container {
+    transform: translateY(260px);
+  }
+}
+
+/* 🖥 Desktop >= xl */
+@include respond-above(xl) {
+  .ticker-container {
+    transform: translateY(300px);
+  }
+}
+
+/* 🖥 Large Desktop >= xxl */
+@include respond-above(xxl) {
+  .ticker-container {
+    transform: translateY(340px);
+  }
+}
+
+/* 🖥 UltraWide >= 1920px */
+@include respond-above(xxxl) {
+  .ticker-container {
+    transform: translateY(380px);
+  }
+}
+
+/* 🖥 4K >= 2560px */
+@include respond-above(_4k) {
+  .ticker-container {
+    transform: translateY(450px);
+  }
+}
+
+/* 🖥 8K >= 3840px */
+@include respond-above(_8k) {
+  .ticker-container {
+    transform: translateY(550px);
+  }
 }
 

@@ -22,6 +22,11 @@ export class NavbarComponent {
     return this.auth.isLoggedIn();
   }
 
+  get isAdmin(): boolean {
+    return this.auth.isAdmin();
+  }
+
+
   closeMenu() {
     this.menuCtrl.close('start'); // chiude il menu sinistro
   }
