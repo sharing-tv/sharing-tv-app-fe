@@ -97,3 +97,131 @@ $breakpoint-8k:    3840px;  // 8K screens
   }
 }
 
+//
+// 🧭 Navbar
+//
+$navbar-height-mobile: 56px;
+$navbar-height-tablet: 64px;
+$navbar-height-desktop: 72px;
+
+$navbar-z-index: 100000;
+
+// 🎨 COLORE NAVBAR
+$navbar-bg-color: rgba(5, 20, 60, 0.88);   // blu scuro con leggera opacità
+$navbar-bg-color-solid: #05143c;           // fallback / menu
+
+$navbar-title-color: #ffffff;
+
+$navbar-title-font-size-mobile: 16px;
+$navbar-title-font-size-desktop: 18px;
+
+//
+// 🗣️ Slogan
+//
+$slogan-color: #ecb921;
+$slogan-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+
+$slogan-z-index: 9000;
+
+$slogan-offset-desktop: 90px;
+$slogan-offset-mobile: 24px;
+
+$slogan-right-margin-mobile: 16px;
+
+//
+// 📰 RSS Live Ticker
+//
+$ticker-bg-news: $color-news;
+$ticker-text-color: #ffffff;
+
+$ticker-height: 36px;
+$ticker-padding-y: 8px;
+
+$ticker-z-index: 8000;
+
+//
+// 📰 RSS Live Ticker — OFFSET CORRETTI
+//
+
+$ticker-offset-desktop: 240px;  // >= 1920 ✅ (più basso)
+$ticker-offset-xxl:     220px;  // 1440
+$ticker-offset-xl:      200px;  // 1200
+$ticker-offset-lg:      180px;  // 992
+$ticker-offset-md:      160px;  // 768
+$ticker-offset-sm:      140px;  // 576
+$ticker-offset-xs:      120px;  // 420
+$ticker-offset-xxs:     100px;  // 320
+$ticker-offset-xxxs:     88px;  // 300
+$ticker-offset-xxxxs:    80px;  // 240
+
+$ticker-scroll-speed: 60s;
+
+
+
+//
+// 🎥 LIVE PREVIEW (Video Player)
+//
+
+// z-index
+$live-preview-z-index: 7000;
+
+// Offset verticali (distanza dall’inizio layout dopo navbar + logo + slogan + ticker)
+$live-preview-offset-desktop: 300px;  // >= 1920
+$live-preview-offset-xxl:     280px;  // 1440
+$live-preview-offset-xl:      260px;  // 1200
+$live-preview-offset-lg:      240px;  // 992
+$live-preview-offset-md:      220px;  // 768
+$live-preview-offset-sm:      200px;  // 576
+$live-preview-offset-xs:      180px;  // 420
+$live-preview-offset-xxs:     160px;  // 320
+$live-preview-offset-xxxs:    140px;  // 300
+$live-preview-offset-xxxxs:   120px;  // 240
+
+// Max width video
+$live-preview-max-width-desktop: 1100px;
+$live-preview-max-width-tablet:  900px;
+$live-preview-max-width-mobile:  720px;
+
+
+//
+// 📺 CANALI GRID
+//
+
+$channels-z-index: 6000;
+
+/* =================================================
+   OFFSET VERTICALI (sotto live-preview)
+   BASE: 1920x1080
+   ================================================= */
+
+// Desktop standard — BASE
+$channels-offset-desktop: 250px;   // >= 1920 ✅
+
+// Ultra-wide
+$channels-offset-4k:      300px;   // >= 2560 (4K)
+$channels-offset-8k:      360px;   // >= 3840 (8K)
+
+// Desktop inferiori
+$channels-offset-xxl:     230px;   // 1440
+$channels-offset-xl:      210px;   // 1200
+$channels-offset-lg:      190px;   // 992
+
+// Tablet
+$channels-offset-md:      170px;   // 768
+
+// Mobile
+$channels-offset-sm:      150px;   // 576
+$channels-offset-xs:      135px;   // 420
+$channels-offset-xxs:     120px;   // 320
+$channels-offset-xxxs:    110px;   // 300
+$channels-offset-xxxxs:   100px;   // 240
+
+/* =================================================
+   GRID LAYOUT
+   ================================================= */
+
+$channels-max-width-desktop: 900px;
+$channels-max-width-tablet:  720px;
+
+$channels-gap-desktop: 12px;
+$channels-gap-mobile:  10px;

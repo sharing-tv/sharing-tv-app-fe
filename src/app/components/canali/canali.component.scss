@@ -2,145 +2,168 @@
 /* src/app/components/canali/canali.component.scss */
 @import "src/theme/variables";
 
+/* =========================
+   CONTAINER GRID
+   ========================= */
 .channels-grid {
+  position: absolute;              /* layout reale */
+  top: $channels-offset-desktop;   /* BASE — 1920 */
+  left: 50%;
+  transform: translateX(-50%);
+
+  z-index: $channels-z-index;
+
   display: grid;
+
+  /* 🔒 STRUTTURA FISSA: SEMPRE 8 CANALI */
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, auto);
 
-  gap: 12px;
-  transform: translateY(180px);   /* BASE MOBILE */
-  transform-origin: top left;
+  gap: $channels-gap-desktop;
 
   justify-items: center;
   width: 100%;
-  max-width: 900px;
+  max-width: $channels-max-width-desktop;
+}
 
-  /* 📱 Ultra-small 240–299px */
-  @include respond-between($breakpoint-xxxxs, $breakpoint-xxxs) {
-    transform: translateY(40px);
-    gap: 6px;
-    max-width: 600px;
+:host {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+
+/* =========================
+   CHANNEL ITEM
+   ========================= */
+.channel-item {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  border: 2px solid transparent;
+  transition: transform 0.25s ease,
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+
+  &:hover {
+    transform: scale(1.07);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
   }
 
-  /* 📱 Very tiny 300–319px */
-  @include respond-between($breakpoint-xxxs, $breakpoint-xxs) {
-    transform: translateY(70px);
-    gap: 8px;
-    max-width: 650px;
+
+  img {
+    max-width: 60%;
+    max-height: 70%;
+    object-fit: contain;
+    transition: transform 0.25s ease;
   }
 
-  /* 📱 Extra small 320–419px */
-  @include respond-between($breakpoint-xxs, $breakpoint-xs) {
-    transform: translateY(100px);
-    gap: 10px;
-    max-width: 750px;
+  &:hover img {
+    transform: scale(1.12);
   }
 
-  /* 📱 Small mobile 420–575px */
-  @include respond-between($breakpoint-xs, $breakpoint-sm) {
-    transform: translateY(130px);
-    gap: 12px;
-    max-width: 800px;
-  }
+  /* 🎨 COLORI CANALI */
+  &.news    { border-color: $color-news; }
+  &.show    { border-color: $color-show; }
+  &.arts    { border-color: $color-arts; }
+  &.earth   { border-color: $color-earth; }
+  &.economy { border-color: $color-economy; }
+  &.tech    { border-color: $color-tech; }
+  &.life    { border-color: $color-life; }
+  &.health  { border-color: $color-health; }
+}
 
-  /* 📱 Smartphone >= sm */
-  @include respond-above(sm) {
-    transform: translateY(150px);
-    gap: 14px;
-    max-width: 900px;
-  }
+/* =================================================
+   BREAKPOINTS — SOLO POSIZIONE (top)
+   ⚠️ MAI toccare la griglia
+   ================================================= */
 
-  /* 📲 Tablet portrait >= md */
-  @include respond-above(md) {
-    transform: translateY(170px);
-    gap: 16px;
-    max-width: 1000px;
-  }
+/* ===== 8K ===== */
+// @include respond-above(_8k) {
+//   .channels-grid {
+//     top: $channels-offset-8k;
+//   }
+// }
 
-  /* 💻 Tablet landscape >= lg */
-  @include respond-above(lg) {
-    transform: translateY(190px);
-    gap: 18px;
-    max-width: 1100px;
-  }
+// // /* ===== 4K ===== */
+// @include respond-above(_4k) {
+//   .channels-grid {
+//     top: $channels-offset-4k;
+//   }
+// }
 
-  /* 🖥 Desktop >= xl */
-  @include respond-above(xl) {
-    transform: translateY(210px);
-    gap: 20px;
-    max-width: 1200px;
-  }
-
-  /* 🖥 Large desktop >= xxl */
-  @include respond-above(xxl) {
-    transform: translateY(240px);
-    gap: 22px;
-    max-width: 1400px;
-  }
-
-  /* 🖥 UltraWide >= 1920px */
-  @include respond-above(xxxl) {
-    transform: translateY(280px);
-    gap: 24px;
-    max-width: 1700px;
-  }
-
-  /* 🖥 4K >= 2560px */
-  @include respond-above(_4k) {
-    transform: translateY(340px);
-    gap: 28px;
-    max-width: 2000px;
-  }
-
-  /* 🖥 8K >= 3840px */
-  @include respond-above(_8k) {
-    transform: translateY(420px);
-    gap: 34px;
-    max-width: 2600px;
-  }
-
-  /* === CHANNEL ITEM === */
-
-  .channel-item {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    border: 2px solid transparent;
-
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-
-    &:hover {
-      transform: scale(1.07);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-    }
-
-    img {
-      max-width: 60%;
-      max-height: 70%;
-      object-fit: contain;
-      transition: transform 0.25s ease;
-    }
-
-    &:hover img {
-      transform: scale(1.12);
-    }
-
-    &.news    { border-color: $color-news; }
-    &.show    { border-color: $color-show; }
-    &.arts    { border-color: $color-arts; }
-    &.earth   { border-color: $color-earth; }
-    &.economy { border-color: $color-economy; }
-    &.tech    { border-color: $color-tech; }
-    &.life    { border-color: $color-life; }
-    &.health  { border-color: $color-health; }
+// // /* <= 1440px */
+@include respond-below(xxxl) {
+  .channels-grid {
+    top: $channels-offset-desktop;
   }
 }
+
+// // // /* <= 1200px */
+@include respond-below(xxl) {
+  .channels-grid {
+    top: $channels-offset-desktop;
+    // max-width: $channels-offset-desktop;
+  }
+}
+
+// // // /* <= 992px */
+@include respond-below(xl) {
+  .channels-grid {
+    top: $channels-offset-desktop;
+  }
+}
+
+// // // /* <= 768px */
+@include respond-below(lg) {
+  .channels-grid {
+    top: $channels-offset-desktop;
+    gap: $channels-gap-mobile;
+  }
+}
+
+// // // /* <= 576px */
+@include respond-below(md) {
+  .channels-grid {
+    top: $channels-offset-desktop;
+  }
+}
+
+// // // /* <= 420px */
+@include respond-below(sm) {
+  .channels-grid {
+    top: $channels-offset-desktop;
+  }
+}
+
+// // // /* <= 320px */
+@include respond-below(xs) {
+  .channels-grid {
+    top: $channels-offset-desktop;
+  }
+}
+
+// // // /* <= 300px */
+@include respond-below(xxs) {
+  .channels-grid {
+    top: $channels-offset-xxxs;
+  }
+}
+
+// // // /* <= 240px */
+// // // @include respond-below(xxxs) {
+// // //   .channels-grid {
+// // //     top: $channels-offset-xxxxs;
+// // //   }
+// // // }
 

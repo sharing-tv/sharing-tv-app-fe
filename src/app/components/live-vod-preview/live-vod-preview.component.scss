@@ -2,105 +2,47 @@
 @import "src/theme/variables";
 
 /* ============================= */
-/*  LIVE PREVIEW BREAKPOINTS     */
+/*  LIVE PREVIEW WRAPPER         */
 /* ============================= */
-
 .live-preview-wrapper {
   width: 100%;
   display: flex;
-  justify-content: center; /* Centro perfetto orizzontale */
+  justify-content: center;
 }
 
-
+/* ============================= */
+/*  LIVE PREVIEW (BASE 1920px)   */
+/* ============================= */
 .live-preview {
   position: relative;
   width: 100%;
-  max-width: 1100px;
+  max-width: $live-preview-max-width-desktop;
   overflow: hidden;
   border-radius: 14px;
   padding: 5px;
 
-  /* MOBILE BASE */
-  transform: translateY(200px);
+  z-index: $live-preview-z-index;
+
+  /* BASE — 1920x1080 */
+  transform: translateY($live-preview-offset-desktop);
 }
 
-/* 📱 Ultra-small screens (240–299px) */
-@include respond-between($breakpoint-xxxxs, $breakpoint-xxxs) {
-  .live-preview { transform: translateY(150px); }
-}
-
-/* 📱 Very tiny screens (300–319px) */
-@include respond-between($breakpoint-xxxs, $breakpoint-xxs) {
-  .live-preview { transform: translateY(160px); }
-}
-
-/* 📱 Extra small (320–419px) */
-@include respond-between($breakpoint-xxs, $breakpoint-xs) {
-  .live-preview { transform: translateY(170px); }
-}
-
-/* 📱 Small mobile (420–575px) */
-@include respond-between($breakpoint-xs, $breakpoint-sm) {
-  .live-preview { transform: translateY(180px); }
-}
-
-/* 📱 Smartphone >= sm */
-@include respond-above(sm) {
-  .live-preview { transform: translateY(190px); }
-}
-
-/* 📲 Tablet portrait >= md */
-@include respond-above(md) {
-  .live-preview { transform: translateY(200px); }
-}
-
-/* 💻 Tablet landscape >= lg */
-@include respond-above(lg) {
-  .live-preview { transform: translateY(220px); }
-}
-
-/* 🖥️ Desktop standard >= xl */
-@include respond-above(xl) {
-  .live-preview { transform: translateY(240px); }
-}
-
-/* 🖥️ Wide desktop >= xxl */
-@include respond-above(xxl) {
-  .live-preview { transform: translateY(260px); }
-}
-
-/* 🖥️ Ultrawide >= 1920px */
-@include respond-above(xxxl) {
-  .live-preview { transform: translateY(300px); }
-}
-
-/* 🖥️ 4K >= 2560px */
-@include respond-above(_4k) {
-  .live-preview { transform: translateY(360px); }
-}
-
-/* 🖥️ 8K >= 3840px */
-@include respond-above(_8k) {
-   .live-preview { transform: translateY(420px); }
-}
-
-
-
+/* ============================= */
+/*  VIDEO                        */
+/* ============================= */
 .video-player {
   width: 100%;
   height: auto;
   display: block;
 }
 
-// .no-controls {
-//   pointer-events: none;
-// }
-
 video::-webkit-media-controls {
   display: none !important;
 }
 
-/* OVERLAY */
+/* ============================= */
+/*  OVERLAY                      */
+/* ============================= */
 .overlay {
   position: absolute;
   top: 0;
@@ -122,10 +64,11 @@ video::-webkit-media-controls {
   font-size: 14px;
   border-radius: 6px;
   animation: pulse 1.6s infinite;
-  // flex: none;
 }
 
-/* FULLSCREEN BUTTON */
+/* ============================= */
+/*  FULLSCREEN BUTTON            */
+/* ============================= */
 .fullscreen-btn {
   position: absolute;
   bottom: 20px;
@@ -137,7 +80,6 @@ video::-webkit-media-controls {
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  // z-index: 40;
 
   opacity: 0.5;
   transition: opacity .25s;
@@ -148,6 +90,80 @@ video::-webkit-media-controls {
   opacity: 1;
   pointer-events: auto;
 }
+
+/* ============================= */
+/*  BREAKPOINTS — POSIZIONE      */
+/* ============================= */
+
+/* <= 1440px */
+@include respond-below(xxxl) {
+  .live-preview {
+    transform: translateY($live-preview-offset-xxl);
+  }
+}
+
+/* <= 1200px */
+@include respond-below(xxl) {
+  .live-preview {
+    transform: translateY($live-preview-offset-xl);
+    max-width: $live-preview-max-width-tablet;
+  }
+}
+
+/* <= 992px */
+@include respond-below(xl) {
+  .live-preview {
+    transform: translateY($live-preview-offset-lg);
+    max-width: $live-preview-max-width-tablet;
+  }
+}
+
+/* <= 768px */
+@include respond-below(lg) {
+  .live-preview {
+    transform: translateY($live-preview-offset-lg);
+    max-width: $live-preview-max-width-mobile;
+  }
+}
+
+/* <= 576px */
+@include respond-below(md) {
+  .live-preview {
+    transform: translateY($live-preview-offset-md);
+    max-width: 100%; // 👈 SOLO QUI
+  }
+}
+
+/* <= 420px */
+@include respond-below(sm) {
+  .live-preview {
+    transform: translateY($live-preview-offset-sm);
+  }
+}
+
+/* <= 320px */
+@include respond-below(xs) {
+  .live-preview {
+    transform: translateY($live-preview-offset-xs);
+  }
+}
+
+/* <= 300px */
+@include respond-below(xxs) {
+  .live-preview {
+    transform: translateY($live-preview-offset-xxs);
+  }
+}
+
+/* <= 240px */
+@include respond-below(xxxs) {
+  .live-preview {
+    transform: translateY($live-preview-offset-xxxs);
+  }
+}
+
+
+
 
 /* FULLSCREEN CONTROL BAR (Netflix Style) */
 .fs-bar {
@@ -303,3 +319,4 @@ video::-webkit-media-controls {
   font-size: 14px;
   margin-right: 14px;
 }
+

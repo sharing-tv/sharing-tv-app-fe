@@ -2,12 +2,14 @@
 /* src/app/components/tv-logo/tv-logo.component.scss */
 @import "src/theme/variables";
 
+/* =========================
+   BASE — 1920x1080 (xxxl)
+   ========================= */
 .tech-tv {
   position: absolute;
-  top: 0;
+  top: $navbar-height-desktop; // 👈 sotto la navbar desktop
   left: 0;
 
-  /* Default (mobile medio) */
   transform: translate(0px, 30px) scale(4);
   transform-origin: top left;
 
@@ -25,87 +27,131 @@
   }
 }
 
-// /* 📱 Ultra-small screens (240–299px) */
-// @include respond-between($breakpoint-xxxxs, ($breakpoint-xxxs - 1)) {
-//   .tech-tv {
-//     transform: translate(40px, 50px) scale(2.2);
-//   }
-// }
+/* =========================
+   <= 1440px — XXL
+   ========================= */
+@include respond-below(xxxl) {
+  .tech-tv {
+    top: $navbar-height-desktop;
+    transform: translate(0px, 26px) scale(4);
 
-// /* 📱 Very tiny (300–319px) */
-// @include respond-between($breakpoint-xxxs, ($breakpoint-xxs - 1)) {
-//   .tech-tv {
-//     transform: translate(50px, 60px) scale(2.5);
-//   }
-// }
+    .tv-logo {
+      width: 52px;
+    }
+  }
+}
 
-// /* 📱 Extra small (320–419px) */
-// @include respond-between($breakpoint-xxs, ($breakpoint-xs - 1)) {
-//   .tech-tv {
-//     transform: translate(60px, 70px) scale(3);
-//   }
-// }
+/* =========================
+   <= 1200px — XL
+   ========================= */
+@include respond-below(xxl) {
+  .tech-tv {
+    top: $navbar-height-desktop;
+    transform: translate(0px, 22px) scale(4);
 
-// /* 📱 Small mobile (420–575px) */
-// @include respond-between($breakpoint-xs, ($breakpoint-sm - 1)) {
-//   .tech-tv {
-//     transform: translate(70px, 90px) scale(3.5);
-//   }
-// }
+    .tv-logo {
+      width: 46px;
+    }
+  }
+}
 
-// /* 📱 Smartphone >= 576px */
-// @include respond-above(sm) {
-//   .tech-tv {
-//     transform: translate(80px, 100px) scale(3.8);
-//   }
-// }
+/* =========================
+   <= 992px — LG (tablet / hamburger)
+   ========================= */
+@include respond-below(xl) {
+  .tech-tv {
+    top: $navbar-height-mobile; // 👈 cambio chiave
+    transform: translate(0px, 18px) scale(3.8);
 
-// /* 📲 Tablet portrait >= 768px */
-// @include respond-above(md) {
-//   .tech-tv {
-//     transform: translate(90px, 120px) scale(4);
-//   }
-// }
+    .tv-logo {
+      width: 38px;
+    }
+  }
+}
 
-// /* 💻 Tablet landscape / laptop >= 992px */
-// @include respond-above(lg) {
-//   .tech-tv {
-//     transform: translate(100px, 140px) scale(4.2);
-//   }
-// }
+/* =========================
+   <= 768px — MD
+   ========================= */
+@include respond-below(lg) {
+  .tech-tv {
+    top: $navbar-height-mobile;
+    transform: translate(0px, 14px) scale(3.2);
 
-// /* 🖥 Desktop >= 1200px */
-// @include respond-above(xl) {
-//   .tech-tv {
-//     transform: translate(110px, 160px) scale(4.5);
-//   }
-// }
+    .tv-logo {
+      width: 30px;
+    }
+  }
+}
 
-// /* 🖥 Wide desktop >= 1440px */
-// @include respond-above(xxl) {
-//   .tech-tv {
-//     transform: translate(130px, 180px) scale(5);
-//   }
-// }
+/* =========================
+   <= 576px — SM
+   ========================= */
+@include respond-below(md) {
+  .tech-tv {
+    top: $navbar-height-mobile;
+    transform: translate(0px, 10px) scale(3);
 
-// /* 🖥 UltraWide HD >= 1920px */
-// @include respond_above(xxxl) {
-//   .tech-tv {
-//     transform: translate(160px, 220px) scale(5.5);
-//   }
-// }
+    .tv-logo {
+      width: 22px;
+    }
+  }
+}
 
-// /* 🖥 4K monitors >= 2560px */
-// @include respond_above(_4k) {
-//   .tech-tv {
-//     transform: translate(200px, 260px) scale(6.5);
-//   }
-// }
+/* =========================
+   <= 420px — XS
+   ========================= */
+@include respond-below(sm) {
+  .tech-tv {
+    top: $navbar-height-mobile;
+    transform: translate(0px, 6px) scale(1.8);
 
-// /* 🖥 8K screens >= 3840px */
-// @include respond_above(_8k) {
-//   .tech-tv {
-//     transform: translate(260px, 320px) scale(8);
-//   }
-// }
+    .tv-logo {
+      width: 18px;
+    }
+  }
+}
+
+/* =========================
+   <= 320px — XXS e sotto
+   ========================= */
+@include respond-below(xs) {
+  .tech-tv {
+    top: $navbar-height-mobile;
+    transform: translate(0px, 4px) scale(1.6);
+
+    .tv-logo {
+      width: 15px;
+    }
+  }
+}
+
+@include respond-below(xxs) {
+  .tech-tv {
+    transform: translate(0px, 2px) scale(1.4);
+
+    .tv-logo {
+      width: 12px;
+    }
+  }
+}
+
+@include respond-below(xxxs) {
+  .tech-tv {
+    transform: translate(0px, 1px) scale(1.2);
+
+    .tv-logo {
+      width: 9px;
+    }
+  }
+}
+
+@include respond-below(xxxxs) {
+  .tech-tv {
+    transform: translate(0px, 0px) scale(1);
+
+    .tv-logo {
+      width: 8px;
+    }
+  }
+}
 

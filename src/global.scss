@@ -79,11 +79,20 @@ app-slogan{
   position: static;
   z-index: 10;
 }
-app-canali,
+app-canali {
+  position: relative;   // 👈 TORNA NEL FLOW
+  inset: auto;
+}
 app-live,
-app-rss-live-news,
+
+app-rss-live-news {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+
 app-footer {
-  position: relative;
+  position: absolute;
   z-index: 2;
 }
 

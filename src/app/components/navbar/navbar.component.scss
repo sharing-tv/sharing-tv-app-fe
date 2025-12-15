@@ -1,0 +1,110 @@
+/* src/app/components/navbar/navbar.component.scss */
+@import "src/theme/variables";
+
+/* =========================
+   HEADER / TOOLBAR
+   ========================= */
+ion-header {
+  position: relative;
+  z-index: $navbar-z-index;
+
+  ion-toolbar {
+    --background: #{$navbar-bg-color};
+    --color: #{$navbar-title-color};
+
+    
+    backdrop-filter: blur(8px);         // ✨ effetto vetro
+    -webkit-backdrop-filter: blur(8px);
+
+    height: $navbar-height-mobile;
+    min-height: $navbar-height-mobile;
+
+    display: flex;
+    align-items: center;
+  }
+
+  ion-title {
+    font-weight: 600;
+    font-size: $navbar-title-font-size-mobile;
+    letter-spacing: 0.3px;
+  }
+
+  ion-menu-button {
+    color: $navbar-title-color;
+  }
+}
+
+/* =========================
+   TABLET (>= md)
+   ========================= */
+@include respond-above(md) {
+  ion-header {
+    ion-toolbar {
+      height: $navbar-height-tablet;
+      min-height: $navbar-height-tablet;
+    }
+
+    ion-title {
+      font-size: 17px;
+    }
+  }
+}
+
+/* =========================
+   DESKTOP (>= xl)
+   ========================= */
+@include respond-above(xl) {
+  ion-header {
+    ion-toolbar {
+      height: $navbar-height-desktop;
+      min-height: $navbar-height-desktop;
+    }
+
+    ion-title {
+      font-size: $navbar-title-font-size-desktop;
+    }
+  }
+}
+
+/* =========================
+   MENU LATERALE
+   ========================= */
+ion-menu {
+  --width: 280px;
+  --background: #{$navbar-bg-color-solid};
+
+  ion-header {
+    ion-toolbar {
+      --background: #{$navbar-bg-color-solid};
+      --color: #ffffff;
+    }
+
+    ion-title {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+
+  ion-content {
+    --background: #{$navbar-bg-color-solid};
+  }
+
+  ion-list {
+    background: transparent;
+  }
+
+  ion-item {
+    --background: transparent;
+    --color: #ffffff;
+    --background-hover: rgba(255, 255, 255, 0.08);
+    --ripple-color: rgba(255, 255, 255, 0.2);
+
+    font-size: 15px;
+  }
+
+  ion-item[color="danger"] {
+    --color: #ff5252;
+  }
+}
+
