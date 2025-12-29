@@ -1,6 +1,8 @@
 
+// src/app/pages/player-hls/player-hls.page.ts
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import Hls from 'hls.js';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-player-hls',
@@ -13,12 +15,14 @@ export class PlayerHlsPage implements OnInit, OnDestroy {
   videoRef!: ElementRef<HTMLVideoElement>;
 
   hls: Hls | null = null;
-  currentClock = "--:--:--";
+  currentClock = '--:--:--';
+
+  private readonly hlsUrl =
+    `${environment.streamBaseUrl}/live-stream/hls.m3u8`;
 
   ngOnInit() {
     setInterval(() => {
-      const d = new Date();
-      this.currentClock = d.toLocaleTimeString('it-IT', { hour12: false });
+      this.currentClock = new Date().toLocaleTimeString('it-IT', { hour12: false });
     }, 1000);
   }
 
@@ -28,18 +32,27 @@ export class PlayerHlsPage implements OnInit, OnDestroy {
 
   initPlayer() {
     const video = this.videoRef.nativeElement;
-    const url = "https://www.sharingtveuropa.it/live.m3u8";
 
     if (Hls.isSupported()) {
       this.hls = new Hls({
         enableWorker: true,
-        lowLatencyMode: true
+        lowLatencyMode: true,
+        backBufferLength: 90,
+        xhrSetup: (xhr) => {
+          xhr.withCredentials = false;
+        },
       });
-      this.hls.loadSource(url);
+
+      this.hls.loadSource(this.hlsUrl);
       this.hls.attachMedia(video);
+
+      this.hls.on(Hls.Events.ERROR, (_evt, data) => {
+        console.error('HLS error', data);
+      });
+
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      // Safari (iOS/macOS)
-      video.src = url;
+      // Safari / iOS
+      video.src = this.hlsUrl;
     }
 
     video.play().catch(() => {});
@@ -54,10 +67,8 @@ export class PlayerHlsPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.hls) {
-      this.hls.destroy();
-      this.hls = null;
-    }
+    this.hls?.destroy();
+    this.hls = null;
   }
 }
 

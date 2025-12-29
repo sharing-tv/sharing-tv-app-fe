@@ -1,6 +1,9 @@
 
+// src/app/pages/player-dash/player-dash.page.ts
+
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as dashjs from 'dashjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-player-dash',
@@ -12,15 +15,15 @@ export class PlayerDashPage implements OnInit, OnDestroy {
   @ViewChild('video', { static: false })
   videoRef!: ElementRef<HTMLVideoElement>;
 
-  player: any;
-  currentClock = "--:--:--";
-  qualities: number[] = [];
-  currentQuality: number | "auto" = "auto";
+  player!: dashjs.MediaPlayerClass;
+  currentClock = '--:--:--';
+
+  private readonly dashUrl =
+    `${environment.streamBaseUrl}/live-stream/dash.mpd`;
 
   ngOnInit() {
     setInterval(() => {
-      const d = new Date();
-      this.currentClock = d.toLocaleTimeString('it-IT', { hour12: false });
+      this.currentClock = new Date().toLocaleTimeString('it-IT', { hour12: false });
     }, 1000);
   }
 
@@ -30,39 +33,15 @@ export class PlayerDashPage implements OnInit, OnDestroy {
 
   initPlayer() {
     const video = this.videoRef.nativeElement;
-    const dashUrl = "https://www.sharingtveuropa.it/live.mpd";
 
     this.player = dashjs.MediaPlayer().create();
-    this.player.initialize(video, dashUrl, true);
-
     this.player.updateSettings({
-      streaming: { abr: { autoSwitchBitrate: true } }
-    });
+      streaming: {
+        xhrWithCredentials: false,
+      },
+    } as any);
+    this.player.initialize(video, this.dashUrl, true as any);
 
-    this.player.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
-      const list: dashjs.BitrateInfo[] = this.player.getBitrateInfoListFor('video');
-
-      this.qualities = list.map((_: dashjs.BitrateInfo, i: number) => i);
-    });
-
-  }
-
-  onQualityChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const value = target.value;
-    this.setQuality(value === "auto" ? "auto" : Number(value));
-  }
-
-  setQuality(q: number | "auto") {
-    if (q === "auto") {
-      this.player.updateSettings({ streaming: { abr: { autoSwitchBitrate: true } } });
-      this.currentQuality = "auto";
-      return;
-    }
-
-    this.player.updateSettings({ streaming: { abr: { autoSwitchBitrate: false } } });
-    this.player.setQualityFor("video", q);
-    this.currentQuality = q;
   }
 
   toggleMute() {
@@ -74,10 +53,7 @@ export class PlayerDashPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.player) {
-      this.player.reset();
-      this.player = null;
-    }
+    this.player?.reset();
   }
 }
 

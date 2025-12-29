@@ -143,3 +143,11 @@ docker run -p 4102:8080 sharingtv-fe
 ionic g page pages/tv-player
   E questa pagina sarà il player ufficiale per TV:
   https://www.sharingtveuropa.it/tv
+
+
+curl -I http://localhost:4100/live-stream/hls.m3u8
+curl -I http://localhost:4100/live-stream/hls.m3u8
+
+http://localhost:8100/player/hls
+http://localhost:8100/player/dash
+

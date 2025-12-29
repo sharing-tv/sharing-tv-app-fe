@@ -1,19 +1,19 @@
 
-<div class="player-container">
-  <video #video autoplay playsinline controls muted></video>
-</div>
+<video
+  #video
+  autoplay
+  muted
+  playsinline
+  webkit-playsinline
+  controls
+  style="width:100%; height:100%; background:black"
+></video>
 
 <div class="clock">
   {{ currentClock }}
 </div>
 
 <div class="controls">
-  <label>Qualità:</label>
-  <select (change)="onQualityChange($event)">
-    <option value="auto">Auto</option>
-    <option *ngFor="let q of qualities" [value]="q">{{ q }}</option>
-  </select>
-
   <button (click)="toggleMute()">🔇 Mute</button>
   <button (click)="full()">⛶ Fullscreen</button>
 </div>

@@ -1,3 +1,5 @@
+
+// src/app/pages/player-hls/player-hls-routing.module.ts
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -15,3 +17,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class PlayerHlsPageRoutingModule {}
+

@@ -5,6 +5,8 @@ export const environment = {
 
   // ✅ Backend API locale
   apiBaseUrl: 'http://localhost:4100/api',
+  // streamBaseUrl solo per hls e dash
+  streamBaseUrl: 'http://localhost:4100',
 
   // ✅ Stream HLS tramite proxy backend (locale)
   // liveHlsUrl: 'http://localhost:4100/proxy/hls/live/stream/index.m3u8',
