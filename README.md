@@ -151,3 +151,10 @@ curl -I http://localhost:4100/live-stream/hls.m3u8
 http://localhost:8100/player/hls
 http://localhost:8100/player/dash
 
+
+ionic build
+ng build
+
+# questa build genera www/
+  ng build -c production
+
