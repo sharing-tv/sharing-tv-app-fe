@@ -49,7 +49,19 @@
         Palinsesto
       </ion-item>
 
+      <ion-item 
+        routerLink="/admin/palinsesto-ffmpeg"
+        (click)="closeMenu()"
+        *ngIf="isAdmin">
+        Palinsesto FFmpeg
+      </ion-item>
 
+      <ion-item 
+        routerLink="/admin/upload"
+        (click)="closeMenu()"
+        *ngIf="isAdmin">
+        Upload Video
+      </ion-item>
 
     </ion-list>
   </ion-content>

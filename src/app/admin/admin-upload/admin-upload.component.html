@@ -1,9 +1,60 @@
-<!-- // src/app/admin/admin-upload/admin-upload.component.html -->
 
-<div class="upload-container">
-  <h2>🎬 Carica nuovo video VOD</h2>
-  <input type="file" (change)="onFileSelected($event)" />
-  <div *ngIf="progress > 0">Caricamento: {{ progress }}%</div>
-  <div *ngIf="uploadedUrl">✅ Caricato: <a [href]="uploadedUrl" target="_blank">{{ uploadedUrl }}</a></div>
-</div>
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Upload Video</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Carica nuovo video</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <input
+        type="file"
+        accept="video/*"
+        (change)="onFileSelected($event)"
+        [disabled]="uploading"
+      />
+
+      <ion-button
+        expand="block"
+        color="primary"
+        (click)="upload()"
+        [disabled]="!selectedFile || uploading"
+        class="ion-margin-top"
+      >
+        Upload
+      </ion-button>
+
+      <ion-spinner *ngIf="uploading" name="crescent"></ion-spinner>
+
+        <p *ngIf="uploading" class="ion-text-center">
+          {{ statusText }}
+        </p>
+
+
+      <ion-progress-bar
+        *ngIf="uploading"
+        [value]="progress / 100"
+        buffer="1"
+        class="ion-margin-top">
+      </ion-progress-bar>
+
+      <ion-text color="danger" *ngIf="error">
+        <p>{{ error }}</p>
+      </ion-text>
+
+      <ion-text color="success" *ngIf="success">
+        <p>{{ success }}</p>
+      </ion-text>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
 

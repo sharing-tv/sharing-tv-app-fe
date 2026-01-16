@@ -165,12 +165,17 @@ const routes: Routes = [
   {
     path: 'player/dash',
     loadChildren: () => import('./pages/player-dash/player-dash.module').then( m => m.PlayerDashPageModule)
-  },  {
+  },
+  {
     path: 'not-authorized',
     loadChildren: () => import('./not-authorized/not-authorized.module').then( m => m.NotAuthorizedPageModule)
   },
-
-
+  {
+    path: 'live',
+    loadChildren: () =>
+      import('./pages/live/live.module')
+        .then(m => m.LiveModule),
+  }
 ];
 
 @NgModule({

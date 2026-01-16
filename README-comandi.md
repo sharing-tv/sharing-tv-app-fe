@@ -21,6 +21,12 @@ ionic generate service services/auth
 # Genera la Guard
 ionic generate guard guards/auth --implements CanActivate
 
+ng generate component pages/live/live-player-hls --standalone=false
+ng generate component pages/live/live-player-dash --standalone=false
+
+ng generate component admin/palinsesto-ffmpeg --standalone=false
+
+ng generate component admin/admin-upload --standalone=false
 
 # 
     ionic serve

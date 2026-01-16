@@ -6,3 +6,10 @@ firebase.rc
 e2e
 .editorconfig
 README.md
+dist
+www
+.angular
+.cache
+coverage
+*.log
+

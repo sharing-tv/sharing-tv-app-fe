@@ -1,0 +1,108 @@
+
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Palinsesto FFmpeg</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+
+      <!-- SINISTRA -->
+      <ion-col size="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Video disponibili</ion-card-title>
+
+            <ion-button
+              size="small"
+              fill="outline"
+              color="primary"
+              class="ion-margin-top"
+              (click)="refreshFromBunny()"
+              [disabled]="refreshing"
+            >
+              <ion-icon name="refresh-outline" slot="start"></ion-icon>
+              {{ refreshing ? 'Aggiornamento...' : 'Aggiorna da Bunny' }}
+            </ion-button>
+
+            <ion-spinner *ngIf="refreshing" name="dots" class="ion-margin-start"></ion-spinner>
+          </ion-card-header>
+
+          <ion-list>
+            <ion-item *ngFor="let v of videos">
+              <ion-label>
+                <b>{{ v.title }}</b><br />
+                {{ (v.durationMs / 1000) | number:'1.0-0' }} sec
+              </ion-label>
+              <ion-button slot="end" size="small" (click)="addToSchedule(v)">
+                +
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+      </ion-col>
+
+      <!-- DESTRA -->
+      <ion-col size="8">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Palinsesto</ion-card-title>
+          </ion-card-header>
+
+          <ion-list>
+            <ion-item *ngFor="let s of schedule; let i = index" [color]="isOnAir(s) ? 'danger' : undefined">
+              <ion-label>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <b>{{ i + 1 }}.</b> {{ s.title || s.filename }}
+                  <ion-badge color="danger" *ngIf="isOnAir(s)">🔴 IN ONDA</ion-badge>
+                </div>
+
+                <small>
+                  <ng-container *ngIf="s.startAt && s.endAt; else noTimes">
+                    {{ s.startAt | date:'HH:mm:ss' }} → {{ s.endAt | date:'HH:mm:ss' }}
+                    · {{ getSlotDurationSeconds(s) }} sec
+                  </ng-container>
+
+                  <ng-template #noTimes>
+                    (orari calcolati dopo il salvataggio) · {{ getSlotDurationSeconds(s) }} sec
+                  </ng-template>
+                </small>
+
+                <!-- ✅ SOLO IL PRIMO ha datetime editabile -->
+                <div *ngIf="i === 0" class="ion-margin-top">
+                  <ion-datetime
+                    presentation="date-time"
+                    [value]="s.startAt"
+                    (ionChange)="onFirstStartAtChange($event.detail.value)">
+                  </ion-datetime>
+                </div>
+              </ion-label>
+
+              <ion-button
+                slot="end"
+                color="danger"
+                size="small"
+                (click)="removeFromSchedule(i)">
+                ✕
+              </ion-button>
+            </ion-item>
+          </ion-list>
+
+          <ion-button
+            expand="block"
+            color="success"
+            (click)="saveSchedule()"
+            [disabled]="saving"
+          >
+            <ion-spinner *ngIf="saving" name="dots" class="ion-margin-end"></ion-spinner>
+            {{ saving ? 'Salvataggio...' : 'Salva palinsesto' }}
+          </ion-button>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
